@@ -1,4 +1,4 @@
-import { Plan } from '../models/plan.js';
+import { Plans } from '../models/plan.js';
 
 
 
@@ -9,7 +9,7 @@ const formController = {
         // const endDate = new Date(req.body.endDate);
         const { tripName, numberOfPeople, cityToVisit, budget } = req.body;
 
-        const newPlan = new Plan({
+        const newPlan = new Plans({
           tripName,
           numberOfPeople,
           cityToVisit,

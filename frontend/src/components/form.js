@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Label, TextInput, Datepicker, Carousel , Spinner,} from 'flowbite-react';
+import { Button, Label, TextInput, Datepicker, Carousel, Card } from 'flowbite-react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -21,14 +21,13 @@ function Form() {
   const Plans = ['Kashmir trip', 'Jaipur trip', 'Mumbai trip'];
 
   const user = React.useContext(userContext);
-  const [hovered, setHovered] = React.useState(false);
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     
     try {
-      const response = await axios.post('http://localhost:8000/api/form', JSON.stringify(details), {
+      const response = await axios.post('http://localhost:8000/form', JSON.stringify(details), {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -87,10 +86,12 @@ function Form() {
   }
 
   return (
-    <div style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundBlendMode: 'luminosity' }} >
-      
+
+      <div>
         <Navbar />
-        <form className="max-w-lg mx-auto mt-20 container bg-transparent mb-48 "  >
+          <Card className="p-4 mx-auto mt-32 mb-8 md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%] flex flex-col justify-around border shadow-lg">
+          <h1 className=' ml-12  mx-auto font-bold text-7xl w-full' >Travel Details</h1>
+        <form className="max-w-lg mx-auto container bg-transparent mb-24 "  >
           <div className="mb-2 block  pt-8" >
             <Label htmlFor="TripName" value="Trip Name" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}/>
           </div>
@@ -121,13 +122,13 @@ function Form() {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
                 {
                   user ? (
-                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'  onMouseOver={() => setHovered(true)} style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
+                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'   style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
                     <Link to={'/'}   >
                       Make Your own Itinerary
                     </Link>
                     </Button>
                   ) : (
-                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300' onMouseOver={() => setHovered(true)} style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
+                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300'  style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
                     <Link to={'/auth/signup'}   >
                       Make Your own Itinerary
                     </Link>
@@ -137,13 +138,13 @@ function Form() {
               
                 {
                   user ? (
-                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'  onMouseOver={() => setHovered(true)} style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
+                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'   style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
                     <Link to={'/'}   >
                       Let AI Make your Itenary
                     </Link>
                     </Button>
                   ) : (
-                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' onMouseOver={() => setHovered(true)} style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
+                    <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'  style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
                     <Link to={'/auth/signup'}   >
                       Let AI Make your Itenary
                     </Link>
@@ -151,10 +152,10 @@ function Form() {
                   )
                 }
         </div>
-          <div className='mx-auto text-center block font-semibold text-lg underline' style={{ 'color': 'white', 'font': 'poppins' }}>{
+          <div className='mx-auto text-center block font-semibold text-lg underline' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>{
                 user? (
                 <>
-                  <Link to={'/'} >
+                  <Link to={'/yourPlans'} >
                     Select from Your Previous Plans
                   </Link>
                   <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 pt-4 ">
@@ -195,6 +196,7 @@ function Form() {
           </div>
           
       </form>
+      </Card>
       <Footer />
       </div>
       

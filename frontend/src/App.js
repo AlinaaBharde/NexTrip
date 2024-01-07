@@ -5,6 +5,7 @@ import Form from './components/form';
 import UserState from './contexts/userState';
 import Signup from './components/signup';
 import './App.css';
+import TravelPlansList from './components/yourPlans';
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
           <Route exact path='/' element={<Home />}/>
           <Route exact path="/form" element={<Form />} />
           <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/yourPlans" element={<TravelPlansList />} />
         </Routes>
       </Router>
     </UserState>

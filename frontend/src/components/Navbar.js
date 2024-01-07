@@ -1,5 +1,6 @@
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
-import { FaPlaneDeparture } from "react-icons/fa6";
+import Logo from '../images/travelLogo.jpg';
+
 
 
 function navbar() {
@@ -7,7 +8,7 @@ function navbar() {
   return (
     <div ><Navbar fluid rounded  className='fixed top-0 left-0 w-full bg-white border-b border-gray-200  z-50 h-20 pt-4 shadow-lg'  >
       <Navbar.Brand >
-        <FaPlaneDeparture className="mr-4 ml-6 h-8 lg:h-15 " alt="Logo" />
+        <img src={Logo} className="mr-4 ml-6 h-12 lg:h-15 " alt="Logo" />
         <span className="self-center whitespace-nowrap text-7xl font-bold  " style={{'color': '#5F2EEA', 'font': 'poppins'}}>Trip Planner</span>
       </Navbar.Brand>
       <div className="flex md:order-2 mr-10">
@@ -22,7 +23,7 @@ function navbar() {
             <span className="block text-sm">Varun Sriram</span>
             <span className="block truncate text-sm font-medium">name@mail.com</span>
           </Dropdown.Header>
-          <Dropdown.Item>Your Plans</Dropdown.Item>
+          <Dropdown.Item href='/yourPlans'>Your Plans</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item>Sign out</Dropdown.Item>
         </Dropdown>
