@@ -6,7 +6,7 @@ import Formrouter from './routes/formRoute.js';
 
 
 const app = express();
-const port = 3000;
+const port = 8000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,12 +16,12 @@ const db_uri = 'mongodb+srv://Neural_Nexus:neuralnexus123@tripplannercluster.hoo
 
 mongoose.connect(db_uri)
     .then(() => {
-        app.listen(port, ()=> {
-            console.log(`Server listening on port ${port}.`);
-        })
+        console.log("Mongo db connected.");
     })
     .catch((err) => console.log(err));
 
-app.use('/api/form', Formrouter);
+app.use('/form', Formrouter);
 
-
+app.listen(port, ()=> {
+    console.log(`Server listening on port ${port}.`);
+})

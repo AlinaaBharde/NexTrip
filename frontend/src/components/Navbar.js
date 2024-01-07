@@ -5,10 +5,10 @@ import { FaPlaneDeparture } from "react-icons/fa6";
 function navbar() {
 
   return (
-    <div ><Navbar fluid rounded  className='fixed top-0 left-0 w-full bg-white border-b border-gray-200  z-50 h-20 pt-4'  >
+    <div ><Navbar fluid rounded  className='fixed top-0 left-0 w-full bg-white border-b border-gray-200  z-50 h-20 pt-4 shadow-lg'  >
       <Navbar.Brand >
-        <FaPlaneDeparture className="mr-4 ml-6 h-8 lg:h-15" alt="Logo" />
-        <span className="self-center whitespace-nowrap text-7xl font-bold " style={{'color': '#5F2EEA', 'font': 'poppins'}}>Trip Planner</span>
+        <FaPlaneDeparture className="mr-4 ml-6 h-8 lg:h-15 " alt="Logo" />
+        <span className="self-center whitespace-nowrap text-7xl font-bold  " style={{'color': '#5F2EEA', 'font': 'poppins'}}>Trip Planner</span>
       </Navbar.Brand>
       <div className="flex md:order-2 mr-10">
         <Dropdown
@@ -29,10 +29,10 @@ function navbar() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse className='ms-auto mr-10'>
-        <Navbar.Link href="#" style={{'font': 'poppins'}} >
+        <Navbar.Link href='/' style={{'font': 'poppins'}} >
           Home
         </Navbar.Link>
-        <Navbar.Link href="#" style={{'font': 'poppins'}} >Login/Signup</Navbar.Link>
+        <Navbar.Link href="signup" style={{'font': 'poppins'}} >Login/Signup</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
     </div>

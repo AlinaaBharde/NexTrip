@@ -12,3 +12,7 @@ body {
 ::after {
   border-width: 0;
 }
+.rounded-full.hovered {
+  transform: scale(1.1); /* Increase the size on hover */
+  transition: transform 0.3s ease; /* Add a smooth transition effect */
+}

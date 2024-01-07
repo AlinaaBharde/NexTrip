@@ -1,5 +1,4 @@
 import userContext from "./userContext";
-import axios from "axios";
 
 // const isuserAuthenticated = axios.get('http://localhost:3000/auth/login');
 const isuserAuthenticated = true;

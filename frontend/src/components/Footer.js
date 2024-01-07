@@ -7,15 +7,15 @@ export default function footer() {
     const Year = new Date().getFullYear();
 
   return (
-    <Footer container className=' pt-0 pl-6 pr-6 pb-6' style={{
+    <Footer container className=' pt-0 pl-6 pr-6 pb-6 shadow' style={{
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       backdropFilter: 'blur(2px)', 
     }}>
       <div className="w-full mt-0">
         <FooterDivider />
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-          <div className='font-bold text-xl' style={{color: '#5F2EEA' , font:'poppins'}}>
-            <FaPlaneDeparture name='Trip Planner' style={{color: 'black'}}/>Trip Planner
+          <div className='font-bold text-xl' style={{color: 'white' , font:'poppins'}}>
+            <FaPlaneDeparture name='Trip Planner' style={{color: 'white'}}/>Trip Planner
           </div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6" >
             <div >
