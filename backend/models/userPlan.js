@@ -13,25 +13,25 @@ const planSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      // startDate: {
-      //   type: Date,
-      //   // required: true,
-      // },
-      // endDate: {
-      //   type: Date,
-      //   // required: true,
-      // },
+      startDate: {
+        type: Date,
+        required: true,
+      },
+      endDate: {
+        type: Date,
+        required: true,
+      },
       budget: {
         type: Number,
         required: true,
       },
-      // modeOfTransportation: {
-      //   type: String,
-      //   required: true,
-      // }
+      username: {
+        type: String,
+        required: true
+      }
     }
 );
 
-const Plans = mongoose.model('Plans', planSchema);
+const userPlans = mongoose.model('userPlans', planSchema);
 
-export {Plans};
+export {userPlans};

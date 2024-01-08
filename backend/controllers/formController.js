@@ -1,22 +1,24 @@
-import { Plans } from '../models/plan.js';
+import { userPlans } from '../models/userPlan.js';
 
 
 
 const formController = {
   submitForm: async (req, res) => {
     try {
-        // const startDate = new Date(req.body.startDate);
-        // const endDate = new Date(req.body.endDate);
-        const { tripName, numberOfPeople, cityToVisit, budget } = req.body;
+        const { tripName, numberOfPeople, cityToVisit, budget, username} = req.body;
+        const startDate = new Date(req.body.startDate);
+        const endDate = new Date(req.body.endDate);
+        
 
-        const newPlan = new Plans({
+        const newPlan = new userPlans({
           tripName,
           numberOfPeople,
           cityToVisit,
           budget,
           // modeOfTransportation,
-          // startDate,
-          // endDate
+          startDate,
+          endDate,
+          username
         });
 
         const savedPlan = await newPlan.save();

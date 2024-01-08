@@ -1,12 +1,12 @@
 import userContext from "./userContext";
+import axios from "axios";
 
-// const isuserAuthenticated = axios.get('http://localhost:3000/auth/login');
-const isuserAuthenticated = true;
+const {isuserAuthenticated, username, email} = axios.get('http://localhost:8000/login');
 
 
 const UserState = (props) =>{
 
-    const state = isuserAuthenticated;
+    const state = {isuserAuthenticated, username, email};
 
     return (
         <userContext.Provider value={state}>

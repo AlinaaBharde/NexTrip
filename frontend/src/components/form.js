@@ -1,16 +1,17 @@
 import React from 'react';
-import { Button, Label, TextInput, Datepicker, Carousel, Card } from 'flowbite-react';
+import { Button, Label, TextInput, Carousel, Card } from 'flowbite-react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import userContext from '../contexts/userContext';
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { FaPeopleGroup } from "react-icons/fa6";
-import background from '../images/bg-form.jpg';
 import { Link } from 'react-router-dom';
 
 
+
 function Form() {
+
   const [details, setdetails] = React.useState({
     tripName: "",
     numberOfPeople: 0,
@@ -18,16 +19,22 @@ function Form() {
     budget: 0
   });
 
-  const Plans = ['Kashmir trip', 'Jaipur trip', 'Mumbai trip'];
+  const today = new Date().toISOString().split('T')[0];
+  const [selectedDates, setSelectedDates] = React.useState({
+    startDate: today,
+    endDate: today,
+  });
 
-  const user = React.useContext(userContext);
+
+  const Plans = ['Kashmir trip', 'Jaipur trip', 'Mumbai trip'];
+  const {isuserAuthenticated, username} = React.useContext(userContext);
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     
     try {
-      const response = await axios.post('http://localhost:8000/form', JSON.stringify(details), {
+      const response = await axios.post('http://localhost:8000/form', JSON.stringify({ ...details, ...selectedDates, username}), {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -47,42 +54,28 @@ function Form() {
     }
   };
 
-  function handleChange(event) {
+  const handleChange = (event) => {
     const { value, name } = event.target;
 
     setdetails((prevValue) => {
-      if (name === "tripName") {
-        return {
-          tripName: value,
-          cityToVisit: prevValue.cityToVisit,
-          numberOfPeople: prevValue.numberOfPeople,
-          budget: prevValue.budget
-        };
-      } else if (name === "cityToVisit"){
-        return {
-          tripName: prevValue.tripName,
-          cityToVisit: value,
-          numberOfPeople: prevValue.numberOfPeople,
-          budget: prevValue.budget
-        };
-      }
-      else if (name === "numberOfPeople") {
-        return {
-          tripName: prevValue.tripName,
-          cityToVisit: prevValue.cityToVisit,
-          numberOfPeople: value,
-          budget: prevValue.budget
-        };
-      }
-      else if (name === "budget") {
-        return {
-          tripName: prevValue.tripName,
-          cityToVisit: prevValue.cityToVisit,
-          numberOfPeople: prevValue.numberOfPeople,
-          budget: value
-        };
-      }
+      return {
+        ...prevValue,
+        [name]: value,
+      };
     });
+  };
+
+  const handleDateChange = (name, value) => {
+    setSelectedDates((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
+
+  function formatDate(date) {
+    return date ? new Date(date).toISOString().split('T')[0] : '';
   }
 
   return (
@@ -108,20 +101,20 @@ function Form() {
             <Label htmlFor="budget" value="Maximum Budget" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}/>
           </div>
           <TextInput id="budget" type="number" placeholder="Enter Your Maximum Budget" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg' defaultValue={0} name='budget' step={1000} min={0} value={details?.budget} icon={LiaRupeeSignSolid} onChange={handleChange} required />
-          <div className="mb-2 block mt-8"></div>
           <div className="block flex-wrap gap-4">
+            
             <div className="mb-2 block mt-8">
               <Label htmlFor="startDate" value="From" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}/>
             </div>
-            <Datepicker id='startDate' className='w-full border border-gray-300 rounded-md text-xl shadow-lg' name='startDate'  onChange={handleChange} />
+            <input type='date'  id='startDate' className='w-full border border-gray-300 rounded-md text-xl shadow-lg bg-slate-50' name='startDate' value={selectedDates?.startDate ? formatDate(selectedDates.startDate) : ''} min={today} onChange={(event) => handleDateChange('startDate', event.target.value)}/>
             <div className="mb-2 block">
               <Label htmlFor="endDate" value="Till" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}/>
             </div>
-            <Datepicker id='endDate' className='w-full border border-gray-300 rounded-md text-xl shadow-lg' name='endDate'  onChange={handleChange} />
+            <input type='date'  id='endDate' className='w-full border border-gray-300 rounded-md text-xl shadow-lg bg-slate-50' name='endDate' value={selectedDates?.endDate ? formatDate(selectedDates.endDate) : ''} min={today} onChange={(event) => handleDateChange('endDate', event.target.value)}/>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
                 {
-                  user ? (
+                  isuserAuthenticated ? (
                     <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'   style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
                     <Link to={'/'}   >
                       Make Your own Itinerary
@@ -129,7 +122,7 @@ function Form() {
                     </Button>
                   ) : (
                     <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300'  style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
-                    <Link to={'/auth/signup'}   >
+                    <Link to={'/signup'}   >
                       Make Your own Itinerary
                     </Link>
                     </Button>
@@ -137,7 +130,7 @@ function Form() {
                 }
               
                 {
-                  user ? (
+                  isuserAuthenticated ? (
                     <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'   style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
                     <Link to={'/'}   >
                       Let AI Make your Itenary
@@ -145,7 +138,7 @@ function Form() {
                     </Button>
                   ) : (
                     <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'  style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
-                    <Link to={'/auth/signup'}   >
+                    <Link to={'/signup'}   >
                       Let AI Make your Itenary
                     </Link>
                     </Button>
@@ -153,7 +146,7 @@ function Form() {
                 }
         </div>
           <div className='mx-auto text-center block font-semibold text-lg underline' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>{
-                user? (
+                isuserAuthenticated? (
                 <>
                   <Link to={'/yourPlans'} >
                     Select from Your Previous Plans
@@ -174,7 +167,7 @@ function Form() {
                   </>
                 ) : (
                   <>
-                  <Link to={'/auth/signup'} >
+                  <Link to={'/signup'} >
                     Select from Your Previous Plans
                   </Link>
                   <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 pt-4 ">
