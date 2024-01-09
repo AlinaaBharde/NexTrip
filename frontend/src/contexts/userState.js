@@ -1,7 +1,10 @@
 import userContext from "./userContext";
 import axios from "axios";
 
-const {isuserAuthenticated, username, email} = axios.get('http://localhost:8000/login');
+// const {isuserAuthenticated, username, email} = axios.get('http://localhost:8000/login');
+const isuserAuthenticated =true;
+const username ="varun";
+const email = "viinoi@tyf";
 
 
 const UserState = (props) =>{
