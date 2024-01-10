@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/home';
-import Form from './components/form';
+import Home from './pages/home';
+import Form from './pages/form';
 import UserState from './contexts/userState';
-import Signup from './components/signup';
+import Signup from './pages/signup';
 import './App.css';
-import TravelPlansList from './components/yourPlans';
+import TravelPlansList from './pages/yourPlans';
 
 
 const App = () => {

@@ -3,7 +3,7 @@ import axios from "axios";
 
 // const {isuserAuthenticated, username, email} = axios.get('http://localhost:8000/login');
 const isuserAuthenticated =true;
-const username ="varun";
+const username ="Varun";
 const email = "viinoi@tyf";
 
 

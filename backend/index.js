@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import Formrouter from './routes/formRoute.js';
+import PlansRouter from './routes/yourPlansRoute.js';
 
 
 const app = express();
@@ -21,6 +22,7 @@ mongoose.connect(db_uri)
     .catch((err) => console.log(err));
 
 app.use('/form', Formrouter);
+app.use('/yourPlans',PlansRouter);
 
 app.listen(port, ()=> {
     console.log(`Server listening on port ${port}.`);
