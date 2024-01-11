@@ -15,7 +15,6 @@ const formController = {
           numberOfPeople,
           cityToVisit,
           budget,
-          // modeOfTransportation,
           startDate,
           endDate,
           username

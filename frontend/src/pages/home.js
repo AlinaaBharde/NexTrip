@@ -11,7 +11,7 @@ export default function Home() {
       <div>
         <Navbar />
         <SearchBar />
-        <Link to={'/form'} className="relative top-24 z-50" >Form</Link>
+        <Link to={'/form'} className="relative top-48 " >Form</Link>
         <Footer />
       </div>
     );

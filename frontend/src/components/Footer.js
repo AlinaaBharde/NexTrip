@@ -7,13 +7,13 @@ export default function footer() {
     const Year = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen  ">
       <div className="flex-grow" />
-    <Footer container className='pt-0 pl-6 pb-6 pr-6 drop-shadow-lg border  bottom-0' style={{
+    <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border h-56 bottom-0' style={{
       backgroundColor: 'white'
     }}>
       <div className="w-full mt-0">
-        <FooterDivider />
+        
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
           <div className='font-bold text-xl' style={{color: '#5F2EEA' , font:'poppins'}}>
             <img src={Logo} className='mr-4 ml-4 h-12 lg:h-15' name='Trip Planner' style={{color: 'black'}} alt='logo'/>Trip Planner
@@ -42,7 +42,7 @@ export default function footer() {
             </div>
           </div>
         </div>
-        <Footer.Divider />
+        <FooterDivider />
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright href="#" by="Trip Planner™" year={Year} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Cities from './cities.json';
+import { Navbar } from 'flowbite-react';
 
-export default function SearchBar() {
+export default function SearchBar({onSearch}) {
   const [input, setInput] = useState('');
   const [result, setResult] = useState([]);
 
@@ -16,7 +17,7 @@ export default function SearchBar() {
       (city) =>
         value &&
         city &&
-        city.name.toLowerCase().includes(value.toLowerCase())
+        city.name.toLowerCase().includes(value)
       );
 
       setResult(results);
@@ -25,16 +26,20 @@ export default function SearchBar() {
 
   function handleSubmit() {
     console.log('Search submitted:', input);
+    if(onSearch){
+      onSearch(input);
+    }
   }
 
   return (
-    <div className='w-2/3 mx-auto'>
-      <div className='flex items-center mx-auto mt-24 bg-transparent'>
+  <div> 
+    <Navbar className='w-full mx-auto fixed pt-2 h-18 top-20 z-10 bg-transparent  '>
+      <div className='flex items-center w-1/2 mx-auto   '>
         <input
           id="search"
           type="text"
           placeholder=" Type to search cities..."
-          className='ml-2 bg-transparent border p-2 rounded-full flex-1 focus:outline-none'
+          className='ml-2 border p-2 pl-4 rounded-full flex-1 focus:outline-none'
           onChange={(e) => handleChange(e.target.value)}
           value={input}
           required
@@ -46,10 +51,10 @@ export default function SearchBar() {
           <FaSearch className='mx-auto'/>
         </button>
       </div>
-      <div className=' mx-auto mt-2 border-2 border-indigo-700 w-11/12 rounded-lg shadow-lg max-h-48 overflow-y-auto'>
+      <div className=' mx-auto mt-2 border-2 bg-white border-indigo-700 w-3/5 rounded-lg shadow-lg max-h-48 overflow-y-auto'>
         {result.map((res, id) => (
           <div
-            className='p-2 hover:bg-indigo-100 cursor-pointer'
+            className='p-2 hover:bg-indigo-100 cursor-pointer bg-transparent'
             key={id}
             onClick={() => handleChange(res.name)}
           >
@@ -57,6 +62,7 @@ export default function SearchBar() {
           </div>
         ))}
       </div>
+      </Navbar> 
     </div>
   );
 }

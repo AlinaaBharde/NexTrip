@@ -6,6 +6,7 @@ import UserState from './contexts/userState';
 import Signup from './pages/signup';
 import './App.css';
 import TravelPlansList from './pages/yourPlans';
+import SpecificPlan from './pages/specificPlan';
 
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
           <Route exact path="/form" element={<Form />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/yourPlans" element={<TravelPlansList />} />
+          <Route exact path="/plan" element={<SpecificPlan />} />
         </Routes>
       </Router>
     </UserState>

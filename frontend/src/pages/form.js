@@ -82,6 +82,7 @@ function Form() {
 
       <div>
         <Navbar />
+        
           <Card className="p-4 mx-auto mt-32 mb-8 md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%] flex flex-col justify-around border shadow-lg">
           <h1 className=' ml-12  mx-auto font-bold text-7xl w-full' >Travel Details</h1>
         <form className="max-w-lg mx-auto container bg-transparent mb-24 "  >
