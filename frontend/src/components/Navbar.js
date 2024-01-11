@@ -2,18 +2,19 @@ import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import Logo from '../images/travelLogo.jpg';
 import userContext from '../contexts/userContext';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function NavbarComponent() {
   const { isuserAuthenticated, username, email } = React.useContext(userContext);
 
   return (
-    <div>
-      <Navbar fluid rounded className='fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 h-20 pt-4 shadow-lg'>
+    <div >
+      <Navbar fluid rounded className='fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 h-20 pt-4 shadow-lg  ' style={{minWidth: '350px'}}>
         <Navbar.Brand>
           <img src={Logo} className="mr-4 ml-6 h-12 lg:h-15" alt="Logo" />
-          <span className="self-center whitespace-nowrap text-7xl font-bold" style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Trip Planner</span>
+          <Link to={'/'} className="self-center whitespace-nowrap text-7xl font-bold" style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Trip Planner</Link>
         </Navbar.Brand>
-        <div className="flex md:order-2 mr-10">
+        <div className="flex md:order-2 mr-10 ">
           {isuserAuthenticated ? (
             <Dropdown
               arrowIcon={false}
@@ -35,11 +36,6 @@ function NavbarComponent() {
             </>
           )}
         </div>
-        <Navbar.Collapse className='ms-auto mr-10'>
-          <Navbar.Link href='/' style={{ 'font': 'poppins' }}>
-            Home
-          </Navbar.Link>
-        </Navbar.Collapse>
       </Navbar>
     </div>
   );
