@@ -58,7 +58,8 @@ const TravelPlansList = () => {
             <Navbar />
             <h1 className="pl-12 mt-24 font-bold text-7xl rounded-md shadow underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Your Travel Plans_______</h1>
             {travelPlans.length === 0 ? (
-                <p className="pl-12 mt-12 mb-12 font-bold text-7xl w-full">No travel plans available.</p>
+                <p className="pl-12 mt-12 mb-12 font-bold text-7xl w-full">No travel plans made.
+                </p>
             ) : (
                 <ul>
                     {travelPlans.map((plan, index) => (

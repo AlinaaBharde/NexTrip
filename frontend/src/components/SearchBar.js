@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Cities from './cities.json';
-import { Navbar } from 'flowbite-react';
 
 export default function SearchBar({onSearch}) {
   const [input, setInput] = useState('');
@@ -33,11 +32,11 @@ export default function SearchBar({onSearch}) {
 
   return (
   <div> 
-    <Navbar className='w-full mx-auto fixed pt-2 h-18 top-20 z-10 bg-transparent  '>
-      <div className='flex items-center w-1/2 mx-auto   '>
+    <div className='left-0 right-0 fixed pt-2 h-20 top-20 z-10 bg-transparent  '>
+      <div className='flex items-center max-w-md mx-auto ' >
         <input
           id="search"
-          type="text"
+          type="search"
           placeholder=" Type to search cities..."
           className='ml-2 border p-2 pl-4 rounded-full flex-1 focus:outline-none'
           onChange={(e) => handleChange(e.target.value)}
@@ -51,7 +50,7 @@ export default function SearchBar({onSearch}) {
           <FaSearch className='mx-auto'/>
         </button>
       </div>
-      <div className=' mx-auto mt-2 border-2 bg-white border-indigo-700 w-3/5 rounded-lg shadow-lg max-h-48 overflow-y-auto'>
+      <div className=' mx-auto mt-2 border-2 bg-white border-indigo-700 max-w-sm rounded-lg shadow-lg max-h-48 overflow-y-auto'>
         {result.map((res, id) => (
           <div
             className='p-2 hover:bg-indigo-100 cursor-pointer bg-transparent'
@@ -62,7 +61,7 @@ export default function SearchBar({onSearch}) {
           </div>
         ))}
       </div>
-      </Navbar> 
+      </div> 
     </div>
   );
 }

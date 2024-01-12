@@ -7,6 +7,7 @@ import { IoIosInformationCircleOutline,IoMdRestaurant } from "react-icons/io";
 import { FaHotel,FaPlane } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
 import Hotels from '../components/hotels';
+import  Restaurants  from '../components/restaurants';
 
 export default function SpecificPlan(){
   const [searchCity, setsearchCity] = useState("");
@@ -19,15 +20,15 @@ export default function SpecificPlan(){
     <div>
         <Navbar />
         <SearchBar onSearch={handleSearch} />
-    <Tabs aria-label="Tabs with icons" style="fullWidth" className=' mt-20 relative border-t  '>
-      <Tabs.Item  title="Information" icon={IoIosInformationCircleOutline} className=' rounded-t-lg' >
+    <Tabs aria-label="Tabs with icons" style="underline" className=' mt-20 mx-auto relative border-t   '>
+      <Tabs.Item  title="Information" icon={IoIosInformationCircleOutline}  >
         Information
       </Tabs.Item>
-      <Tabs.Item title="Hotels" icon={FaHotel}>
+      <Tabs.Item title="Hotels" icon={FaHotel} >
         <Hotels City={searchCity} />
       </Tabs.Item>
       <Tabs.Item title="Restaurants" icon={IoMdRestaurant}>
-        Restaurants
+        <Restaurants City={searchCity} />
       </Tabs.Item>
       <Tabs.Item title="Places" icon={MdPlace}>
         Attractive Places
