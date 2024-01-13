@@ -6,7 +6,8 @@ import Footer from '../components/Footer';
 import userContext from '../contexts/userContext';
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { FaPeopleGroup } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 
 
@@ -28,20 +29,39 @@ function Form() {
 
   const Plans = ['Kashmir trip', 'Jaipur trip', 'Mumbai trip'];
   const {isuserAuthenticated, username} = React.useContext(userContext);
+  const [PlanID, setPlanId] = React.useState(null);
+  const history = useNavigate();
 
+  React.useEffect(() => {
+    if (PlanID) {
+      history(`/plan/${PlanID}`);
+    }
+  }, [PlanID, history]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     
-    try {
-      const response = await axios.post('http://localhost:8000/form', JSON.stringify({ ...details, ...selectedDates, username}), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-      
-      console.log('Form submitted successfully:', response.data);
-    } catch (error) {
+    axios
+    .post(
+      "http://localhost:8000/form",
+      JSON.stringify({ ...details, ...selectedDates, username }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      console.log("Form submitted successfully:", response.data);
+
+      // Ensure that the response.data is a valid plan ID
+      if (response.data && typeof response.data === 'string') {
+        setPlanId(response.data);
+      } else {
+        console.error('Invalid plan ID received from the server:', response.data);
+      }
+    })
+    .catch((error)=>{
       console.error('Error submitting form:', error);
       if (error.response) {
         
@@ -51,8 +71,10 @@ function Form() {
       } else {
         console.error('Error setting up the request:', error.message);
       } 
-    }
+    } )
   };
+
+  
 
   const handleChange = (event) => {
     const { value, name } = event.target;
@@ -117,7 +139,7 @@ function Form() {
                 {
                   isuserAuthenticated ? (
                     <Button  type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg'   style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
-                    <Link to={'/'}   >
+                    <Link to={PlanID? `/plan/${PlanID}` : '/form'}   >
                       Make Your own Itinerary
                     </Link>
                     </Button>

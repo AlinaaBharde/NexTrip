@@ -8,8 +8,11 @@ import { FaHotel,FaPlane } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
 import Hotels from '../components/hotels';
 import  Restaurants  from '../components/restaurants';
+import { useParams } from 'react-router-dom';
 
 export default function SpecificPlan(){
+  const {planId} = useParams;
+
   const [searchCity, setsearchCity] = useState("");
 
   function handleSearch(value){
@@ -25,7 +28,7 @@ export default function SpecificPlan(){
         Information
       </Tabs.Item>
       <Tabs.Item title="Hotels" icon={FaHotel} >
-        <Hotels City={searchCity} />
+        <Hotels City={searchCity} PlanID = {planId}/>
       </Tabs.Item>
       <Tabs.Item title="Restaurants" icon={IoMdRestaurant}>
         <Restaurants City={searchCity} />

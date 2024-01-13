@@ -22,7 +22,8 @@ const formController = {
 
         const savedPlan = await newPlan.save();
 
-        res.status(201).json(savedPlan);
+        res.status(201);
+        res.json(savedPlan._id);
         console.log(savedPlan);
     } catch (err) {
         console.error("Submitting error: ", err);

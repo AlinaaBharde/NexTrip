@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Checkbox, Label, Card } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
 
-export default function Hotels({City}){
+export default function Hotels({City,PlanID}){
   const [filter, setfilter] = useState(false);
 
   const [hotels, sethotels] = useState([]);
@@ -34,7 +34,7 @@ export default function Hotels({City}){
         filter? renderFilter() : null 
       } 
     </div>
-    <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Hotels_______</h1>
+    <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Hotels_______ for {PlanID}</h1>
             {hotels.length === 0 ? (
                 <p className=" container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Hotels Available.
                 </p>
