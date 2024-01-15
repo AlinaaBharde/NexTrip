@@ -1,127 +1,152 @@
 [
     {
         "id": "1",
-        "name": "Mumbai",
+        "value": "Mumbai",
+        "label":"Mumbai",
         "state": "Maharashtra"
     },
     {
         "id": "2",
-        "name": "Delhi",
+        "value": "Delhi",
+        "label":"Delhi",
         "state": "Delhi"
     },
     {
         "id": "3",
-        "name": "Bengaluru",
+        "value": "Bengaluru",
+        "label":"Bengaluru",
         "state": "Karnataka"
     },
     {
         "id": "4",
-        "name": "Ahmedabad",
+        "value": "Ahmedabad",
+        "label":"Ahmedabad",
         "state": "Gujarat"
     },
     {
         "id": "5",
-        "name": "Hyderabad",
+        "value": "Hyderabad",
+        "label":"Hyderabad",
         "state": "Telangana"
     },
     {
         "id": "6",
-        "name": "Chennai",
+        "value": "Chennai",
+        "label":"Chennai",
         "state": "Tamil Nadu"
     },
     {
         "id": "7",
-        "name": "Kolkata",
+        "value": "Kolkata",
+        "label":"Kolkata",
         "state": "West Bengal"
     },
     {
         "id": "8",
-        "name": "Pune",
+        "value": "Pune",
+        "label":"Pune",
         "state": "Maharashtra"
     },
     {
         "id": "9",
-        "name": "Jaipur",
+        "value": "Jaipur",
+        "label":"Jaipur",
         "state": "Rajasthan"
     },
     {
         "id": "10",
-        "name": "Surat",
+        "value": "Surat",
+        "label":"Surat",
         "state": "Gujarat"
     },
     {
         "id": "11",
-        "name": "Lucknow",
+        "value": "Lucknow",
+        "label":"Lucknow",
         "state": "Uttar Pradesh"
     },
     {
         "id": "12",
-        "name": "Kanpur",
+        "value": "Kanpur",
+        "label":"Kanpur",
         "state": "Uttar Pradesh"
     },
     {
         "id": "13",
-        "name": "Nagpur",
+        "value": "Nagpur",
+        "label":"Nagpur",
         "state": "Maharashtra"
     },
     {
         "id": "14",
-        "name": "Patna",
+        "value": "Patna",
+        "label":"Patna",
         "state": "Bihar"
     },
     {
         "id": "15",
-        "name": "Indore",
+        "value": "Indore",
+        "label":"Indore",
         "state": "Madhya Pradesh"
     },
     {
         "id": "16",
-        "name": "Thane",
+        "value": "Thane",
+        "label":"Thane",
         "state": "Maharashtra"
     },
     {
         "id": "17",
-        "name": "Bhopal",
+        "value": "Bhopal",
+        "label":"Bhopal",
         "state": "Madhya Pradesh"
     },
     {
         "id": "18",
-        "name": "Visakhapatnam",
+        "value": "Visakhapatnam",
+        "label":"Visakhapatnam",
         "state": "Andhra Pradesh"
     },
     {
         "id": "19",
-        "name": "Vadodara",
+        "value": "Vadodara",
+        "label":"Vadodara",
         "state": "Gujarat"
     },
     {
         "id": "20",
-        "name": "Firozabad",
+        "value": "Firozabad",
+        "label":"Firozabad",
         "state": "Uttar Pradesh"
     },
     {
         "id": "21",
-        "name": "Ludhiana",
+        "value": "Ludhiana",
+        "label":"Ludhiana",
         "state": "Punjab"
     },
     {
         "id": "22",
-        "name": "Rajkot",
+        "value": "Rajkot",
+        "label":"Rajkot",
         "state": "Gujarat"
     },
     {
         "id": "23",
-        "name": "Agra",
+        "value": "Agra",
+        "label":"Agra",
         "state": "Uttar Pradesh"
     },
     {
         "id": "24",
-        "name": "Siliguri",
+        "value": "Siliguri",
+        "label":"Siliguri",
         "state": "West Bengal"
     },
     {
         "id": "25",
-        "name": "Nashik",
+        "value": "Nashik",
+        "label": "Nashik",
         "state": "Maharashtra"
     }
 ]

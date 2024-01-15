@@ -9,10 +9,12 @@ const planSchema = new mongoose.Schema(
         type: Number,
         required: true,
       },
-      cityToVisit: {
+      selectedCities:[ 
+        {
         type: String,
         required: true,
-      },
+        }
+      ],
       startDate: {
         type: Date,
         required: true,

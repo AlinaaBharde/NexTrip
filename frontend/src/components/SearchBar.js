@@ -16,7 +16,7 @@ export default function SearchBar({onSearch}) {
       (city) =>
         value &&
         city &&
-        city.name.toLowerCase().includes(value)
+        city.label.toLowerCase().includes(value)
       );
 
       setResult(results);
@@ -55,9 +55,9 @@ export default function SearchBar({onSearch}) {
           <div
             className='p-2 hover:bg-indigo-100 cursor-pointer bg-transparent'
             key={id}
-            onClick={() => handleChange(res.name)}
+            onClick={() => handleChange(res.label)}
           >
-            {res.name}
+            {res.label}
           </div>
         ))}
       </div>

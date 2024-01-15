@@ -7,7 +7,9 @@ import userContext from '../contexts/userContext';
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import Cities from '../components/cities.json';
+
 
 
 
@@ -16,7 +18,6 @@ function Form() {
   const [details, setdetails] = React.useState({
     tripName: "",
     numberOfPeople: 0,
-    cityToVisit : "",
     budget: 0
   });
 
@@ -32,6 +33,14 @@ function Form() {
   const [PlanID, setPlanId] = React.useState(null);
   const history = useNavigate();
 
+  const CityList = Cities;
+  
+  const [selectedCities, setSelectedCities] = React.useState([]);
+
+  const handleMultiSelectChange = (selectedCities) => {
+    setSelectedCities(selectedCities);
+  };
+
   React.useEffect(() => {
     if (PlanID) {
       history(`/plan/${PlanID}`);
@@ -44,7 +53,7 @@ function Form() {
     axios
     .post(
       "http://localhost:8000/form",
-      JSON.stringify({ ...details, ...selectedDates, username }),
+      JSON.stringify({ ...details,selectedCities, ...selectedDates, username }),
       {
         headers: {
           "Content-Type": "application/json",
@@ -113,9 +122,15 @@ function Form() {
           </div>
           <TextInput id="TripName" type="text" placeholder="Enter Trip Name" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg' onChange={handleChange} name='tripName' value={details?.tripName} required  />
           <div className="mb-2 block mt-8" >
-            <Label htmlFor="cityToVisit" value="Destination Name" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}/>
+            <Label htmlFor="cityToVisit" value="Destination Cities" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}/>
           </div>
-          <TextInput id="City" type="text" placeholder="Enter Destination(City) Name" className='w-full  border border-gray-300 rounded-md text-xl  shadow-lg' onChange={handleChange} name='cityToVisit' value={details?.cityToVisit} required />
+          <Select
+            options={CityList}
+            className='w-full  border border-gray-300 rounded-md text-xl shadow-lg'
+            onChange={handleMultiSelectChange}
+            value={selectedCities}
+            required
+          />
           <div className="mb-2 block mt-8">
             <Label htmlFor="numberOfPeople" value="Group Size" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}/>
           </div>
