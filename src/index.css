@@ -5,3 +5,19 @@
 body{
   background-color: #fff;
 }
+
+
+.swiper{
+  height: 550px;
+  
+}
+
+.swiper-slide {
+ 
+  height:150px;
+  width:150px;
+  
+  /* Add margin between each card */
+  margin-right: 20px;
+  margin-left: 20px /* Adjust the margin as needed */
+}

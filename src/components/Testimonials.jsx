@@ -7,7 +7,7 @@ const Testimonials=()=>{
         <p className='text-[#BCA4FF]'>TESTIMONIALS</p>
 	<div className='text-[#4E4B66] text-4xl font-bold mt-3'>
         <h1 >
-        Let’s see what fans of Travelulu have to say
+        Let’s see what fans of TripPlanner have to say
         </h1>
         </div>
 

@@ -14,10 +14,11 @@ function App() {
     <div >
       <Navbar />
       <Hero />
+      
       <Gallery />
       
       <Testimonials />
-      {/* <Carousel /> */}
+      
       <Banner />
       <Footer />
     </div>
