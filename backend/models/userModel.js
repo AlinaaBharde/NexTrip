@@ -18,7 +18,8 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    plans: [{ type: mongoose.Schema.Types.ObjectId, ref: 'userplan' }]
 })
 
 userSchema.statics.signup = async function (username, email, password) {
@@ -70,4 +71,6 @@ userSchema.statics.login = async function (email, password) {
     return user
 }
 
-module.exports = mongoose.model('User', userSchema)
+const user = mongoose.model('User', userSchema);
+
+module.exports = user;
