@@ -1,80 +1,29 @@
 import React, { useState } from 'react';
-import { Button, Label, Card,Rating, Checkbox,Pagination } from 'flowbite-react';
+import { Button, Label, Card, Rating, Pagination, Radio } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
-import hotelLogo from '../images/bg-form.jpg';
 import { MdAdd,MdRemove } from "react-icons/md";
 import axios from 'axios';
 
 
-export default function Hotels({City, planid}){
+export default function Hotels({locationName,startDate,endDate,planid}){
   const [filter, setfilter] = useState(false);
   const planId = planid ? planid.toString() : '';
   const [hotels, sethotels] = useState([]);
   const [selectedhotels, setSelectedhotels] = useState([]);
   const [selectedDates, setSelectedDates] = useState({
-      CheckIn: null,
-      CheckOut: null,
+    CheckIn: startDate,
+    CheckOut: endDate,
   });
-  const [minDate, setminDate] = useState(null);
-  const [maxDate, setmaxDate] = useState(null); 
-  const [sortby, setsortby] = useState({
-    Price: false,
-    Rating: false,
-  })
+  const [sortby, setsortby] = useState('');
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  const onPageChange = (page) => setCurrentPage(page);
+  const onPageChange = (page) => setPageNumber(page);
 
-  const hotelsPerPage = 3;
-
-  const totalPages = Math.ceil(hotels.length / hotelsPerPage);
-  const startIdx = (currentPage - 1) * hotelsPerPage;
-  const endIdx = startIdx + hotelsPerPage;
+  
 
   React.useEffect(() => {
-    
-    const fetchTravelDetails = async () => {
-      try {
-        const { startDate, endDate } = await axios.get(`http://localhost:8000/plan/${planId}`);
-        setSelectedDates({ startDate, endDate });
-        setminDate(startDate);
-        setmaxDate(endDate);
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-      }
-    };
-
-    fetchTravelDetails();
-  }, [planId]);
-
-  React.useEffect(() => {
-    // const hotelList = [
-    //   {
-    //     id: 1,
-    //     name: 'HOTEL NAME1',
-    //     Location: 'Address1',
-    //     city: 'Mumbai',
-    //     price: 3000,
-    //     url: '#',
-    //     imageurl: '',
-    //     rating: 4,
-    //     add: true,
-    //     remove: false,
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'HOTEL NAME2',
-    //     Location: 'Address2',
-    //     city: 'Jaipur',
-    //     price: 2000,
-    //     url: '#',
-    //     imageurl: '',
-    //     rating: 4.5,
-    //     add: true,
-    //     remove: false,
-    //   },
-    // ];
+  
 
     const FetchHotels = () => {
       try {
@@ -108,11 +57,11 @@ export default function Hotels({City, planid}){
     return(
       <div className=' mx-auto'>
       <div className=" ml-5 mr-2 inline-flex gap-2">
-        <Checkbox id="sortPrice" name='Price' onChange={() => handleChange('price')} color='purple'/>
+        <Radio id="Price" name='Sort' onChange={() => setsortby('price')} color='purple'/>
         <Label htmlFor="sortPrice">Sort by Price</Label>
       </div>
       <div className=" ml-5 mr-2 inline-flex gap-2">
-        <Checkbox id="sortRating" name='Rating' onChange={() =>handleChange('rating')} color='purple'/>
+        <Radio id="Rating" name='Sort' onChange={() =>setsortby('rating')} color='purple'/>
         <Label htmlFor="sortRating">Sort by Rating </Label>
       </div>
       <div className='flex flex-row'>
@@ -126,8 +75,8 @@ export default function Hotels({City, planid}){
           name="checkIn"
           className="mt-1 p-2 border rounded-md w-full"
           value={selectedDates?.CheckIn}
-          min={minDate}
-          max={maxDate}
+          min={startDate}
+          max={endDate}
           onChange={(e)=> handleDateChange('CheckIn', e.target.value)}
         />
       </div>
@@ -141,8 +90,8 @@ export default function Hotels({City, planid}){
           name="checkOut"
           className="mt-1 p-2 border rounded-md w-full"
           value={selectedDates?.CheckOut}
-          min={minDate}
-          max={maxDate}
+          min={startDate}
+          max={endDate}
           onChange={(e)=>handleDateChange('CheckOut', e.target.value)}
         />
       </div>
@@ -154,15 +103,13 @@ export default function Hotels({City, planid}){
     )
   }
 
-  function getHotelIndexOnPage(originalIndex) {
-    return (currentPage - 1) * hotelsPerPage + originalIndex;
-  }
+  
 
   function handleAdd(index,selectedhotel) {
-    const hotelIndex = getHotelIndexOnPage(index);
+    
     sethotels((prevHotels) =>
       prevHotels.map((hotel, i) =>
-        i === hotelIndex
+        i === index
           ? { ...hotel, add: !hotel.add, remove: !hotel.remove }
           : hotel
       )
@@ -172,11 +119,10 @@ export default function Hotels({City, planid}){
   }
 
   function handleRemove(index, selectedhotel) {
-    const hotelIndex = getHotelIndexOnPage(index);
 
     sethotels((prevHotels) =>
       prevHotels.map((hotel, i) =>
-        i === hotelIndex
+        i === index
           ? { ...hotel, add: !hotel.add, remove: !hotel.remove }
           : hotel
       )
@@ -218,21 +164,7 @@ export default function Hotels({City, planid}){
   }
 
 
-  function handleChange(value){
-    setsortby((prevValue) => {
-      if (value === 'price') {
-        return {
-          ...prevValue,
-          Price: !prevValue.Price,
-        }
-      } else if (value === 'rating') {
-        return {
-          ...prevValue,
-          Rating: !prevValue.Rating,
-        }
-      }
-    });
-  }
+  
   
 
   const handleDateChange = (name, value) => {
@@ -249,7 +181,7 @@ export default function Hotels({City, planid}){
     
     axios.post(
       `http://localhost:8000/plan/${planId}`,
-      JSON.stringify(...sortby, ...selectedDates),
+      JSON.stringify(locationName,sortby, ...selectedDates, pageNumber),
       {
         headers: {
           "Content-Type": "application/json",
@@ -288,9 +220,9 @@ export default function Hotels({City, planid}){
             ) : (
               <div>
                 <ul className=' bg-white'>
-                    {hotels.slice(startIdx,endIdx).map((hotel, index) => (
+                    {hotels.map((hotel, index) => (
                       <div className=''>
-                        <Card key={index} className= " md:max-w-4xl mr-4 ml-12 mt-6 mb-6 "  imgSrc={hotelLogo} horizontal>
+                        <Card key={index} className= " md:max-w-4xl mr-4 ml-12 mt-6 mb-6 "  imgSrc={hotel.imageurl} horizontal>
                             <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{hotel.name}</h3>
                             <p className="font-semibold text-gray-700 dark:text-gray-400">{hotel.Location}</p>
                             <p className="font-normal text-gray-700 dark:text-gray-400">Visit site: <a href={hotel.url}>{hotel.url}</a></p>
@@ -328,9 +260,9 @@ export default function Hotels({City, planid}){
                 <div className="flex overflow-x-auto ml-20 md:justify-center">
                   <Pagination
                     layout="navigation"
-                    currentPage={currentPage}
-                    totalPages={totalPages}
+                    currentPage={pageNumber}
                     onPageChange={onPageChange}
+                    onClick={handleApply}
                     showIcons
                   />
                 </div>

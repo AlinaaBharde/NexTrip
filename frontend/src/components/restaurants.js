@@ -1,95 +1,23 @@
 import React, { useState } from 'react';
-import { Button, Label, Card,Rating, Checkbox,Pagination, ToggleSwitch } from 'flowbite-react';
+import { Button, Label, Card,Rating, Checkbox,Pagination } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
 import hotelLogo from '../images/bg-form.jpg';
 import { MdAdd,MdRemove } from "react-icons/md";
 import axios from 'axios';
 
-export default function Hotels({City, planid}){
+export default function Restaurants({locationName, planid}){
   const [filter, setfilter] = useState(false);
   const planId = planid ? planid.toString() : '';
   const [restaurants, setrestaurants] = useState([]);
   const [selectedrestaurants, setSelectedrestaurants] = useState([]);
-  const [sortby, setsortby] = useState({
-    Price: false,
-    Rating: false,
-  })
-  const [veg, setType] = useState(false);
+  const [sortby, setsortby] = useState('')
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNumber, setCurrentPage] = useState(1);
 
   const onPageChange = (page) => setCurrentPage(page);
 
-  const restaurantsPerPage = 3;
-
-  const totalPages = Math.ceil(restaurants.length / restaurantsPerPage);
-  const startIdx = (currentPage - 1) * restaurantsPerPage;
-  const endIdx = startIdx + restaurantsPerPage;
-
 
   React.useEffect(() => {
-    // const restaurantList = [
-    //   {
-    //     id: 1,
-    //     name: 'RESTAURANT NAME1',
-    //     Location: 'Address1',
-    //     city: 'Mumbai',
-    //     price: 3000,
-    //     url: '#',
-    //     imageurl: '',
-    //     rating: 4,
-    //     add: true,
-    //     remove: false,
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'RESTAURANT NAME2',
-    //     Location: 'Address2',
-    //     city: 'Jaipur',
-    //     price: 2000,
-    //     url: '#',
-    //     imageurl: '',
-    //     rating: 4.5,
-    //     add: true,
-    //     remove: false,
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'RESTAURANT NAME3',
-    //     Location: 'Address3',
-    //     city: 'Mumbai',
-    //     price: 3500,
-    //     url: '#',
-    //     imageurl: '',
-    //     rating: 5,
-    //     add: true,
-    //     remove: false,
-    //   },
-    //   {
-    //     id: 4,
-    //     name: 'RESTAURANT NAME3',
-    //     Location: 'Address3',
-    //     city: 'Mumbai',
-    //     price: 3500,
-    //     url: '#',
-    //     imageurl: '',
-    //     rating: 5,
-    //     add: true,
-    //     remove: false,
-    //   },
-    //   {
-    //     id: 5,
-    //     name: 'RESTAURANT NAME3',
-    //     Location: 'Address3',
-    //     city: 'Mumbai',
-    //     price: 3500,
-    //     url: '#',
-    //     imageurl: '',
-    //     rating: 5,
-    //     add: true,
-    //     remove: false,
-    //   }
-    // ];
 
     const FetchRestaurants = () => {
       try {
@@ -123,14 +51,13 @@ export default function Hotels({City, planid}){
     return(
       <div className=' mb-5 -mt-2'>
       <div className="ml-5 mr-5  inline-flex gap-2">
-        <Checkbox id="sortPrice" onChange={() => handleChange('price')} color='purple'/>
+        <Checkbox id="sortPrice" onChange={() => setsortby('price')} color='purple'/>
         <Label htmlFor="sortPrice">Sort by Price</Label>
       </div>
       <div className="ml-5 m-2 inline-flex gap-2">
-        <Checkbox id="sortRating" onChange={() => handleChange('rating')} color='purple'/>
+        <Checkbox id="sortRating" onChange={() => setsortby('rating')} color='purple'/>
         <Label htmlFor="sortRating">Sort by Rating </Label>
       </div>
-      <ToggleSwitch checked={veg} label="Veg" onChange={setType} color='purple' className=' ml-5 mt-2 mb-2' />
       <Button pill className=' w-16 ml-36' color='purple' onClick={handleApply}  >
         Apply
       </Button>
@@ -138,16 +65,14 @@ export default function Hotels({City, planid}){
     )
   }
 
-  function getRestaurantIndexOnPage(originalIndex) {
-    return (currentPage - 1) * restaurantsPerPage + originalIndex;
-  }
+  
 
   function handleAdd(index,selectedrestaurant) {
-    const restaurantIndex = getRestaurantIndexOnPage(index);
+    
 
     setrestaurants((prevrestaurant) =>
       prevrestaurant.map((restaurant, i) => 
-        i === restaurantIndex
+        i === index
           ? { ...restaurant, add: !restaurant.add, remove: !restaurant.remove }
           : restaurant
       )
@@ -157,11 +82,10 @@ export default function Hotels({City, planid}){
   }
 
   function handleRemove(index, selectedrestaurant) {
-    const restaurantIndex = getRestaurantIndexOnPage(index);
-
+    
     setrestaurants((prevRestaurants) =>
       prevRestaurants.map((restaurant, i) =>
-        i === restaurantIndex
+        i === index
           ? { ...restaurant, add: !restaurant.add, remove: !restaurant.remove }
           : restaurant      
         )
@@ -202,28 +126,13 @@ export default function Hotels({City, planid}){
     } )
   }
 
-  function handleChange(value){
-    setsortby((prevValue) => {
-      if (value === 'price') {
-        return {
-          ...prevValue,
-          Price: !prevValue.Price,
-        }
-      } else if (value === 'rating') {
-        return {
-          ...prevValue,
-          Rating: !prevValue.Rating,
-        }
-      }
-    });
-  }
 
   const handleApply=  (event) => {
     event.preventDefault();
     
     axios.post(
       `http://localhost:8000/plan/${planId}`,
-      JSON.stringify(...sortby, veg),
+      JSON.stringify(sortby, locationName, pageNumber),
       {
         headers: {
           "Content-Type": "application/json",
@@ -261,15 +170,15 @@ export default function Hotels({City, planid}){
             ) : (
               <div>
                 <ul className=' bg-white'>
-                    {restaurants.slice(startIdx,endIdx).map((restaurant, index) => (
-                        <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={hotelLogo}  horizontal >
+                    {restaurants.map((restaurant, index) => (
+                        <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={restaurant.image}  horizontal >
                             <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{restaurant.name}</h3>
-                            <p className="font-semibold text-gray-700 dark:text-gray-400">{restaurant.Location}</p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Visit site: <a href={restaurant.url}>{restaurant.url}</a></p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Price/room: {restaurant.price}</p>
+                            <p className="font-semibold text-gray-700 dark:text-gray-400">{restaurant.location}</p>
+                            <p className="font-normal text-gray-700 dark:text-gray-400">Cuisine: {restaurant.cuisine.map((type) => ({type}))}</p>
+                            <p className="font-normal text-gray-700 dark:text-gray-400">Price: {restaurant.pricetag}</p>
                             <Rating>
                               <Rating.Star />
-                              <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{restaurant.rating}</p>
+                              <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{restaurant.averagerating}</p>
                             </Rating>
                             <div className=' flex flex-row'>
                             {
@@ -299,9 +208,9 @@ export default function Hotels({City, planid}){
                 <div className="flex overflow-x-auto ml-20 md:justify-center">
                   <Pagination
                     layout="navigation"
-                    currentPage={currentPage}
-                    totalPages={totalPages}
+                    currentPage={pageNumber}
                     onPageChange={onPageChange}
+                    onClick={handleApply}
                     showIcons
                   />
                 </div>
