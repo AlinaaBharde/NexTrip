@@ -39,6 +39,12 @@ const userplanSchema = new Schema({
             ref: 'Restaurant'
         }
     ],
+    places: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Place"
+        }
+    ]
 })
 
 const userPlan = mongoose.model('userplan', userplanSchema);

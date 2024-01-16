@@ -38,6 +38,8 @@ const extractRelevantPlaceDetails = (placeData) => {
         name: place.name,
         image: place.photo && place.photo.images && place.photo.images.original ? place.photo.images.original.url : null,
         description: place.description,
+        address: place.address,
+        ranking: place.ranking_position
     }));
 };
 

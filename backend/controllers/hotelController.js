@@ -52,7 +52,7 @@ const hotelController = {
 
             res.status(200).json(updatedPlan);
         } catch (err) {
-            console.error("Adding restaurant to plan error: ", err);
+            console.error("Adding hotel to plan error: ", err);
             res.status(500).json({ error: "Internal server error" });
         }
     },
@@ -83,7 +83,7 @@ const hotelController = {
 
             res.status(200).json(updatedPlan);
         } catch (err) {
-            console.error("Deleting restaurant from plan error: ", err);
+            console.error("Deleting hotel from plan error: ", err);
             res.status(500).json({ error: "Internal server error" });
         }
     },
