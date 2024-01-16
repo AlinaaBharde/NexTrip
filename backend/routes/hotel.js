@@ -7,8 +7,8 @@ const HotelsRouter = express.Router();
 
 HotelsRouter.post('/fetch', hotelController.fetchHotel);
 
-HotelsRouter.post('/add', requireAuth, hotelController.addHotel);
+HotelsRouter.post('/add/:planId', requireAuth, hotelController.addHotel);
 
-HotelsRouter.delete('/delete', requireAuth, hotelController.deleteHotel);
+HotelsRouter.delete('/delete/:planId', requireAuth, hotelController.deleteHotel);
 
 module.exports = HotelsRouter;

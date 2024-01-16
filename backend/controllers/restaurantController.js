@@ -1,5 +1,6 @@
 const Userplan = require('../models/userplanModel.js');
 const Restaurant = require('../models/restaurantModel.js');
+const User = require('../models/userModel.js');
 const { searchRestaurants } = require('../services/restaurantservices.js');
 
 const restaurantController = {
@@ -21,7 +22,8 @@ const restaurantController = {
     addRestaurant: async (req, res) => {
         try {
             const { planId } = req.params;
-            const { selectedRestaurant } = req.body;
+
+            const selectedRestaurant = req.body;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)
@@ -30,17 +32,22 @@ const restaurantController = {
                 return res.status(404).json({ error: "User not found" });
             }
 
-            const existingPlan = await Userplan.findOne({ _id: planId, user: userId });
+            const existingPlan = await Userplan.findById(planId)
+            console.log(existingPlan)
+            if (!existingPlan) {
+                return res.status(404).json({ error: "Plan not found" });
+            }
+            console.log(existingPlan)
 
             const { name, location, cuisine, pricetag, averagerating, image } = selectedRestaurant;
 
             const newRestaurant = new Restaurant({
-                name,
-                location,
-                cuisine,
-                pricetag,
-                averagerating,
-                image,
+                name: name,
+                location: location,
+                cuisine: cuisine,
+                pricetag: pricetag,
+                averagerating: averagerating,
+                image: image,
             });
 
             await newRestaurant.save();
@@ -65,7 +72,8 @@ const restaurantController = {
             if (!existingUser) {
                 return res.status(404).json({ error: "User not found" });
             }
-            const existingPlan = await Userplan.findById({ _id: planId, user: userId });
+            const existingPlan = await Userplan.findById(planId);
+            console.log(existingPlan)
 
             if (!existingPlan) {
                 return res.status(404).json({ error: "Plan not found" });

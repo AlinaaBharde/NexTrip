@@ -9,8 +9,8 @@ const RestaurantsRouter = express.Router();
 
 RestaurantsRouter.get('/fetch', restaurantController.fetchRestaurants);
 
-RestaurantsRouter.post('/add', requireAuth, restaurantController.addRestaurant);
+RestaurantsRouter.post('/add/:planId', requireAuth, restaurantController.addRestaurant);
 
-RestaurantsRouter.delete('/delete', requireAuth, restaurantController.deleteRestaurant);
+RestaurantsRouter.delete('/delete/:planId', requireAuth, restaurantController.deleteRestaurant);
 
 module.exports = RestaurantsRouter;

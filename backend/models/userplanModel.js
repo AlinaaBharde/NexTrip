@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const userplanSchema = new Schema({
-    username: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
     },
     tripName: {
         type: String,
@@ -37,12 +37,6 @@ const userplanSchema = new Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Restaurant'
-        }
-    ],
-    flights: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Flight'
         }
     ],
 })

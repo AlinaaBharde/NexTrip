@@ -1,5 +1,6 @@
-const { Userplan } = require('../models/userplanModel.js');
+const Userplan = require('../models/userplanModel.js');
 const Hotels = require('../models/hotelModel.js');
+const User = require('../models/userModel.js');
 const { searchHotels } = require('../services/hotelservices.js');
 
 
@@ -22,7 +23,7 @@ const hotelController = {
     addHotel: async (req, res) => {
         try {
             const { planId } = req.params;
-            const { selectedHotel } = req.body;
+            const selectedHotel = req.body;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)
@@ -31,7 +32,7 @@ const hotelController = {
                 return res.status(404).json({ error: "User not found" });
             }
 
-            const existingPlan = await Userplan.findOne({ _id: planId, user: userId });
+            const existingPlan = await Userplan.findById(planId);
 
             if (!existingPlan) {
                 return res.status(404).json({ error: "Plan not found" });
@@ -45,7 +46,7 @@ const hotelController = {
 
             await newHotel.save();
 
-            existingPlan.restaurants.push(newHotel._id);
+            existingPlan.hotels.push(newHotel._id);
 
             const updatedPlan = await existingPlan.save();
 
@@ -59,7 +60,7 @@ const hotelController = {
     deleteHotel: async (req, res) => {
         try {
             const { planId } = req.params;
-            const { selectedHotel } = req.body;
+            const { HotelId } = req.body;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)
@@ -68,15 +69,15 @@ const hotelController = {
                 return res.status(404).json({ error: "User not found" });
             }
 
-            const existingPlan = await Userplan.findOne({ _id: planId, user: userId });
+            const existingPlan = await Userplan.findById(planId);
 
             if (!existingPlan) {
                 return res.status(404).json({ error: "Plan not found" });
             }
 
-            existingPlan.Hotels.pull(selectedHotel._id);
+            existingPlan.hotels.pull(HotelId);
 
-            await Hotels.findByIdAndDelete(hotelId);
+            await Hotels.findByIdAndDelete(HotelId);
 
             const updatedPlan = await existingPlan.save();
 
