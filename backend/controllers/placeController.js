@@ -36,16 +36,14 @@ const placeController = {
                 return res.status(404).json({ error: "Plan not found" });
             }
 
-            const { name, image, description, address, ranking } = selectedPlace;
-
-            const newPlace = new Place({
-                name, image, description, address, ranking
-            });
-
-            await newPlace.save();
-
-            existingPlan.places.push(newPlace._id);
-
+            for (const place of selectedPlace) {
+                const { name, image, description, address, ranking } = place;
+                const newPlace = new Place({
+                    name, image, description, address, ranking
+                });
+                await newPlace.save();
+                existingPlan.places.push(newPlace._id);
+            }
             const updatedPlan = await existingPlan.save();
 
             res.status(200).json(updatedPlan);

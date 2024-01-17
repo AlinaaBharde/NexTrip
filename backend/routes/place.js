@@ -1,5 +1,6 @@
 const express = require('express');
 const placeController = require('../controllers/placeController');
+const requireAuth = require('../middleware/requireAuth')
 
 
 const placeRouter = express.Router();

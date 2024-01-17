@@ -114,6 +114,8 @@ const getAirportCode = async (city) => {
             return "VNS";
         case "Amritsar":
             return "ATQ";
+        case "Lakshadweep":
+            return "AGX";
     }
 };
 

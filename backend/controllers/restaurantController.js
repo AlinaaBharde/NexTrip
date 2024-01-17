@@ -37,23 +37,23 @@ const restaurantController = {
             if (!existingPlan) {
                 return res.status(404).json({ error: "Plan not found" });
             }
-            console.log(existingPlan)
 
-            const { name, location, cuisine, pricetag, averagerating, image } = selectedRestaurant;
+            for (const restaurant of selectedRestaurant) {
+                const { name, location, cuisine, pricetag, averagerating, image } = restaurant;
 
-            const newRestaurant = new Restaurant({
-                name: name,
-                location: location,
-                cuisine: cuisine,
-                pricetag: pricetag,
-                averagerating: averagerating,
-                image: image,
-            });
+                const newRestaurant = new Restaurant({
+                    name: name,
+                    location: location,
+                    cuisine: cuisine,
+                    pricetag: pricetag,
+                    averagerating: averagerating,
+                    image: image,
+                });
 
-            await newRestaurant.save();
+                await newRestaurant.save();
 
-            existingPlan.restaurants.push(newRestaurant._id);
-
+                existingPlan.restaurants.push(newRestaurant._id);
+            }
             const updatedPlan = await existingPlan.save();
 
             res.status(200).json(updatedPlan);

@@ -7,8 +7,8 @@ const { searchHotels } = require('../services/hotelservices.js');
 const hotelController = {
     fetchHotel: async (req, res) => {
         try {
-            const { locationName, checkin, checkout, adults, pageNumber } = req.body;
-            const hotels = await searchHotels(locationName, checkin, checkout, adults, pageNumber);
+            const { locationName, checkin, checkout, adults, pageNumber, sortby } = req.body;
+            const hotels = await searchHotels(locationName, checkin, checkout, adults, pageNumber, sortby);
 
             if (hotels === null) {
                 return res.status(500).json({ error: "Error fetching hotels" });
@@ -37,16 +37,17 @@ const hotelController = {
             if (!existingPlan) {
                 return res.status(404).json({ error: "Plan not found" });
             }
+            for (const hotel of selectedHotel) {
+                const { name, location, price, url, imageurl, rating } = hotel;
 
-            const { name, location, price, url, imageurl, rating } = selectedHotel;
+                const newHotel = new Hotels({
+                    name, location, price, url, imageurl, rating
+                });
 
-            const newHotel = new Hotels({
-                name, location, price, url, imageurl, rating
-            });
+                await newHotel.save();
 
-            await newHotel.save();
-
-            existingPlan.hotels.push(newHotel._id);
+                existingPlan.hotels.push(newHotel._id);
+            }
 
             const updatedPlan = await existingPlan.save();
 
