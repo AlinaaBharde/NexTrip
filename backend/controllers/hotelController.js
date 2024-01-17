@@ -58,6 +58,21 @@ const hotelController = {
         }
     },
 
+    displayHotel: async (req, res) => {
+        try {
+            const { planId } = req.params;
+            const existingPlan = await Userplan.findById(planId).populate("hotels");
+
+            if (!existingPlan) {
+                return res.status(404).json({ error: "Plan not found" });
+            }
+            console.log(existingPlan);
+            res.status(200).json(existingPlan.hotels);
+        } catch (err) {
+            res.status(500).json({ error: "Internal server error" });
+        }
+    },
+
     deleteHotel: async (req, res) => {
         try {
             const { planId } = req.params;
@@ -93,6 +108,7 @@ const hotelController = {
 module.exports = {
     fetchHotel: hotelController.fetchHotel,
     addHotel: hotelController.addHotel,
-    deleteHotel: hotelController.deleteHotel
+    deleteHotel: hotelController.deleteHotel,
+    displayHotel: hotelController.displayHotel,
 }
 

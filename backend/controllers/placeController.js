@@ -53,6 +53,20 @@ const placeController = {
         }
     },
 
+    displayPlaces: async (req, res) => {
+        try {
+            const { planId } = req.params;
+            const existingPlan = await Userplan.findById(planId).populate("places");
+
+            if (!existingPlan) {
+                return res.status(404).json({ error: "Plan not found" });
+            }
+            res.status(200).json(existingPlan.places);
+        } catch (err) {
+            res.status(500).json({ error: "Internal server error" });
+        }
+    },
+
     deletePlaces: async (req, res) => {
         try {
             const { planId } = req.params;
@@ -88,5 +102,6 @@ const placeController = {
 module.exports = {
     fetchPlaces: placeController.fetchPlaces,
     addPlaces: placeController.addPlaces,
-    deletePlaces: placeController.deletePlaces
+    deletePlaces: placeController.deletePlaces,
+    displayPlaces: placeController.displayPlaces
 }

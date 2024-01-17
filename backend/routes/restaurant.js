@@ -11,6 +11,8 @@ RestaurantsRouter.get('/fetch', restaurantController.fetchRestaurants);
 
 RestaurantsRouter.post('/add/:planId', requireAuth, restaurantController.addRestaurant);
 
+RestaurantsRouter.get('/display/:planId', requireAuth, restaurantController.displayRestaurant);
+
 RestaurantsRouter.delete('/delete/:planId', requireAuth, restaurantController.deleteRestaurant);
 
 module.exports = RestaurantsRouter;

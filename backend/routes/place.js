@@ -9,6 +9,8 @@ placeRouter.post('/fetch', placeController.fetchPlaces);
 
 placeRouter.post('/add/:planId', requireAuth, placeController.addPlaces);
 
+placeRouter.get('/display/:planId', requireAuth, placeController.displayPlaces);
+
 placeRouter.delete('/delete/:planId', requireAuth, placeController.deletePlaces);
 
 module.exports = placeRouter;

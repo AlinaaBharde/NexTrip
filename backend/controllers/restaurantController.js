@@ -63,6 +63,20 @@ const restaurantController = {
         }
     },
 
+    displayRestaurant: async (req, res) => {
+        try {
+            const { planId } = req.params;
+            const existingPlan = await Userplan.findById(planId).populate("restaurants");
+
+            if (!existingPlan) {
+                return res.status(404).json({ error: "Plan not found" });
+            }
+            res.status(200).json(existingPlan.restaurants);
+        } catch (err) {
+            res.status(500).json({ error: "Internal server error" });
+        }
+    },
+
     deleteRestaurant: async (req, res) => {
         try {
             const { planId } = req.params;
@@ -96,5 +110,6 @@ const restaurantController = {
 module.exports = {
     fetchRestaurants: restaurantController.fetchRestaurants,
     addRestaurant: restaurantController.addRestaurant,
-    deleteRestaurant: restaurantController.deleteRestaurant
+    deleteRestaurant: restaurantController.deleteRestaurant,
+    displayRestaurant: restaurantController.displayRestaurant,
 };
