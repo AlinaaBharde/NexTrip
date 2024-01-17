@@ -65,35 +65,29 @@ export default function Places({locationName, planid}){
 
   
 
-  function handleAdd(index,selectedPlaces) {
-    
+function handleAdd(index, selectedPlace) {
 
-    setplaces((prevPlaces) =>
-      prevPlaces.map((Places, i) => 
-        i === index
-          ? { ...Places, add: !Places.add, remove: !Places.remove }
-          : Places
-      )
-    );
-    setSelectedplaces(prevSelected => [...prevSelected, selectedPlaces])
+  const updatedPlaces = [...places];
+  const place = updatedPlaces[index];
 
-  }
+  setSelectedplaces((prevSelected) => [...prevSelected, selectedPlace]);
 
-  function handleRemove(index, selectedPlaces) {
-    
-    setplaces((prevPlaces) =>
-      prevPlaces.map((Places, i) =>
-        i === index
-          ? { ...Places, add: !Places.add, remove: !Places.remove }
-          : Places      
-        )
-    );
-  
-    
-    setSelectedplaces((prevSelected) =>
-      prevSelected.filter((Places) => Places.id !== selectedPlaces.id)
-    );
-  }
+  updatedPlaces[index] = { ...place, add: true, remove: false };
+  setplaces(updatedPlaces);
+}
+
+function handleRemove(index, selectedPlace) {
+ 
+  const updatedPlaces = [...places];
+
+  setSelectedplaces((prevSelected) =>
+    prevSelected.filter((place) => place._id !== selectedPlace._id)
+  );
+
+  const place = updatedPlaces[index];
+  updatedPlaces[index] = { ...place, add: false, remove: true };
+  setplaces(updatedPlaces);
+}
   
 
   function handleSave() {

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Label, Card,Rating, Checkbox,Pagination } from 'flowbite-react';
+import { Button, Label, Card,Rating,Pagination, Radio } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
-import hotelLogo from '../images/bg-form.jpg';
 import { MdAdd,MdRemove } from "react-icons/md";
 import axios from 'axios';
 
@@ -47,54 +46,49 @@ export default function Restaurants({locationName, planid}){
     setfilter(!filter);
   }
 
-  function renderFilter(){
-    return(
-      <div className=' mb-5 -mt-2'>
-      <div className="ml-5 mr-5  inline-flex gap-2">
-        <Checkbox id="sortPrice" onChange={() => setsortby('price')} color='purple'/>
-        <Label htmlFor="sortPrice">Sort by Price</Label>
+  function renderFilter() {
+    return (
+      <div className='mx-auto flex flex-wrap items-center'>
+        <div className="ml-5 m-2 inline-flex gap-2 mb-2">
+          <Radio id="sortPrice" name='Sort' onChange={() => setsortby('price')} color='purple'/>
+          <Label htmlFor="sortPrice">Sort by Price</Label>
+        </div>
+        <div className="ml-5 m-2 inline-flex gap-2">
+          <Radio id="sortRating" name='Sort' onChange={() => setsortby('rating')} color='purple'/>
+          <Label htmlFor="sortRating">Sort by Rating</Label>
+        </div>
+        <Button pill className='w-16 m-2' color='purple' onClick={handleApply}>
+          Apply
+        </Button>
       </div>
-      <div className="ml-5 m-2 inline-flex gap-2">
-        <Checkbox id="sortRating" onChange={() => setsortby('rating')} color='purple'/>
-        <Label htmlFor="sortRating">Sort by Rating </Label>
-      </div>
-      <Button pill className=' w-16 ml-36' color='purple' onClick={handleApply}  >
-        Apply
-      </Button>
-    </div>
-    )
+    );
   }
+  
 
   
 
-  function handleAdd(index,selectedrestaurant) {
-    
+  function handleAdd(index, selectedrestaurant) {
 
-    setrestaurants((prevrestaurant) =>
-      prevrestaurant.map((restaurant, i) => 
-        i === index
-          ? { ...restaurant, add: !restaurant.add, remove: !restaurant.remove }
-          : restaurant
-      )
-    );
-    setSelectedrestaurants(prevSelected => [...prevSelected, selectedrestaurant])
-
+    const updatedrestaurants = [...restaurants];
+    const restaurant = updatedrestaurants[index];
+  
+    setSelectedrestaurants((prevSelected) => [...prevSelected, selectedrestaurant]);
+  
+    updatedrestaurants[index] = { ...restaurant, add: true, remove: false };
+    setrestaurants(updatedrestaurants);
   }
-
+  
   function handleRemove(index, selectedrestaurant) {
-    
-    setrestaurants((prevRestaurants) =>
-      prevRestaurants.map((restaurant, i) =>
-        i === index
-          ? { ...restaurant, add: !restaurant.add, remove: !restaurant.remove }
-          : restaurant      
-        )
+   
+    const updatedrestaurants = [...restaurants];
+  
+    setSelectedrestaurants((prevSelected) =>
+      prevSelected.filter((restaurant) => restaurant._id !== selectedrestaurant._id)
     );
   
-    
-    setSelectedrestaurants((prevSelected) =>
-      prevSelected.filter((restaurant) => restaurant.id !== selectedrestaurant.id)
-    );
+    const restaurant = updatedrestaurants[index];
+    updatedrestaurants[index] = { ...restaurant, add: false, remove: true };
+    setrestaurants(updatedrestaurants);
   }
   
 

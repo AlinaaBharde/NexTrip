@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Tabs } from 'flowbite-react';
-import { IoIosInformationCircleOutline,IoMdRestaurant } from "react-icons/io";
-import { FaHotel,FaPlane } from "react-icons/fa";
+import { IoMdRestaurant } from "react-icons/io";
+import { FaHotel,FaPlane, FaRegNewspaper } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
 import Hotels from '../components/hotels';
 import  Restaurants  from '../components/restaurants';
 import Places from '../components/places';
+import Flights from '../components/flights';
+import News from '../components/News';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -40,9 +42,6 @@ export default function SpecificPlan(){
     <div>
         <Navbar />
     <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-md' >
-      <Tabs.Item  title="Information" icon={IoIosInformationCircleOutline}   >
-        Information
-      </Tabs.Item>
       <Tabs.Item title="Hotels" icon={FaHotel}  >
         <Hotels locationName={locationName} startDate={selectedDates.checkIn} endDate={selectedDates.checkOut} planid={id}/>
       </Tabs.Item>
@@ -53,9 +52,11 @@ export default function SpecificPlan(){
         <Places locationName={locationName} planid={id} />
       </Tabs.Item>
       <Tabs.Item title="Flights" icon={FaPlane} >
-        Flights
+        <Flights locationName={locationName} startDate={selectedDates.checkIn} endDate={selectedDates.checkOut} planid={id}/>
       </Tabs.Item>
-      
+      <Tabs.Item  title="Latest News" icon={FaRegNewspaper}   >
+        <News city={locationName} />
+      </Tabs.Item>
     </Tabs>
       <Footer />
     </div>

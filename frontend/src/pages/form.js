@@ -35,10 +35,10 @@ function Form() {
 
   const CityList = Cities;
   
-  const [selectedCities, setSelectedCities] = React.useState([]);
+  const [cityToVisit, setSelectedCities] = React.useState();
 
-  const handleMultiSelectChange = (selectedCities) => {
-    setSelectedCities(selectedCities);
+  const handleMultiSelectChange = (selectedCity) => {
+    setSelectedCities(selectedCity);
   };
 
   React.useEffect(() => {
@@ -53,7 +53,7 @@ function Form() {
     axios
     .post(
       "http://localhost:8000/form",
-      JSON.stringify({ ...details,selectedCities, ...selectedDates, username }),
+      JSON.stringify({ ...details,cityToVisit, ...selectedDates, username }),
       {
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ function Form() {
             options={CityList}
             className='w-full  border border-gray-300 rounded-md text-xl shadow-lg'
             onChange={handleMultiSelectChange}
-            value={selectedCities}
+            value={cityToVisit}
             required
           />
           <div className="mb-2 block mt-8">

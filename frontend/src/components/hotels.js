@@ -28,12 +28,12 @@ export default function Hotels({locationName,startDate,endDate,planid}){
     const FetchHotels = () => {
       try {
         axios.get(
-          `http://localhost:8000/hotels`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          `https://api.makcorps.com/citysearch/London/0/USD/1/3/2024-01-23/2024-01-26?api_key=65a802464bdc1a8110980189`,
+          // {
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          // }
         )
         .then((response) => {
           sethotels(response.data);
@@ -53,91 +53,87 @@ export default function Hotels({locationName,startDate,endDate,planid}){
   }
 
 
-  function renderFilter(){
-    return(
-      <div className=' mx-auto'>
-      <div className=" ml-5 mr-2 inline-flex gap-2">
-        <Radio id="Price" name='Sort' onChange={() => setsortby('price')} color='purple'/>
-        <Label htmlFor="sortPrice">Sort by Price</Label>
+  function renderFilter() {
+    return (
+      <div className='mx-auto flex flex-wrap items-center'>
+        <div className="ml-5 mr-2 inline-flex gap-2">
+          <Radio id="Price" name='Sort' onChange={() => setsortby('price')} color='purple'/>
+          <Label htmlFor="sortPrice">Sort by Price</Label>
+        </div>
+        <div className="ml-5 mr-2 inline-flex gap-2">
+          <Radio id="Rating" name='Sort' onChange={() =>setsortby('rating')} color='purple'/>
+          <Label htmlFor="sortRating">Sort by Rating</Label>
+        </div>
+        <div className='flex flex-row items-center'>
+          <div className="ml-5 m-2">
+            <Label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 dark:text-white">
+              Check In
+            </Label>
+            <input
+              type="date"
+              id="checkIn"
+              name="checkIn"
+              className="mt-1 p-2 border rounded-md w-full"
+              value={selectedDates?.CheckIn}
+              min={startDate}
+              max={endDate}
+              onChange={(e) => handleDateChange('CheckIn', e.target.value)}
+            />
+          </div>
+          <div className="ml-5 m-2">
+            <Label htmlFor="checkOut" className="block text-sm font-medium text-gray-700 dark:text-white">
+              Check Out
+            </Label>
+            <input
+              type="date"
+              id="checkOut"
+              name="checkOut"
+              className="mt-1 p-2 border rounded-md w-full"
+              value={selectedDates?.CheckOut}
+              min={startDate}
+              max={endDate}
+              onChange={(e) => handleDateChange('CheckOut', e.target.value)}
+            />
+          </div>
+        </div>
+        <Button pill className='w-16 m-2' color='purple' onClick={handleApply}>
+          Apply
+        </Button>
       </div>
-      <div className=" ml-5 mr-2 inline-flex gap-2">
-        <Radio id="Rating" name='Sort' onChange={() =>setsortby('rating')} color='purple'/>
-        <Label htmlFor="sortRating">Sort by Rating </Label>
-      </div>
-      <div className='flex flex-row'>
-      <div className="ml-5 m-2">
-        <Label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 dark:text-white">
-          Check In
-        </Label>
-        <input
-          type="date"
-          id="checkIn"
-          name="checkIn"
-          className="mt-1 p-2 border rounded-md w-full"
-          value={selectedDates?.CheckIn}
-          min={startDate}
-          max={endDate}
-          onChange={(e)=> handleDateChange('CheckIn', e.target.value)}
-        />
-      </div>
-      <div className="ml-5 m-2">
-        <Label htmlFor="checkOut" className="block text-sm font-medium text-gray-700 dark:text-white">
-          Check Out
-        </Label>
-        <input
-          type="date"
-          id="checkOut"
-          name="checkOut"
-          className="mt-1 p-2 border rounded-md w-full"
-          value={selectedDates?.CheckOut}
-          min={startDate}
-          max={endDate}
-          onChange={(e)=>handleDateChange('CheckOut', e.target.value)}
-        />
-      </div>
-      </div>
-      <Button pill className=' w-16 ml-36' color='purple' onClick={handleApply}  >
-        Apply
-      </Button>
-    </div>
-    )
+    );
   }
-
+  
   
 
-  function handleAdd(index,selectedhotel) {
-    
-    sethotels((prevHotels) =>
-      prevHotels.map((hotel, i) =>
-        i === index
-          ? { ...hotel, add: !hotel.add, remove: !hotel.remove }
-          : hotel
-      )
-    );
-    setSelectedhotels(prevSelected => [...prevSelected, selectedhotel])
+  function handleAdd(index, selectedHotel) {
 
-  }
-
-  function handleRemove(index, selectedhotel) {
-
-    sethotels((prevHotels) =>
-      prevHotels.map((hotel, i) =>
-        i === index
-          ? { ...hotel, add: !hotel.add, remove: !hotel.remove }
-          : hotel
-      )
-    );
+    const updatedHotels = [...hotels];
+    const hotel = updatedHotels[index];
   
-    
+    setSelectedhotels((prevSelected) => [...prevSelected, selectedHotel]);
+  
+    updatedHotels[index] = { ...hotel, add: true, remove: false };
+    sethotels(updatedHotels);
+  }
+  
+  function handleRemove(index, selectedHotel) {
+   
+    const updatedHotels = [...hotels];
+  
     setSelectedhotels((prevSelected) =>
-      prevSelected.filter((hotel) => hotel.id !== selectedhotel.id)
+      prevSelected.filter((hotel) => hotel._id !== selectedHotel._id)
     );
+  
+    const hotel = updatedHotels[index];
+    updatedHotels[index] = { ...hotel, add: false, remove: true };
+    sethotels(updatedHotels);
   }
+  
   
 
   function handleSave() {
     console.log("Selected Hotels:", selectedhotels);
-    const response = axios.post(
+    axios.post(
       `http://localhost:8000/plan/save/${planId}`,
       JSON.stringify(selectedhotels),
       {
@@ -206,7 +202,7 @@ export default function Hotels({locationName,startDate,endDate,planid}){
   
 
   return (
-    <div className=''>
+    <div >
     <div className='w-full flex-col top-0 '>
       <Button className=' text-xl ml-16 mb-5 -mt-2 font-semibold  bg-transparent hover:shadow' style={{color: '#5F2EEA', backgroundColor: 'white'}} onClick={handleClick} ><FaFilter />Filter</Button>
       {
@@ -218,60 +214,57 @@ export default function Hotels({locationName,startDate,endDate,planid}){
                 <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Hotels Available.
                 </p>
             ) : (
-              <div>
-                <ul className=' bg-white'>
-                    {hotels.map((hotel, index) => (
-                      <div className=''>
-                        <Card key={index} className= " md:max-w-4xl mr-4 ml-12 mt-6 mb-6 "  imgSrc={hotel.imageurl} horizontal>
-                            <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{hotel.name}</h3>
-                            <p className="font-semibold text-gray-700 dark:text-gray-400">{hotel.Location}</p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Visit site: <a href={hotel.url}>{hotel.url}</a></p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Price/room: {hotel.price}</p>
-                            <Rating>
-                              <Rating.Star />
-                              <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{hotel.rating}</p>
-                            </Rating>
-                            <div className=' flex flex-row'>
-                            {
-                              hotel.add? (<Button pill className=' w-16 m-2' color='purple' onClick={() => handleAdd(index,hotel)}  >
-                                      <MdAdd className="h-6 w-6 " />
-                                    </Button>
-                            ):(
-                              <Button disabled pill className=' w-16 m-2' color='purple' >
-                                <MdAdd className="h-6 w-6 " />
-                              </Button>
-                            )
-                            }
-                            {
-                              hotel.remove? (<Button outline pill className=' w-16 m-2' color='purple' onClick={() => handleRemove(index,hotel)}>
-                                        <MdRemove className="h-6 w-6 " />
-                                      </Button>
-                            ):(
-                              <Button disabled outline pill className=' w-16 m-2' color='purple' >
-                                <MdRemove className="h-6 w-6 " />
-                              </Button>
-                            )
-                            }
-                            </div>
-                        </Card>
-                      </div>
-                    ))}
-                </ul>
-                <div className="flex overflow-x-auto ml-20 md:justify-center">
-                  <Pagination
-                    layout="navigation"
-                    currentPage={pageNumber}
-                    onPageChange={onPageChange}
-                    onClick={handleApply}
-                    showIcons
-                  />
-                </div>
-                <div className='flex justify-center mt-4'>
-                  <Button className=' rounded-full' color='purple' onClick={handleSave} >Save</Button>
-                </div>
-                </div>
-                )
-              }
-    </div>
-  )
-}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {hotels.map((hotel, index) => (
+                  <Card key={index} imgSrc={hotel.imageurl} className="mb-6">
+                    <h3 className="text-2xl font-bold mb-2">{hotel.name}</h3>
+                    <p className="font-semibold text-gray-700 dark:text-gray-400">{hotel.Location}</p>
+                    <p className="font-normal text-gray-700 dark:text-gray-400">Visit site: <a href={hotel.url} className="text-purple-600">{hotel.url}</a></p>
+                    <p className="font-normal text-gray-700 dark:text-gray-400">Price/room: {hotel.price}</p>
+                    <div className="flex items-center">
+                      <Rating>
+                        <Rating.Star />
+                        <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{hotel.rating}</p>
+                      </Rating>
+                    </div>
+                    <div className="flex justify-between mt-4">
+                      <Button
+                        pill
+                        className={`w-1/2 ${hotel.add ? 'bg-purple-500' : 'bg-gray-300'} text-white`}
+                        onClick={() => handleAdd(index, hotel)}
+                        disabled={!hotel.add}
+                      >
+                        <MdAdd className="h-6 w-6" />
+                      </Button>
+                      <Button
+                        outline
+                        pill
+                        className={`w-1/2 ${hotel.remove ? 'bg-purple-500' : 'bg-gray-300'} text-white`}
+                        onClick={() => handleRemove(index, hotel)}
+                        disabled={!hotel.remove}
+                      >
+                        <MdRemove className="h-6 w-6" />
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+
+              <div className="flex overflow-x-auto ml-20 md:justify-center">
+                <Pagination
+                  layout="navigation"
+                  currentPage={pageNumber}
+                  onPageChange={onPageChange}
+                  onClick={handleApply}
+                  showIcons
+                />
+              </div>
+              <div className="flex justify-center mt-4">
+                <Button className="rounded-full" color="purple" onClick={handleSave}>
+                  Save
+                </Button>
+              </div>
+              </div>
+
+  )}
+  </div>
+)}
