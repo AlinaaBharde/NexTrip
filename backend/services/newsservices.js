@@ -9,10 +9,22 @@ const fetchNewsFromAPI = async (location, pageNumber) => {
             sortBy: 'relevancy',
             page: pageNumber,
         });
-        return response.articles;
+        return relevantresponse(response.articles);
     } catch (error) {
         console.error('Error fetching news:', error.message);
     }
+}
+
+const relevantresponse = (response) => {
+    return response.map((article) => {
+        return {
+            title: article.title,
+            description: article.description,
+            url: article.url,
+            urlToImage: article.urlToImage,
+            publishedAt: article.publishedAt,
+        }
+    });
 }
 
 module.exports = {
