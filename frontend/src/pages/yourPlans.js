@@ -17,7 +17,7 @@ const TravelPlansList = () => {
 
     const fetchTravelPlans = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/yourPlans/${username}`);
+            const response = await axios.get(`http://localhost:8000/api/yourPlans/${username}`);
             console.log('Response data:', response.data);
             setTravelPlans(response.data);
             console.log('Username:', username);
@@ -40,7 +40,7 @@ const TravelPlansList = () => {
             const planToDelete = travelPlans[deleteIndex];
             
             try {
-                await axios.delete(`http://localhost:8000/yourPlans/${planToDelete._id}`);
+                await axios.delete(`http://localhost:8000/api/yourPlans/${planToDelete._id}`);
                 
                 const updatedPlans = [...travelPlans];
                 updatedPlans.splice(deleteIndex, 1);

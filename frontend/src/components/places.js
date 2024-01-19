@@ -4,12 +4,9 @@ import { MdAdd,MdRemove } from "react-icons/md";
 import axios from 'axios';
 
 export default function Places({locationName, planid}){
-//   const [filter, setfilter] = useState(false);
   const planId = planid ? planid.toString() : '';
   const [places, setplaces] = useState([]);
   const [selectedplaces, setSelectedplaces] = useState([]);
-//   const [sortby, setsortby] = useState('')
-
   const [pageNumber, setCurrentPage] = useState(1);
 
   const onPageChange = (page) => setCurrentPage(page);
@@ -19,8 +16,9 @@ export default function Places({locationName, planid}){
 
     const FetchPlaces = () => {
       try {
-        axios.get(
-          `http://localhost:8000/places`,
+        axios.post(
+          `http://localhost:8000/api/places/fetch`,
+          JSON.stringify( locationName, pageNumber),
           {
             headers: {
               "Content-Type": "application/json",
@@ -41,27 +39,7 @@ export default function Places({locationName, planid}){
 
   }, [planId]);
 
-//   function handleClick(){
-//     setfilter(!filter);
-//   }
 
-//   function renderFilter(){
-//     return(
-//       <div className=' mb-5 -mt-2'>
-//       <div className="ml-5 mr-5  inline-flex gap-2">
-//         <Radio id="sortPrice" onChange={() => setsortby('price')} color='purple'/>
-//         <Label htmlFor="sortPrice">Sort by Price</Label>
-//       </div>
-//       <div className="ml-5 m-2 inline-flex gap-2">
-//         <Radio id="sortRating" onChange={() => setsortby('rating')} color='purple'/>
-//         <Label htmlFor="sortRating">Sort by Rating </Label>
-//       </div>
-//       <Button pill className=' w-16 ml-36' color='purple' onClick={handleApply}  >
-//         Apply
-//       </Button>
-//     </div>
-//     )
-//   }
 
   
 
@@ -93,7 +71,7 @@ function handleRemove(index, selectedPlace) {
   function handleSave() {
     console.log("Selected Restaurants:", selectedplaces);
     axios.post(
-      `http://localhost:8000/plan/save/${planId}`,
+      `http://localhost:8000/api/places/add/${planId}`,
       JSON.stringify(selectedplaces),
       {
         headers: {
@@ -123,7 +101,7 @@ function handleRemove(index, selectedPlace) {
     event.preventDefault();
     
     axios.post(
-      `http://localhost:8000/plan/${planId}`,
+      `http://localhost:8000/api/places/fetch`,
       JSON.stringify( locationName, pageNumber),
       {
         headers: {
@@ -149,12 +127,6 @@ function handleRemove(index, selectedPlace) {
 
   return (
     <div className=''>
-    {/* <div className='w-full flex-col top-0 '>
-      <Button className='ml-16 text-xl font-semibold mb-5 -mt-2 bg-transparent hover:shadow' style={{color: '#5F2EEA', backgroundColor: 'white'}} onClick={handleClick} ><FaFilter />Filter</Button>
-      {
-        filter? renderFilter() : null 
-      } 
-    </div> */}
     <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Places</h1>
             {places.length === 0 ? (
                 <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Places Available.

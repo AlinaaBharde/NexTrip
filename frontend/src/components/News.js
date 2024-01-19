@@ -9,35 +9,43 @@ import 'slick-carousel/slick/slick-theme.css';
 const News = ({ city }) => {
   const [news, setNews] = useState([]);
   const [events, setEvents] = useState([]);
-  const City = city;
+  const locationName = city;
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1224);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-        const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${City}&apiKey=be08998cf6b34115895517e0fbde1df9`);
-        const limitedNews = newsResponse.data.articles.slice(0, 15);
-        setNews(limitedNews);
-
-    
-        const eventsResponse = await axios.request({
-          method: 'GET',
-          url: 'https://real-time-events-search.p.rapidapi.com/search-events',
-          params: {
-            query: `Concerts in ${City}`,
-            start: '0'
-          },
-          headers: {
-            'X-RapidAPI-Key': 'bb35022490msh13314922336777ap17bf40jsn764d272f6d64',
-            'X-RapidAPI-Host': 'real-time-events-search.p.rapidapi.com'
+        axios.post(
+          `http://localhost:8000/api/news/fetch/`,
+          JSON.stringify(locationName),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
-        });
+        )
+        .then((response) =>{
+          const limitedNews = response.data.articles.slice(0, 15);
+          setNews(limitedNews);
+        })
 
-        const eventsData = eventsResponse.data.data;
+       
+        axios.post(
+          `http://localhost:8000/api/events/fetch/`,
+          JSON.stringify(locationName),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) =>{
+          const eventsData = response.data.data;
 
-        console.log('Events data:', eventsData);
-        setEvents(eventsData);
+          console.log('Events data:', eventsData);
+          setEvents(eventsData);
+        })
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -54,7 +62,7 @@ const News = ({ city }) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [City]);
+  }, [locationName]);
 
   if (!events || !Array.isArray(events) || events.length === 0) {
     return <div>Loading...</div>;

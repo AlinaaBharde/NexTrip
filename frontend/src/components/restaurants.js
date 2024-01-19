@@ -20,8 +20,9 @@ export default function Restaurants({locationName, planid}){
 
     const FetchRestaurants = () => {
       try {
-        axios.get(
-          `http://localhost:8000/hotels`,
+        axios.post(
+          `http://localhost:8000/api/restaurants/fetch`,
+          JSON.stringify(sortby, locationName, pageNumber),
           {
             headers: {
               "Content-Type": "application/json",
@@ -95,7 +96,7 @@ export default function Restaurants({locationName, planid}){
   function handleSave() {
     console.log("Selected Restaurants:", selectedrestaurants);
     axios.post(
-      `http://localhost:8000/plan/save/${planId}`,
+      `http://localhost:8000/api/restaurants/add/${planId}`,
       JSON.stringify(selectedrestaurants),
       {
         headers: {
@@ -125,7 +126,7 @@ export default function Restaurants({locationName, planid}){
     event.preventDefault();
     
     axios.post(
-      `http://localhost:8000/plan/${planId}`,
+      `http://localhost:8000/api/restaurants/fetch/`,
       JSON.stringify(sortby, locationName, pageNumber),
       {
         headers: {

@@ -10,7 +10,10 @@ export default function Flights({locationName,startDate,endDate,planid}){
   const planId = planid ? planid.toString() : '';
   const [flights, setflights] = useState([]);
 //   const [selectedflights, setSelectedflights] = useState([]);
-  const [date, setDate] = useState(startDate);
+  const [dates, setDates] = useState({
+    start: startDate,
+    end: endDate
+  });
   const [classOfService, setservice] = useState('Economy');
   const [itenaryType , setType] = useState('One-Way');
   const [arrivalCity, setarrivalCity] = useState({
@@ -33,8 +36,9 @@ export default function Flights({locationName,startDate,endDate,planid}){
 
     const FetchFlights = () => {
       try {
-        axios.get(
-          `http://localhost:8000/hotels`,
+        axios.post(
+          `http://localhost:8000/api/flights/fetch`,
+          JSON.stringify(departureCity,arrivalCity,itenaryType,classOfService, date,adults, pageNumber),
           {
             headers: {
               "Content-Type": "application/json",
@@ -54,7 +58,14 @@ export default function Flights({locationName,startDate,endDate,planid}){
     FetchFlights();
   }, [planId]);
 
-  
+  const handleDateChange = (name, value) => {
+    setDates((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
 
 
   function renderFilter() {
@@ -111,10 +122,25 @@ export default function Flights({locationName,startDate,endDate,planid}){
             id="date"
             name="date"
             className=" m-2 p-2 border rounded-md w-36"
-            value={date}
+            value={dates?.start}
             min={startDate}
             max={endDate}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => handleDateChange('start',e.target.value)}
+          />
+        </div>
+        <div className="flex items-center ml-4 m-2">
+          <Label htmlFor="checkOut" className="text-sm font-medium text-gray-700 dark:text-white">
+            Date
+          </Label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            className=" m-2 p-2 border rounded-md w-36"
+            value={dates?.end}
+            min={startDate}
+            max={endDate}
+            onChange={(e) => handleDateChange('end',e.target.value)}
           />
         </div>
         <div className=' border rounded-md shadow-sm flex h-10 ml-3 mr-3 mt-2 mb-0'>
@@ -139,69 +165,13 @@ export default function Flights({locationName,startDate,endDate,planid}){
   }
   
   
-  
-
-  
-
-//   function handleAdd(index, selectedFlight) {
-
-//     const updatedFlights = [...flights];
-//     const flight = updatedFlights[index];
-  
-//     setSelectedflights((prevSelected) => [...prevSelected, selectedFlight]);
-  
-//     updatedFlights[index] = { ...flight, add: true, remove: false };
-//     setflights(updatedFlights);
-//   }
-  
-//   function handleRemove(index, selectedFlight) {
-   
-//     const updatedFlights = [...flights];
-  
-//     setSelectedflights((prevSelected) =>
-//       prevSelected.filter((flight) => flight._id !== selectedFlight._id)
-//     );
-  
-//     const flight = updatedFlights[index];
-//     updatedFlights[index] = { ...flight, add: false, remove: true };
-//     setflights(updatedFlights);
-//   }
-  
-  
-//   function handleSave() {
-//     console.log("Selected Hotels:", selectedflights);
-//     axios.post(
-//       `http://localhost:8000/plan/save/${planId}`,
-//       JSON.stringify(selectedflights),
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       }
-
-//     )
-//     .then((response) => {
-//       console.log("Hotels saved successfully: ",  response);
-//     })
-//     .catch((error)=>{
-//       console.error('Error submitting filter:', error);
-//       if (error) {
-        
-//         console.error('Server responded with:', error.data);
-//       } else if (error.request) {
-//         console.error('No response received');
-//       } else {
-//         console.error('Error setting up the request:', error.message);
-//       } 
-//     } )
-//   }
 
   const handleApply=  (event) => {
     event.preventDefault();
-    console.log(departureCity.value,arrivalCity.value,itenaryType,classOfService, date,adults, pageNumber);
+    console.log(departureCity.value,arrivalCity.value,itenaryType,classOfService,...dates,adults, pageNumber);
     axios.post(
-      `http://localhost:8000/plan/${planId}`,
-      JSON.stringify(departureCity,arrivalCity,itenaryType,classOfService, date,adults, pageNumber),
+      `http://localhost:8000/api/flights/fetch/`,
+      JSON.stringify(departureCity,arrivalCity,itenaryType,classOfService, ...dates,adults, pageNumber),
       {
         headers: {
           "Content-Type": "application/json",
@@ -260,9 +230,6 @@ export default function Flights({locationName,startDate,endDate,planid}){
                     showIcons
                     />
                 </div>
-                {/* <div className='flex justify-center mt-4'>
-                    <Button className='rounded-full' color='purple' onClick={handleSave}>Save</Button>
-                </div> */}
                 </div>
 
                 )

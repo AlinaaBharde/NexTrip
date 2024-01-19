@@ -26,7 +26,7 @@ export default function SpecificPlan(){
     
     const fetchTravelDetails = async () => {
       try {
-        const { startDate, endDate, City } = await axios.get(`http://localhost:8000/plan/${id}`);
+        const { startDate, endDate, City } = await axios.get(`http://localhost:8000/api/planningpage/fetch/${id}`);
         setSelectedDates({ startDate, endDate });
         setlocationName(City);
       } catch (error) {

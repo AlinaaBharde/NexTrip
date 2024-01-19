@@ -52,7 +52,7 @@ function Form() {
     
     axios
     .post(
-      "http://localhost:8000/form",
+      "http://localhost:8000/api/form",
       JSON.stringify({ ...details,cityToVisit, ...selectedDates, username }),
       {
         headers: {

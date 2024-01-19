@@ -27,13 +27,14 @@ export default function Hotels({locationName,startDate,endDate,planid}){
 
     const FetchHotels = () => {
       try {
-        axios.get(
-          `https://api.makcorps.com/citysearch/London/0/USD/1/3/2024-01-23/2024-01-26?api_key=65a802464bdc1a8110980189`,
-          // {
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          // }
+        axios.post(
+          `http://localhost:8000/api/hotels/fetch/`,
+          JSON.stringify(locationName,sortby, ...selectedDates, pageNumber),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         )
         .then((response) => {
           sethotels(response.data);
@@ -134,7 +135,7 @@ export default function Hotels({locationName,startDate,endDate,planid}){
   function handleSave() {
     console.log("Selected Hotels:", selectedhotels);
     axios.post(
-      `http://localhost:8000/plan/save/${planId}`,
+      `http://localhost:8000/api/hotels/add/${planId}`,
       JSON.stringify(selectedhotels),
       {
         headers: {
@@ -176,7 +177,7 @@ export default function Hotels({locationName,startDate,endDate,planid}){
     event.preventDefault();
     
     axios.post(
-      `http://localhost:8000/plan/${planId}`,
+      `http://localhost:8000/api/hotels/fetch/`,
       JSON.stringify(locationName,sortby, ...selectedDates, pageNumber),
       {
         headers: {
