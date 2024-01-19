@@ -2,7 +2,7 @@ const axios = require('axios');
 const { getLocationId } = require('./getgeolocationid');
 require('dotenv').config();
 
-const searchHotels = async (locationName, checkin, checkout, adults, pageNumber, sortby) => {
+const searchHotels = async (locationName, checkin, checkout, adults, pageNumber = 1, sortby = "PRICE") => {
     const options = {
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotels',

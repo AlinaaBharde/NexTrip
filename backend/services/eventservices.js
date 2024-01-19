@@ -5,7 +5,7 @@ const fetchEventsFromAPI = async (city) => {
         method: 'GET',
         url: 'https://real-time-events-search.p.rapidapi.com/search-events',
         params: {
-            query: 'Mumbai',
+            query: city,
             start: '0'
         },
         headers: {

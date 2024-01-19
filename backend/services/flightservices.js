@@ -2,20 +2,20 @@ const axios = require('axios');
 
 require('dotenv').config();
 
-const fetchFlightsFromAPI = async (departureCity, arrivalCity, date, itineraryType, classOfService, adults, pageNumber) => {
+const fetchFlightsFromAPI = async (departureCity, arrivalCity, departuredate, arrivaldate = "", itineraryType, classOfService, adults, pageNumber = 1) => {
     const options = {
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights',
         params: {
             sourceAirportCode: await getAirportCode(departureCity),
             destinationAirportCode: await getAirportCode(arrivalCity),
-            date: date,
+            date: departuredate,
             itineraryType: itineraryType,
             sortOrder: 'PRICE',
             numAdults: adults,
             numSeniors: '0',
             classOfService: classOfService,
-            returnDate: '',
+            returnDate: arrivaldate,
             pageNumber: pageNumber,
             currencyCode: 'INR'
         },

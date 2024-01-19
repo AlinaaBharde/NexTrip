@@ -1,7 +1,7 @@
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('5b20128f3d8c4a6ca5813b41f3d98ea0');
 
-const fetchNewsFromAPI = async (location, pageNumber) => {
+const fetchNewsFromAPI = async (location, pageNumber = 1) => {
     try {
         const response = await newsapi.v2.everything({
             q: location,
