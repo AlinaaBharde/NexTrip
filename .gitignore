@@ -1,1 +1,10 @@
-node_modules
+# .gitignore in the root of the project
+
+# Ignore node_modules in the root
+node_modules/
+
+# Ignore node_modules in the frontend directory
+frontend/node_modules/
+
+# Ignore node_modules in the backend directory
+backend/node_modules/
