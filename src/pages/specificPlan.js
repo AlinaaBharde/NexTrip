@@ -5,9 +5,9 @@ import { Tabs } from 'flowbite-react';
 import { IoMdRestaurant } from "react-icons/io";
 import { FaHotel } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
-import Hotels from '../components/hotels';
-import  Restaurants  from '../components/restaurants';
-import Places from '../components/places';
+import Hotels from '../components/userHotels';
+import  Restaurants  from '../components/userRestaurants';
+import Places from '../components/userPlaces';
 import { useParams } from 'react-router-dom';
 
 
