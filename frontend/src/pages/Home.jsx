@@ -1,16 +1,13 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
+import React from "react";
+import { Link } from 'react-router-dom';
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-const Home = () => {
-    return (
-        <div>
-            <Navbar />
-            <div className="home">
-                <h1>Welcome to the Testing Site</h1>
-                <p>This is a simple testing site with login and signup pages.</p>
-            </div>
-        </div>
-    );
-};
-
-export default Home;
+export default function Home() {
+  return (
+    <div>
+      <Navbar />
+      <Link to={'/form'} className="relative top-48 " >Form</Link>
+      <Footer />
+    </div>
+  )}

@@ -6,9 +6,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 
 app.use(bodyParser.json());
-app.use(cors());
 
 mongoose.connect(process.env.MONGO_URL);
 const db = mongoose.connection;
@@ -41,7 +44,7 @@ app.use('/api/weather', weatherRoutes);
 app.use('/api/planningpage', planningpageRoutes);
 app.use('/api/events', eventRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

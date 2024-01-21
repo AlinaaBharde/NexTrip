@@ -8,6 +8,7 @@ const formController = {
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)
+            console.log(existingUser)
 
             if (!existingUser) {
                 return res.status(404).json({ error: "User not found" });
@@ -35,7 +36,8 @@ const formController = {
 
             const savedPlan = await newPlan.save();
             console.log(savedPlan);
-            res.status(201).json(savedPlan);
+            const planId = savedPlan._id;
+            res.status(201).json(planId);
 
         } catch (err) {
             console.error("Submitting error: ", err);

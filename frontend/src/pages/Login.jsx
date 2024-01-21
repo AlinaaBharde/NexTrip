@@ -28,12 +28,12 @@ const Login = () => {
     };
 
     return (
-        <div className='w-screen h-screen flex bg-gradient-to-br from-cyan-50 via-white to-gray-300 background-animate'>
+        <div className='w-screen h-screen flex bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate'>
             <div className='grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] align-middle items-center border-black'>
                 <div className='w-full h-[550px] hidden md:block'>
                     <img src={srcimg} alt="" className='w-full h-full' />
                 </div>
-                <Card className="flex p-4 flex-col justify-around items-center align-middle">
+                <Card className="flex p-4 flex-col justify-around items-center align-middle h-full">
                     <form className="flex flex-col" onSubmit={handleSubmit}>
                         <h2 className='text-center text-4xl font-bold mb-8 text-black'>LOG IN</h2>
                         <div>
@@ -51,8 +51,8 @@ const Login = () => {
                         <div className='text-center flex justify-center'>
                             <Button type="submit" disabled={isLoading} className=' bg-teal-700 hover:bg-teal-900 text-center mx-auto h-[40px]'>Login</Button>
                         </div>
-                        <div className='text-center mb-1 block'>
-                            <Button onClick={redirectToSignup} className='text-teal-700 hover:text-teal-900 w-full p-2'>Don't have an account ? Sign up</Button>
+                        <div className='text-center mb-2 block text-teal-700 hover:text-teal-900 cursor-pointer' onClick={redirectToSignup}>
+                            Don't have an account? Sign up
                         </div>
                         {error && (
                             <p style={{ color: 'red' }}>{error.message || 'An error occurred during login'}</p>

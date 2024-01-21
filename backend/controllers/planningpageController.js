@@ -21,8 +21,9 @@ const planningpageController = {
                 planName: existingPlan.tripName,
                 startDate: existingPlan.startDate,
                 endDate: existingPlan.endDate,
-                numberOfPeople: existingPlan.numberOfPeople,
+                City: existingPlan.cityToVisit,
             }
+            console.log(relevantinfo)
             res.status(200).json(relevantinfo);
 
         } catch (err) {
