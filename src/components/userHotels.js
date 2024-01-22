@@ -1,41 +1,26 @@
-import React, { useEffect, useState } from "react";
+// UserHotels.js
+import React from 'react';
 import { Card } from 'flowbite-react';
-import { MdDelete } from "react-icons/md";
-import axios from 'axios';
-import { useHotelContext } from "../hooks/useHotelContext";
+import { MdDelete } from 'react-icons/md';
+import { useDataContext } from '../hooks/useDataContext';
 
-function UserHotels() {
-    const { dispatch } = useHotelContext(); //use general context? for all 3
-    const [details, setDetails] = useState([]);
+function userHotels() {
+  const { state, dispatch } = useDataContext();
 
-    useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/');
-                dispatch({ type: 'SET_HOTELS', payload: response.data });
-                setDetails(response.data);
-            } catch (error) {
-                console.error('Error fetching hotels:', error);
-            }
-        };
+  const handleDelete = async (hotel) => {
+    try {
+      await axios.delete(`http://localhost:3001/${hotel._id}`);
+      dispatch({ type: 'DELETE_DATA', payload: hotel });
+    } catch (error) {
+      console.error('Error deleting hotel:', error);
+    }
+  };
 
-        fetchHotels();
-    }, [dispatch]);
-
-    function HotelCard({ hotel }) {
-        const { dispatch } = useHotelContext();
-
-        const handleClick = async () => {
-            try {
-                await axios.delete(`http://localhost:3001/${hotel._id}`);
-                dispatch({ type: 'DELETE_HOTEL', payload: hotel });
-            } catch (error) {
-                console.error('Error deleting hotel:', error);
-            }
-        };
-
-        return (
-            <Card className="custom-max-width flex relative" imgSrc="../images/travelLogo.jpg" horizontal>
+  return (
+    <div className="home">
+      <div className="workouts">
+        {state.data.map((hotel) => (
+          <Card className="custom-max-width flex relative" imgSrc="../images/travelLogo.jpg" horizontal>
                 <div>
                     <h5 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
                         {hotel.name}
@@ -50,21 +35,13 @@ function UserHotels() {
                         Ratings {hotel.stars} stars and a number
                     </p>
 
-                    <MdDelete onClick={handleClick} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
+                    <MdDelete onClick={handleDelete} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
                 </div>
             </Card>
-        );
-    }
-
-    return (
-        <div className="home">
-            <div className="workouts">
-                {details && details.map((hotel) => (
-                    <HotelCard key={hotel._id} hotel={hotel} />
-                ))}
-            </div>
-        </div>
-    );
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default UserHotels;
+export default userHotels;

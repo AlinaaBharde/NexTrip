@@ -1,40 +1,25 @@
-import React, { useEffect, useState } from "react";
+// UserHotels.js
+import React from 'react';
 import { Card } from 'flowbite-react';
-import { MdDelete } from "react-icons/md";
-import axios from 'axios';
-import { useRestaurantContext } from "../hooks/useRestaurantContext";
+import { MdDelete } from 'react-icons/md';
+import { useDataContext } from '../hooks/useDataContext';
 
-function UserRestaurants() {
-    const { dispatch } = useRestaurantContext();
-    const [details, setDetails] = useState([]);
+function userRestaurants() {
+  const { state, dispatch } = useDataContext();
 
-    useEffect(() => {
-        const fetchRestaurants = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/');
-                dispatch({ type: 'SET_RESTAURANTS', payload: response.data });
-                setDetails(response.data);
-            } catch (error) {
-                console.error('Error fetching restaurants:', error);
-            }
-        };
+  const handleDelete = async (restaurant) => {
+    try {
+      await axios.delete(`http://localhost:3001/${restaurant._id}`);
+      dispatch({ type: 'DELETE_DATA', payload: restaurant });
+    } catch (error) {
+      console.error('Error deleting hotel:', error);
+    }
+  };
 
-        fetchRestaurants();
-    }, [dispatch]);
-
-    function RestaurantCard({ restaurant }) {
-        const { dispatch } = useRestaurantContext();
-
-        const handleClick = async () => {
-            try {
-                await axios.delete(`http://localhost:3001/${restaurant._id}`);
-                dispatch({ type: 'DELETE_RESTAURANTS', payload: restaurant });
-            } catch (error) {
-                console.error('Error deleting restaurants:', error);
-            }
-        };
-
-        return (
+  return (
+    <div className="home">
+      <div className="workouts">
+        {state.data.map((restaurant) => (
             <Card className="custom-max-width flex relative" imgSrc="../images/travelLogo.jpg" horizontal>
                 <div>
                     <h5 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -50,21 +35,13 @@ function UserRestaurants() {
                         Ratings {restaurant.stars} stars and a number
                     </p>
 
-                    <MdDelete onClick={handleClick} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
+                    <MdDelete onClick={handleDelete} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
                 </div>
             </Card>
-        );
-    }
-
-    return (
-        <div className="home">
-            <div className="workouts">
-                {details && details.map((restaurant) => (
-                    <RestaurantCard key={restaurant._id} restaurant={restaurant} />
-                ))}
-            </div>
-        </div>
-    );
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default UserRestaurants;
+export default userRestaurants;

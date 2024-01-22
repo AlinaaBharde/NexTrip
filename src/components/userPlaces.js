@@ -1,40 +1,25 @@
-import React, { useEffect, useState } from "react";
+// UserHotels.js
+import React from 'react';
 import { Card } from 'flowbite-react';
-import { MdDelete } from "react-icons/md";
-import axios from 'axios';
-import { usePlaceContext } from "../hooks/usePlaceContext";
+import { MdDelete } from 'react-icons/md';
+import { useDataContext } from '../hooks/useDataContext';
 
-function UserPlaces() {
-    const {  dispatch } = usePlaceContext();
-    const [details, setDetails] = useState([]);
+function userPlaces() {
+  const { state, dispatch } = useDataContext();
 
-    useEffect(() => {
-        const fetchPlaces = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/');
-                dispatch({ type: 'SET_PLACES', payload: response.data });
-                setDetails(response.data);
-            } catch (error) {
-                console.error('Error fetching  places :', error);
-            }
-        };
+  const handleDelete = async (place) => {
+    try {
+      await axios.delete(`http://localhost:3001/${place._id}`);
+      dispatch({ type: 'DELETE_DATA', payload: place });
+    } catch (error) {
+      console.error('Error deleting hotel:', error);
+    }
+  };
 
-        fetchPlaces();
-    }, [dispatch]);
-
-    function PlacesCard({ place }) {
-        const { dispatch } = usePlacesContext();
-
-        const handleClick = async () => {
-            try {
-                await axios.delete(`http://localhost:3001/${place._id}`);
-                dispatch({ type: 'DELETE_PLACES', payload: place });
-            } catch (error) {
-                console.error('Error deleting places :', error);
-            }
-        };
-
-        return (
+  return (
+    <div className="home">
+      <div className="workouts">
+        {state.data.map((place) => (
             <Card className="custom-max-width flex relative" imgSrc="../images/travelLogo.jpg" horizontal>
                 <div>
                     <h5 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -50,22 +35,13 @@ function UserPlaces() {
                         Ratings {place.stars} stars and a number
                     </p>
 
-                    <MdDelete onClick={handleClick} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
+                    <MdDelete onClick={handleDelete} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
                 </div>
             </Card>
-        );
-    }
-
-    return (
-        <div className="home">
-            <div className="workouts">
-                {details && details.map((place) => (
-                    <PlacesCard key={place._id} place={place} />
-                ))}
-            </div>
-           
-        </div>
-    );
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default UserPlaces;
+export default userPlaces;
