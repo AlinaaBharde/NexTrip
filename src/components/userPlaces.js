@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Card } from 'flowbite-react';
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
-import { usePlacesContext } from "../hooks/usePlacesContext";
+import { usePlaceContext } from "../hooks/usePlaceContext";
 
 function UserPlaces() {
-    const {  dispatch } = usePlacesContext();
+    const {  dispatch } = usePlaceContext();
     const [details, setDetails] = useState([]);
 
     useEffect(() => {
         const fetchPlaces = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/');
-                dispatch({ type: 'SET_WORKOUTS', payload: response.data });
+                dispatch({ type: 'SET_PLACES', payload: response.data });
                 setDetails(response.data);
             } catch (error) {
-                console.error('Error fetching hotels:', error);
+                console.error('Error fetching  places :', error);
             }
         };
 
@@ -28,9 +28,9 @@ function UserPlaces() {
         const handleClick = async () => {
             try {
                 await axios.delete(`http://localhost:3001/${place._id}`);
-                dispatch({ type: 'DELETE_HOTEL', payload: place });
+                dispatch({ type: 'DELETE_PLACES', payload: place });
             } catch (error) {
-                console.error('Error deleting hotel:', error);
+                console.error('Error deleting places :', error);
             }
         };
 

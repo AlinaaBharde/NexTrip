@@ -5,14 +5,14 @@ import axios from 'axios';
 import { useHotelContext } from "../hooks/useHotelContext";
 
 function UserHotels() {
-    const { dispatch } = useHotelContext();
+    const { dispatch } = useHotelContext(); //use general context? for all 3
     const [details, setDetails] = useState([]);
 
     useEffect(() => {
         const fetchHotels = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/');
-                dispatch({ type: 'SET_WORKOUTS', payload: response.data });
+                dispatch({ type: 'SET_HOTELS', payload: response.data });
                 setDetails(response.data);
             } catch (error) {
                 console.error('Error fetching hotels:', error);

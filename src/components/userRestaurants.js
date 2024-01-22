@@ -12,10 +12,10 @@ function UserRestaurants() {
         const fetchRestaurants = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/');
-                dispatch({ type: 'SET_WORKOUTS', payload: response.data });
+                dispatch({ type: 'SET_RESTAURANTS', payload: response.data });
                 setDetails(response.data);
             } catch (error) {
-                console.error('Error fetching hotels:', error);
+                console.error('Error fetching restaurants:', error);
             }
         };
 
@@ -28,9 +28,9 @@ function UserRestaurants() {
         const handleClick = async () => {
             try {
                 await axios.delete(`http://localhost:3001/${restaurant._id}`);
-                dispatch({ type: 'DELETE_HOTEL', payload: restaurant });
+                dispatch({ type: 'DELETE_RESTAURANTS', payload: restaurant });
             } catch (error) {
-                console.error('Error deleting hotel:', error);
+                console.error('Error deleting restaurants:', error);
             }
         };
 
