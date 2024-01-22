@@ -5,8 +5,8 @@ require('dotenv').config();
 const newsController = {
     fetchNews: async (req, res) => {
         try {
-            const { CityToVisit, pageNumber } = req.body;
-            const news = await fetchNewsFromAPI(CityToVisit, pageNumber);
+            const { CityToVisit } = req.body;
+            const news = await fetchNewsFromAPI(CityToVisit);
 
             if (news === null) {
                 return res.status(500).json({ error: "Error fetching news" });

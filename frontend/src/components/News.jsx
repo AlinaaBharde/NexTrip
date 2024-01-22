@@ -14,9 +14,9 @@ const News = ({ locationName }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        axios.post(
+        await axios.post(
           `http://localhost:4000/api/news/fetch`,
-          JSON.stringify(locationName),
+          JSON.stringify({ locationName }),
           {
             headers: {
               "Content-Type": "application/json",
@@ -24,14 +24,15 @@ const News = ({ locationName }) => {
           }
         )
           .then((response) => {
-            const limitedNews = response.data.articles.slice(0, 15);
+            const limitedNews = response.data.slice(0, 15);
+            console.log(limitedNews);
             setNews(limitedNews);
           })
 
 
-        axios.post(
+        await axios.post(
           `http://localhost:4000/api/events/fetch`,
-          JSON.stringify(locationName),
+          JSON.stringify({ locationName }),
           {
             headers: {
               "Content-Type": "application/json",
@@ -39,7 +40,8 @@ const News = ({ locationName }) => {
           }
         )
           .then((response) => {
-            const eventsData = response.data.data;
+            const eventsData = response.data;
+            console.log('Events data:', eventsData);
 
             console.log('Events data:', eventsData);
             setEvents(eventsData);

@@ -17,7 +17,7 @@ export default function Places({ locationName, planid }) {
     const FetchPlaces = () => {
       try {
         axios.post(
-          `http://localhost:8000/api/places/fetch`,
+          `http://localhost:4000/api/places/fetch`,
           JSON.stringify(locationName, pageNumber),
           {
             headers: {
@@ -72,7 +72,7 @@ export default function Places({ locationName, planid }) {
   function handleSave() {
     console.log("Selected Restaurants:", selectedplaces);
     axios.post(
-      `http://localhost:8000/api/places/add/${planId}`,
+      `http://localhost:4000/api/places/add/${planId}`,
       JSON.stringify(selectedplaces),
       {
         headers: {
@@ -103,7 +103,7 @@ export default function Places({ locationName, planid }) {
     event.preventDefault();
 
     axios.post(
-      `http://localhost:8000/api/places/fetch`,
+      `http://localhost:4000/api/places/fetch`,
       JSON.stringify(locationName, pageNumber),
       {
         headers: {

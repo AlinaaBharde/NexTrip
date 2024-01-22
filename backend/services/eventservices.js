@@ -17,6 +17,7 @@ const fetchEventsFromAPI = async (city) => {
     try {
         const response = await axios.request(options);
         const relevantresponse = extractRelevantDetails(response.data);
+        console.log(relevantresponse);
         return relevantresponse;
     } catch (error) {
         console.error(error);

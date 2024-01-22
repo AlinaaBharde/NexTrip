@@ -5,7 +5,7 @@ import { MdAdd, MdRemove } from "react-icons/md";
 import axios from 'axios';
 
 
-export default function Hotels({ locationName, startDate, endDate, planid }) {
+export default function Hotels({ locationName, startDate, endDate, planid, adults }) {
   const [filter, setfilter] = useState(false);
   const planId = planid ? planid.toString() : '';
   const [hotels, sethotels] = useState([]);
@@ -14,7 +14,8 @@ export default function Hotels({ locationName, startDate, endDate, planid }) {
     CheckIn: startDate,
     CheckOut: endDate,
   });
-  const [sortby, setsortby] = useState('');
+  const [sortby, setsortby] = useState('PRICE');
+  const [adults, setAdults] = useState(adults);
 
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -25,11 +26,11 @@ export default function Hotels({ locationName, startDate, endDate, planid }) {
   React.useEffect(() => {
 
 
-    const FetchHotels = () => {
+    const FetchHotels = async () => {
       try {
-        axios.post(
+        await axios.get(
           `http://localhost:4000/api/hotels/fetch/`,
-          JSON.stringify(locationName, sortby, ...selectedDates, pageNumber),
+          JSON.stringify({ locationName, sortby, ...selectedDates, pageNumber, adults }),
           {
             headers: {
               "Content-Type": "application/json",
@@ -136,7 +137,7 @@ export default function Hotels({ locationName, startDate, endDate, planid }) {
   function handleSave() {
     console.log("Selected Hotels:", selectedhotels);
     axios.post(
-      `http://localhost:8000/api/hotels/add/${planId}`,
+      `http://localhost:4000/api/hotels/add/${planId}`,
       JSON.stringify(selectedhotels),
       {
         headers: {
@@ -161,10 +162,6 @@ export default function Hotels({ locationName, startDate, endDate, planid }) {
       })
   }
 
-
-
-
-
   const handleDateChange = (name, value) => {
     setSelectedDates((prevValue) => {
       return {
@@ -173,35 +170,6 @@ export default function Hotels({ locationName, startDate, endDate, planid }) {
       };
     });
   };
-
-  const handleApply = (event) => {
-    event.preventDefault();
-
-    axios.post(
-      `http://localhost:8000/api/hotels/fetch/`,
-      JSON.stringify(locationName, sortby, ...selectedDates, pageNumber),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => {
-        sethotels(response.data);
-      })
-      .catch((error) => {
-        console.error('Error submitting filter:', error);
-        if (error) {
-
-          console.error('Server responded with:', error.data);
-        } else if (error.request) {
-          console.error('No response received');
-        } else {
-          console.error('Error setting up the request:', error.message);
-        }
-      })
-  }
-
 
   return (
     <div >

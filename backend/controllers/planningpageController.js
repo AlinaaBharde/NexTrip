@@ -22,6 +22,7 @@ const planningpageController = {
                 startDate: existingPlan.startDate,
                 endDate: existingPlan.endDate,
                 City: existingPlan.cityToVisit,
+                adults: existingPlan.numberOfPeople,
             }
             console.log(relevantinfo)
             res.status(200).json(relevantinfo);

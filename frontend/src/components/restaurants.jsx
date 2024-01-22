@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Label, Card, Rating, Pagination, Radio } from 'flowbite-react';
-import { FaFilter } from "react-icons/fa";
+import { Button, Card, Rating, Pagination } from 'flowbite-react';
 import { MdAdd, MdRemove } from "react-icons/md";
 import axios from 'axios';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function Restaurants({ locationName, planid }) {
+  const { user } = useAuthContext();
   console.log('Location Name:', locationName);
   console.log('Plan Id:', planid);
-  const [filter, setfilter] = useState(false);
   const planId = planid ? planid.toString() : '';
   const [restaurants, setrestaurants] = useState([]);
   const [selectedrestaurants, setSelectedrestaurants] = useState([]);
-  const [sortby, setsortby] = useState('PRICE')
 
   const [pageNumber, setCurrentPage] = useState(1);
 
@@ -20,9 +19,13 @@ export default function Restaurants({ locationName, planid }) {
   React.useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const response = await axios.post(
-          `http://localhost:8000/api/restaurants/fetch`,
-          JSON.stringify({ sortby, locationName, pageNumber }),
+        setLoading(true);
+        const response = await axios.get(
+          `http://localhost:4000/api/restaurants/fetch`,
+          JSON.stringify({
+            locationName: locationName,
+            page: pageNumber,
+          }),
           {
             headers: {
               "Content-Type": "application/json",
@@ -30,38 +33,15 @@ export default function Restaurants({ locationName, planid }) {
           }
         );
         setrestaurants(response.data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching restaurants:', error);
+        setLoading(false);
       }
     };
 
     fetchRestaurants();
-  }, [sortby, locationName, pageNumber]);
-
-  function handleClick() {
-    setfilter(!filter);
-  }
-
-  function renderFilter() {
-    return (
-      <div className='mx-auto flex flex-wrap items-center'>
-        <div className="ml-5 m-2 inline-flex gap-2 mb-2">
-          <Radio id="sortPrice" name='Sort' onChange={() => setsortby('price')} color='purple' />
-          <Label htmlFor="sortPrice">Sort by Price</Label>
-        </div>
-        <div className="ml-5 m-2 inline-flex gap-2">
-          <Radio id="sortRating" name='Sort' onChange={() => setsortby('rating')} color='purple' />
-          <Label htmlFor="sortRating">Sort by Rating</Label>
-        </div>
-        <Button pill className='w-16 m-2' color='purple' onClick={handleApply}>
-          Apply
-        </Button>
-      </div>
-    );
-  }
-
-
-
+  }, [locationName, pageNumber]);
 
   function handleAdd(index, selectedrestaurant) {
 
@@ -91,7 +71,7 @@ export default function Restaurants({ locationName, planid }) {
   function handleSave() {
     console.log("Selected Restaurants:", selectedrestaurants);
     axios.post(
-      `http://localhost:8000/api/restaurants/add/${planId}`,
+      `http://localhost:4000/api/restaurants/add/${planId}`,
       JSON.stringify(selectedrestaurants),
       {
         headers: {
@@ -117,44 +97,8 @@ export default function Restaurants({ locationName, planid }) {
       })
   }
 
-
-  const handleApply = (event) => {
-    event.preventDefault();
-
-    axios.post(
-      `http://localhost:8000/api/restaurants/fetch/`,
-      JSON.stringify(sortby, locationName, pageNumber),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.token}`
-        },
-      }
-    )
-      .then((response) => {
-        setrestaurants(response.data);
-      })
-      .catch((error) => {
-        console.error('Error submitting filter:', error);
-        if (error) {
-
-          console.error('Server responded with:', error.data);
-        } else if (error.request) {
-          console.error('No response received');
-        } else {
-          console.error('Error setting up the request:', error.message);
-        }
-      })
-  }
-
   return (
     <div className=''>
-      <div className='w-full flex-col top-0 '>
-        <Button className='ml-16 text-xl font-semibold mb-5 -mt-2 bg-transparent hover:shadow' style={{ color: '#5F2EEA', backgroundColor: 'white' }} onClick={handleClick} ><FaFilter />Filter</Button>
-        {
-          filter ? renderFilter() : null
-        }
-      </div>
       <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Restaurants</h1>
       {restaurants.length === 0 ? (
         <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Restaurants Available.

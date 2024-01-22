@@ -15,15 +15,16 @@ async function getLocationId(locationQuery) {
 
     try {
         const response = await axios.request(options);
+        console.log(response.data)
 
         if (response.status >= 200 && response.status < 300) {
             console.log(response.data.data[0].locationId)
             return response.data.data[0].locationId;
         } else {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            throw Error(`Error: ${response.status} - ${response.statusText}`);
         }
     } catch (error) {
-        throw new Error(error.message);
+        throw Error(error.message);
     }
 }
 

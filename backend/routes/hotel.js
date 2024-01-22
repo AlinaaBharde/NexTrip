@@ -5,7 +5,7 @@ const requireAuth = require('../middleware/requireAuth.js');
 
 const HotelsRouter = express.Router();
 
-HotelsRouter.post('/fetch', hotelController.fetchHotel);
+HotelsRouter.get('/fetch', hotelController.fetchHotel);
 
 HotelsRouter.post('/add/:planId', requireAuth, hotelController.addHotel);
 

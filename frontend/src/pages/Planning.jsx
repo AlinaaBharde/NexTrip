@@ -17,17 +17,16 @@ import { useAuthContext } from '../hooks/useAuthContext';
 export default function SpecificPlan() {
   const { user } = useAuthContext();
   const { id } = useParams();
-  const [selectedDates, setSelectedDates] = useState({
-    checkIn: null,
-    checkOut: null,
-  });
-
-  const [locationName, setlocationName] = useState('');
+  const [selectedDates, setSelectedDates] = useState(null);
+  const [locationName, setlocationName] = useState(null);
+  const [loading, setLoading] = useState(true)
+  const [adults, setAdults] = useState(1);
 
   React.useEffect(() => {
 
     const fetchTravelDetails = async () => {
       try {
+        setLoading(true)
         const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
           {
             headers: {
@@ -39,24 +38,31 @@ export default function SpecificPlan() {
         const startDate = response.data.StartDate;
         const endDate = response.data.EndDate;
         const City = response.data.City;
-        console.log(City)
+        const adults = response.data.Adults;
         setSelectedDates({ startDate, endDate });
         setlocationName(City);
+        setAdults(adults);
+        setLoading(false)
+        console.log("City", City)
       } catch (error) {
         console.error('Error fetching travel plans:', error);
+        setLoading(false)
       }
     };
 
     fetchTravelDetails();
-  }, [id, locationName]);
+  }, [id, loading]);
 
+  if (loading || !selectedDates || !locationName) {
+    return (<div>Loading...</div>)
+  }
 
   return (
     <div>
       <Navbar />
       <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-md' >
         <Tabs.Item title="Hotels" icon={FaHotel}  >
-          <Hotels locationName={locationName} startDate={selectedDates.checkIn} endDate={selectedDates.checkOut} planid={id} />
+          <Hotels locationName={locationName} startDate={selectedDates.checkIn} endDate={selectedDates.checkOut} planid={id} adults={adults} />
         </Tabs.Item>
         <Tabs.Item title="Restaurants" icon={IoMdRestaurant} >
           <Restaurants locationName={locationName} planid={id} />
@@ -75,6 +81,8 @@ export default function SpecificPlan() {
     </div>
   )
 }
+
+
 
 
 
