@@ -32,7 +32,7 @@ const News = ({ locationName }) => {
 
         await axios.post(
           `http://localhost:4000/api/events/fetch`,
-          JSON.stringify({ locationName }),
+          JSON.stringify({ CityToVisit: locationName }),
           {
             headers: {
               "Content-Type": "application/json",
@@ -41,7 +41,6 @@ const News = ({ locationName }) => {
         )
           .then((response) => {
             const eventsData = response.data;
-            console.log('Events data:', eventsData);
 
             console.log('Events data:', eventsData);
             setEvents(eventsData);
@@ -65,7 +64,7 @@ const News = ({ locationName }) => {
     };
   }, [locationName]);
 
-  if (!events || !Array.isArray(events) || events.length === 0) {
+  if (!events) {
     return <div>Loading...</div>;
   }
 
@@ -94,7 +93,7 @@ const News = ({ locationName }) => {
 
   return (
     <div>
-      <div className='w-3/4 m-auto '>
+      <div className='w-3/4 m-auto'>
         <strong className='mx-auto justify-center items-center'>Events</strong>
         <div className='mt-10'>
           <Slider {...settings} slidesToShow={isSmallScreen ? 1 : 3}>
@@ -103,15 +102,8 @@ const News = ({ locationName }) => {
                 <div className='flex flex-col justify-center items-center gap-4 p-4'>
                   <h3 className='text-xl font-semibold'>{event.name}</h3>
                   <p>{event.description ? event.description.slice(0, 100) : null}...</p>
-                  <p>Start Time: {event.start_time ? event.start_time : null}</p>
-                  <p>End Time: {event.end_time ? event.end_time : null}</p>
-                  <p>Venue: {event.venue.name ? event.venue.name : null}</p>
-                  <p>City: {event.venue.city ? event.venue.city : null}</p>
-                  {event.ticket_links && event.ticket_links.length > 0 && event.ticket_links[0].link && (
-                    <Button as="a" href={event.ticket_links[0].link} target="_blank" rel="noopener noreferrer" color="purple" pill className='bg-indigo-700 text-white text-lg px-6 py-1 rounded-xl'>
-                      Get Tickets
-                    </Button>
-                  )}
+                  <p>Start Time: {event.startdate ? event.startdate : null}</p>
+                  <p>End Time: {event.enddate ? event.enddate : null}</p>
                 </div>
               </div>
             ))}

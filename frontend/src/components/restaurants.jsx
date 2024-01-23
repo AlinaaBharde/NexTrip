@@ -11,8 +11,10 @@ export default function Restaurants({ locationName, planid }) {
   const planId = planid ? planid.toString() : '';
   const [restaurants, setrestaurants] = useState([]);
   const [selectedrestaurants, setSelectedrestaurants] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   const [pageNumber, setCurrentPage] = useState(1);
+  console.log(pageNumber)
 
   const onPageChange = (page) => setCurrentPage(page);
 
@@ -20,7 +22,7 @@ export default function Restaurants({ locationName, planid }) {
     const fetchRestaurants = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
+        const response = await axios.post(
           `http://localhost:4000/api/restaurants/fetch`,
           JSON.stringify({
             locationName: locationName,
@@ -32,7 +34,9 @@ export default function Restaurants({ locationName, planid }) {
             },
           }
         );
+        console.log("Response:", response.data);
         setrestaurants(response.data);
+        console.log("Restaurants:", restaurants);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching restaurants:', error);
@@ -98,63 +102,62 @@ export default function Restaurants({ locationName, planid }) {
   }
 
   return (
-    <div className=''>
+    <div>
       <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Restaurants</h1>
-      {restaurants.length === 0 ? (
-        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Restaurants Available.
-        </p>
-      ) : (
-        <div>
-          <ul className=' bg-white'>
-            {restaurants.map((restaurant, index) => (
-              <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={restaurant.image} horizontal >
-                <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{restaurant.name}</h3>
-                <p className="font-semibold text-gray-700 dark:text-gray-400">{restaurant.location}</p>
-                <p className="font-normal text-gray-700 dark:text-gray-400">Cuisine: {restaurant.cuisine.map((type) => ({ type }))}</p>
-                <p className="font-normal text-gray-700 dark:text-gray-400">Price: {restaurant.pricetag}</p>
-                <Rating>
-                  <Rating.Star />
-                  <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{restaurant.averagerating}</p>
-                </Rating>
-                <div className=' flex flex-row'>
-                  {
-                    restaurant.add ? (<Button pill className=' w-16 m-2' onClick={() => handleAdd(index, restaurant)} color='purple' >
-                      <MdAdd className="h-6 w-6 " />
-                    </Button>
-                    ) : (
-                      <Button disabled pill className=' w-16 m-2' color='purple'>
+      {loading ? (<div>Loading...</div>) :
+        restaurants.length === 0 ? (
+          <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Restaurants Available.
+          </p>
+        ) : (
+          <div>
+            <ul className=' bg-white'>
+              {restaurants.map((restaurant, index) => (
+                <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={restaurant.image} horizontal >
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{restaurant.name}</h3>
+                  <p className="font-normal text-gray-700 dark:text-gray-400">Cuisine: {restaurant.cuisine.map((type) => ({ type }))}</p>
+                  <p className="font-normal text-gray-700 dark:text-gray-400">Price: {restaurant.pricetag}</p>
+                  <Rating>
+                    <Rating.Star />
+                    <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{restaurant.averagerating}</p>
+                  </Rating>
+                  <div className=' flex flex-row'>
+                    {
+                      restaurant.add ? (<Button pill className=' w-16 m-2' onClick={() => handleAdd(index, restaurant)} color='purple' >
                         <MdAdd className="h-6 w-6 " />
                       </Button>
-                    )
-                  }
-                  {
-                    restaurant.remove ? (<Button outline pill className=' w-16 m-2' onClick={() => handleRemove(index, restaurant)} color='purple'>
-                      <MdRemove className="h-6 w-6 " />
-                    </Button>
-                    ) : (
-                      <Button disabled outline pill className=' w-16 m-2' color='purple'>
+                      ) : (
+                        <Button disabled pill className=' w-16 m-2' color='purple'>
+                          <MdAdd className="h-6 w-6 " />
+                        </Button>
+                      )
+                    }
+                    {
+                      restaurant.remove ? (<Button outline pill className=' w-16 m-2' onClick={() => handleRemove(index, restaurant)} color='purple'>
                         <MdRemove className="h-6 w-6 " />
                       </Button>
-                    )
-                  }
-                </div>
-              </Card>
-            ))}
-          </ul>
-          <div className="flex overflow-x-auto ml-20 md:justify-center">
-            <Pagination
-              layout="navigation"
-              currentPage={pageNumber}
-              onPageChange={onPageChange}
-              onClick={handleApply}
-              showIcons
-            />
+                      ) : (
+                        <Button disabled outline pill className=' w-16 m-2' color='purple'>
+                          <MdRemove className="h-6 w-6 " />
+                        </Button>
+                      )
+                    }
+                  </div>
+                </Card>
+              ))}
+            </ul>
+            <div className="flex overflow-x-auto ml-20 md:justify-center">
+              <Pagination
+                layout="navigation"
+                currentPage={pageNumber}
+                onPageChange={onPageChange}
+                showIcons
+              />
+            </div>
+            <div className='flex justify-center mt-4'>
+              <Button className=' rounded-full' color='purple' onClick={handleSave} >Save</Button>
+            </div>
           </div>
-          <div className='flex justify-center mt-4'>
-            <Button className=' rounded-full' color='purple' onClick={handleSave} >Save</Button>
-          </div>
-        </div>
-      )
+        )
       }
     </div>
   )

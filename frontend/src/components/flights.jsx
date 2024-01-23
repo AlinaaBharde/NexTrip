@@ -40,7 +40,6 @@ export default function Flights({ locationName, startDate, endDate }) {
           {
             headers: {
               'Content-Type': 'application/json',
-              "Authorization": `Bearer ${user.token}`
             },
           }
         );

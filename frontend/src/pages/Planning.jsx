@@ -71,7 +71,7 @@ export default function SpecificPlan() {
           <Places locationName={locationName} planid={id} />
         </Tabs.Item>
         <Tabs.Item title="Flights" icon={FaPlane} >
-          <Flights locationName={locationName} startDate={selectedDates.checkIn} endDate={selectedDates.checkOut} planid={id} />
+          <Flights locationName={locationName} startDate={selectedDates.checkIn} endDate={selectedDates.checkOut} adults={adults} />
         </Tabs.Item>
         <Tabs.Item title="Latest News" icon={FaRegNewspaper}   >
           <News locationName={locationName} />

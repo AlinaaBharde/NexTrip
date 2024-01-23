@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button, Card, Rating, Pagination } from 'flowbite-react';
 import { MdAdd, MdRemove } from "react-icons/md";
 import axios from 'axios';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function Places({ locationName, planid }) {
+  const { user } = useAuthContext();
   const planId = planid ? planid.toString() : '';
   const [places, setplaces] = useState([]);
   const [selectedplaces, setSelectedplaces] = useState([]);

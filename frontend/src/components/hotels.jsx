@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Button, Label, Card, Rating, Pagination, Radio } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
 import { MdAdd, MdRemove } from "react-icons/md";
+import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 
 
 export default function Hotels({ locationName, startDate, endDate, planid, adults }) {
+  const { user } = useAuthContext();
   const [filter, setfilter] = useState(false);
   const planId = planid ? planid.toString() : '';
   const [hotels, sethotels] = useState([]);
@@ -15,7 +17,6 @@ export default function Hotels({ locationName, startDate, endDate, planid, adult
     CheckOut: endDate,
   });
   const [sortby, setsortby] = useState('PRICE');
-  const [adults, setAdults] = useState(adults);
 
   const [pageNumber, setPageNumber] = useState(1);
 
