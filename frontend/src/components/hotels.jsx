@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Label, Card, Rating, Pagination, Radio } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
 import { MdAdd, MdRemove } from "react-icons/md";
+import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import NavbarComponent from './Navbar';

@@ -7,7 +7,7 @@ const requireAuth = require('../middleware/requireAuth.js');
 const RestaurantsRouter = express.Router();
 
 
-RestaurantsRouter.get('/fetch', restaurantController.fetchRestaurants);
+RestaurantsRouter.post('/fetch', restaurantController.fetchRestaurants);
 
 RestaurantsRouter.post('/add/:planId', requireAuth, restaurantController.addRestaurant);
 

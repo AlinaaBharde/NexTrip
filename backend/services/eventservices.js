@@ -9,7 +9,7 @@ const fetchEventsFromAPI = async (city) => {
             start: '0'
         },
         headers: {
-            'X-RapidAPI-Key': '89f8f412bamsh0574d8b8c64076ep10310fjsnbbdbc9f9826f',
+            'X-RapidAPI-Key': '48d971003dmsh0a9a5da4ce32eabp184f77jsn04c5607602eb',
             'X-RapidAPI-Host': 'real-time-events-search.p.rapidapi.com'
         }
     };
@@ -29,7 +29,6 @@ const extractRelevantDetails = (eventData) => {
         name: event.name,
         location: event.fulladdress,
         description: event.description,
-        image: event.thumbnail,
         startdate: event.start_time,
         enddate: event.end_time
     }));

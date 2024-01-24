@@ -21,6 +21,7 @@ export default function Restaurants(){
   const [loading, setLoading] = useState(true);
 
   const [pageNumber, setCurrentPage] = useState(1);
+  console.log(pageNumber)
 
   const onPageChange = (page) => setCurrentPage(page);
 
