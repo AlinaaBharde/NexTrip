@@ -31,7 +31,7 @@ function Form() {
 
   React.useEffect(() => {
     if (PlanID) {
-      history(`/plan/${PlanID}`);
+      history(`/plan/hotels/${PlanID}`);
     }
   }, [PlanID, history]);
 
@@ -133,7 +133,7 @@ function Form() {
             {
               user ? (
                 <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
-                  <Link to={PlanID ? `/plan/${PlanID}` : '/form'}   >
+                  <Link to={PlanID ? `/plan/hotels/${PlanID}` : '/form'}   >
                     Make Your own Itinerary
                   </Link>
                 </Button>

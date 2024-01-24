@@ -2,50 +2,85 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { Button } from 'flowbite-react';
 import axios from 'axios';
-
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import NavbarComponent from './Navbar';
+import Footer from './Footer';
+import SpecificPlanTabs from '../pages/Planning';
+import { useAuthContext } from '../hooks/useAuthContext';
 
-const News = ({ locationName }) => {
+const News = () => {
   const [news, setNews] = useState([]);
+  const { user } = useAuthContext();
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true)
+  const [locationName, setlocationName] = useState(null);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1224);
+
+  useEffect(() => {
+
+    const fetchTravelDetails = async () => {
+      try {
+        setLoading(true)
+        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${user.token}`,
+            }
+          },
+        );
+        
+        const City = response.data.City;
+        setlocationName(City);
+        setLoading(false)
+        console.log("City", City)
+      } catch (error) {
+        console.error('Error fetching travel plans:', error);
+        setLoading(false)
+      }
+    };
+
+    fetchTravelDetails();
+  }, [id, loading]);
+
+  if (loading || !locationName) {
+    return (<div>Loading...</div>)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.post(
-          `http://localhost:4000/api/news/fetch`,
-          JSON.stringify({ locationName }),
+        axios.post(
+          `http://localhost:8000/api/news/fetch/`,
+          JSON.stringify(locationName),
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         )
-          .then((response) => {
-            const limitedNews = response.data.slice(0, 15);
-            console.log(limitedNews);
-            setNews(limitedNews);
-          })
+        .then((response) =>{
+          const limitedNews = response.data.articles.slice(0, 15);
+          setNews(limitedNews);
+        })
 
-
-        await axios.post(
-          `http://localhost:4000/api/events/fetch`,
-          JSON.stringify({ locationName }),
+       
+        axios.post(
+          `http://localhost:8000/api/events/fetch/`,
+          JSON.stringify(locationName),
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         )
-          .then((response) => {
-            const eventsData = response.data;
-            console.log('Events data:', eventsData);
+        .then((response) =>{
+          const eventsData = response.data.data;
 
-            console.log('Events data:', eventsData);
-            setEvents(eventsData);
-          })
+          console.log('Events data:', eventsData);
+          setEvents(eventsData);
+        })
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -94,6 +129,8 @@ const News = ({ locationName }) => {
 
   return (
     <div>
+      <NavbarComponent />
+      <SpecificPlanTabs />
       <div className='w-3/4 m-auto '>
         <strong className='mx-auto justify-center items-center'>Events</strong>
         <div className='mt-10'>
@@ -139,6 +176,7 @@ const News = ({ locationName }) => {
           </Slider>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

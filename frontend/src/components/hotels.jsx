@@ -3,59 +3,90 @@ import { Button, Label, Card, Rating, Pagination, Radio } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
 import { MdAdd, MdRemove } from "react-icons/md";
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import NavbarComponent from './Navbar';
+import Footer from './Footer';
+import SpecificPlanTabs from '../pages/Planning';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
-export default function Hotels({ locationName, startDate, endDate, planid, adults }) {
+export default function Hotels() {
   const [filter, setfilter] = useState(false);
-  const planId = planid ? planid.toString() : '';
+  const {id} = useParams();
+  const planId = id ? id.toString() : '';
   const [hotels, sethotels] = useState([]);
   const [selectedhotels, setSelectedhotels] = useState([]);
-  const [selectedDates, setSelectedDates] = useState({
-    CheckIn: startDate,
-    CheckOut: endDate,
-  });
   const [sortby, setsortby] = useState('PRICE');
-  const [adults, setAdults] = useState(adults);
-
+  const { user } = useAuthContext();
+  const [selectedDates, setSelectedDates] = useState({
+    CheckIn: null,
+    CheckOut: null
+  });
+  const [locationName, setlocationName] = useState(null);
+  const [loading, setLoading] = useState(true)
+  const [Adults, setAdults] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
 
   const onPageChange = (page) => setPageNumber(page);
-
+  
 
 
   React.useEffect(() => {
+    const fetchTravelDetails = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${planId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${user.token}`,
+          },
+        });
+        const startDate = response.data.StartDate;
+        const endDate = response.data.EndDate;
+        const City = response.data.City;
+        const adults = response.data.Adults;
+        setSelectedDates({ startDate, endDate });
+        setlocationName(City);
+        setAdults(adults);
+        setLoading(false);
+        console.log("City", City);
+      } catch (error) {
+        console.error('Error fetching travel plans:', error);
+        setLoading(false);
+      }
+    };
 
+    fetchTravelDetails();
+  }, [id, loading]);
 
+  React.useEffect(() => {
     const FetchHotels = async () => {
       try {
-        await axios.get(
-          `http://localhost:4000/api/hotels/fetch/`,
-          JSON.stringify({ locationName, sortby, ...selectedDates, pageNumber, adults }),
+        const response = await axios.get(
+          `http://localhost:4000/api/hotels/fetch/${locationName}/${sortby}/${pageNumber}/${Adults}`,
           {
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`
+              "Authorization": `Bearer ${user.token}`,
             },
           }
-        )
-          .then((response) => {
-            sethotels(response.data);
-          })
+        );
+        sethotels(response.data);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-
-
     FetchHotels();
-  }, [planId]);
+  }, [locationName, sortby, pageNumber, Adults, user.token]);
 
   function handleClick() {
     setfilter(!filter);
   }
 
-
+  if (loading || !selectedDates || !locationName) {
+    return (<div>Loading...</div>)
+  }
   function renderFilter() {
     return (
       <div className='mx-auto flex flex-wrap items-center'>
@@ -137,7 +168,7 @@ export default function Hotels({ locationName, startDate, endDate, planid, adult
   function handleSave() {
     console.log("Selected Hotels:", selectedhotels);
     axios.post(
-      `http://localhost:4000/api/hotels/add/${planId}`,
+      `http://localhost:4000/api/hotels/add/${id}`,
       JSON.stringify(selectedhotels),
       {
         headers: {
@@ -173,6 +204,8 @@ export default function Hotels({ locationName, startDate, endDate, planid, adult
 
   return (
     <div >
+      <NavbarComponent />
+      <SpecificPlanTabs />
       <div className='w-full flex-col top-0 '>
         <Button className=' text-xl ml-16 mb-5 -mt-2 font-semibold  bg-transparent hover:shadow' style={{ color: '#5F2EEA', backgroundColor: 'white' }} onClick={handleClick} ><FaFilter />Filter</Button>
         {
@@ -236,6 +269,7 @@ export default function Hotels({ locationName, startDate, endDate, planid, adult
         </div>
 
       )}
+      <Footer />
     </div>
   )
 }
