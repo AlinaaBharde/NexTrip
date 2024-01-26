@@ -109,7 +109,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
             type="date"
             id="date"
             name="date"
-            className=" m-2 p-2 border rounded-md w-36"
+            className=" m-2 p-2 border rounded-md w-36 text-black"
             value={selectedDates?.CheckIn}
             min={startDate}
             max={endDate}
@@ -124,7 +124,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
             type="date"
             id="date"
             name="date"
-            className=" m-2 p-2 border rounded-md w-36"
+            className=" m-2 p-2 border rounded-md w-36  text-black"
             value={selectedDates?.CheckOut}
             min={startDate}
             max={endDate}

@@ -28,6 +28,7 @@ const searchHotels = async (locationName, checkin, checkout, adults, pageNumber 
             const relevantHotelDetails = Array.isArray(response.data.data) 
             ? extractRelevantHotelDetails(response.data.data)
             : [];
+            console.log(relevantHotelDetails);
             return relevantHotelDetails;
         } else {
             throw new Error(`Error: ${response.status} - ${response.statusText}`);

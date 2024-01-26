@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { Button } from 'flowbite-react';
+import { Button, Spinner } from 'flowbite-react';
 import axios from 'axios';
 import '../styles/colorgradient.css';
 import './News.css'; // Add necessary styles
+
 
 export default function Events({ locationName, index }) {
   const [news, setNews] = useState([]);
@@ -56,7 +57,8 @@ export default function Events({ locationName, index }) {
       <div className='w-3/4 m-auto mb-20'>
         <strong className='mx-auto justify-center items-center text-5xl text-indigo-700'>Events</strong>
         <div className='mt-10 events-carousel'>
-          {events.map((event, index) => (
+        {events.length === 0 ? (<Spinner aria-label="Default status example" className='mx-auto' size='xl' color='purple'/> ) : (
+          events.map((event, index) => (
             <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl event-card'>
               <div className='flex flex-col justify-center items-center gap-4 p-4'>
                 <h3 className='text-xl font-semibold'>{event.name}</h3>
@@ -65,14 +67,15 @@ export default function Events({ locationName, index }) {
                 <p>End Time: {event.end_time ? event.end_time : null}</p>
               </div>
             </animated.div>
-          ))}
+          )))
+        }
         </div>
       </div>
 
       <div className='w-3/4 m-auto mb-20'>
         <strong className='mx-auto justify-center items-center text-5xl text-indigo-700'>News</strong>
         <div className='mt-10 news-carousel'>
-          {news.map((article, index) => (
+          {news ? (news.map((article, index) => (
             <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl news-card'>
               <div className='rounded-t-xl flex justify-center items-center h-56'>
                 <img src={article.urlToImage} alt='' className='h-full w-full rounded-xl' />
@@ -93,7 +96,7 @@ export default function Events({ locationName, index }) {
                 </Button>
               </div>
             </animated.div>
-          ))}
+          ))) : (<Spinner aria-label="Default status example" size='lg' color='purple' />)}
         </div>
       </div>
     </div>
