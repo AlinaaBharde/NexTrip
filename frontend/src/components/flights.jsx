@@ -2,104 +2,52 @@ import React, { useState } from 'react';
 import { Button, Label, Card, Pagination, Radio } from 'flowbite-react';
 import { FaPlaneDeparture, FaPlaneArrival } from "react-icons/fa6";
 import { FaPeopleGroup } from 'react-icons/fa6';
-import axios from 'axios';
 import Select from 'react-select';
 import Cities from './cities.json';
-import {useParams} from 'react-router-dom';
-import NavbarComponent from './Navbar';
-import Footer from './Footer';
-import SpecificPlanTabs from '../pages/Planning';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { fetchFlightsFromAPI } from '../services/flightservices';
 
-export default function Flights(){
-  const {id} = useParams();
-  const planId = id ? id.toString() : '';
+export default function Flights({locationName, startDate, endDate, adults, index }){
+  // const {id} = useParams();
   const [flights, setflights] = useState([]);
-  const { user } = useAuthContext();
+
   const [selectedDates, setSelectedDates] = useState({
-    CheckIn: null,
-    CheckOut: null
+    CheckIn: startDate,
+    CheckOut: endDate
   });
-  const [loading, setLoading] = useState(true)
   const [classOfService, setservice] = useState('Economy');
   const [itenaryType , setType] = useState('One-Way');
   const [arrivalCity, setarrivalCity] = useState({
-    value: null,
-    label: null,
+    value: locationName,
+    label: locationName,
   });
   const [departureCity, setdepartureCity] = useState({
-    value: null,
-    label: null,
+    value: locationName,
+    label: locationName,
   });
-  const [Adults, setadults] = useState(1);
+  const [Adults, setadults] = useState(adults);
   const [pageNumber, setPageNumber] = useState();
 
   const onPageChange = (page) => setPageNumber(page);
 
-  React.useEffect(() => {
 
-    const fetchTravelDetails = async () => {
-      try {
-        setLoading(true)
-        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`,
-            }
-          },
-        );
-        const startDate = response.data.StartDate;
-        const endDate = response.data.EndDate;
-        const City = response.data.City;
-        const adults = response.data.Adults;
-        setSelectedDates({ startDate, endDate });
-        setarrivalCity(City);
-        setadults(adults);
-        setLoading(false)
-        console.log("City", City)
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-        setLoading(false)
-      }
-    };
-
-    fetchTravelDetails();
-  }, [id, loading]);
-
-  if (loading || !selectedDates || !locationName) {
-    return (<div>Loading...</div>)
-  }
 
   React.useEffect(() => {
-  
-
-    const FetchFlights = () => {
+    const FetchFlights = async () => {
       try {
-        axios.post(
-          `http://localhost:8000/api/flights/fetch`,
-          JSON.stringify(departureCity,arrivalCity,itenaryType,classOfService, dates,Adults, pageNumber),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) => {
-          setflights(response.data);
-        })
+        const response = await fetchFlightsFromAPI(departureCity,arrivalCity,itenaryType,classOfService, selectedDates.CheckIn, selectedDates.CheckOut,Adults)
+        setflights(response);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-
-    
-    FetchFlights();
-  }, [planId]);
+    if(index === 3){
+      FetchFlights();
+    }
+  }, [departureCity,arrivalCity,itenaryType,classOfService, selectedDates.CheckIn, selectedDates.CheckOut,Adults, pageNumber, index]);
 
   const handleDateChange = (name, value) => {
-    setDates((prevValue) => {
+    setSelectedDates((prevValue) => {
       return {
         ...prevValue,
         [name]: value,
@@ -162,7 +110,7 @@ export default function Flights(){
             id="date"
             name="date"
             className=" m-2 p-2 border rounded-md w-36"
-            value={dates?.start}
+            value={selectedDates?.CheckIn}
             min={startDate}
             max={endDate}
             onChange={(e) => handleDateChange('start',e.target.value)}
@@ -177,7 +125,7 @@ export default function Flights(){
             id="date"
             name="date"
             className=" m-2 p-2 border rounded-md w-36"
-            value={dates?.end}
+            value={selectedDates?.CheckOut}
             min={startDate}
             max={endDate}
             onChange={(e) => handleDateChange('end',e.target.value)}
@@ -208,50 +156,38 @@ export default function Flights(){
 
   const handleApply=  (event) => {
     event.preventDefault();
-    console.log(departureCity.value,arrivalCity.value,itenaryType,classOfService,...dates,adults, pageNumber);
-    axios.post(
-      `http://localhost:8000/api/flights/fetch/`,
-      JSON.stringify(departureCity,arrivalCity,itenaryType,classOfService, ...dates,adults, pageNumber),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    console.log(departureCity.value,arrivalCity.value,itenaryType,classOfService,...selectedDates,adults, pageNumber);
+    const FetchFlights = async () => {
+      try {
+        const response = await fetchFlightsFromAPI(departureCity,arrivalCity,itenaryType,classOfService, selectedDates.CheckIn, selectedDates.CheckOut,Adults, pageNumber)
+        sethotels(response.data);
+      } catch (error) {
+        console.error('Error fetching travel plans:', error);
       }
-    )
-    .then((response) => {
-      setflights(response.data);
-    })
-    .catch((error)=>{
-      console.error('Error submitting filter:', error);
-      if (error) {
-        
-        console.error('Server responded with:', error.data);
-      } else if (error.request) {
-        console.error('No response received');
-      } else {
-        console.error('Error setting up the request:', error.message);
-      } 
-    } )
+    };
+
+    if(index === 3){
+      FetchFlights();
+    }
   }
   
 
   return (
     <div >
-    <NavbarComponent />
-    <SpecificPlanTabs />
+    
     <div className='w-full flex-col top-0 '>
       {
         renderFilter()
       } 
     </div>
     <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Flights</h1>
-            {flights.length === 0 ? (
+            {flights && flights.length === 0 ? (
                 <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-fit">Oops!! No Flights Available.
                 </p>
             ) : (
                 <div>
                 <ul className='bg-white'>
-                    {flights.map((flight, index) => (
+                    {flights && flights.map((flight, index) => (
                     <div key={index} className=''>
                         <Card className="md:max-w-4xl mr-4 ml-12 mt-6 mb-6" imgSrc={flight.logo} horizontal>
                         <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{flight.airline}</h3>
@@ -276,7 +212,6 @@ export default function Flights(){
 
                 )
               }
-      <Footer />
     </div>
   )
 }

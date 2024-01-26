@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import { FaPeopleGroup } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
+import '../styles/colorgradient.css';
 
 function Form() {
 
@@ -31,7 +32,7 @@ function Form() {
 
   React.useEffect(() => {
     if (PlanID) {
-      history(`/plan/hotels/${PlanID}`);
+      history(`/plan/${PlanID}`);
     }
   }, [PlanID, history]);
 
@@ -99,11 +100,11 @@ function Form() {
 
   return (
 
-    <div>
+    <div className=' w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate'>
       <Navbar />
 
-      <Card className="p-4 mx-auto mt-32 mb-8 md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%] flex flex-col justify-around border shadow-lg">
-        <h1 className=' ml-12  mx-auto font-bold text-7xl w-full' >Travel Details</h1>
+      <Card className="p-4 mx-auto mt-20 mb-8 md:w-[80%] md:h-[100%] flex flex-col justify-around border shadow-lg">
+        <h1 className=' ml-12 mt-10  mx-auto font-bold text-7xl w-full text-indigo-700' >Travel Details</h1>
         <form className="max-w-lg mx-auto container bg-transparent mb-24 "  >
           <div className="mb-2 block  pt-8" >
             <Label htmlFor="TripName" value="Trip Name" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
@@ -133,9 +134,9 @@ function Form() {
             {
               user ? (
                 <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
-                  <Link to={PlanID ? `/plan/hotels/${PlanID}` : '/form'}   >
+                  
                     Make Your own Itinerary
-                  </Link>
+                  
                 </Button>
               ) : (
                 <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
@@ -146,7 +147,7 @@ function Form() {
               )
             }
 
-            {
+            {/* {
               user ? (
                 <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
                   <Link to={'/'}   >
@@ -160,7 +161,7 @@ function Form() {
                   </Link>
                 </Button>
               )
-            }
+            } */}
           </div>
           <div className='mx-auto text-center block font-semibold text-lg underline' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>{
             user ? (

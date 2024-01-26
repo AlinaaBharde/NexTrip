@@ -14,7 +14,7 @@ body {
 }
 .rounded-full.hovered {
   transform: scale(1.1); /* Increase the size on hover */
-  transition: transform 0.3s ease; /* Add a smooth transition effect */
+  transition: transform 0.5s ease; /* Add a smooth transition effect */
 }
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
 

@@ -5,13 +5,11 @@ import { MdAdd, MdRemove } from "react-icons/md";
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import NavbarComponent from './Navbar';
-import Footer from './Footer';
-import SpecificPlanTabs from '../pages/Planning';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { searchHotels } from '../services/hotelservices';
 
 
-export default function Hotels() {
+
+export default function Hotels({locationName, startDate, endDate, adults, index }) {
   const [filter, setfilter] = useState(false);
   const {id} = useParams();
   const planId = id ? id.toString() : '';
@@ -20,74 +18,35 @@ export default function Hotels() {
   const [sortby, setsortby] = useState('PRICE');
   const { user } = useAuthContext();
   const [selectedDates, setSelectedDates] = useState({
-    CheckIn: null,
-    CheckOut: null
+    CheckIn: startDate,
+    CheckOut: endDate
   });
-  const [locationName, setlocationName] = useState(null);
-  const [loading, setLoading] = useState(true)
-  const [Adults, setAdults] = useState(1);
+  const LocationName = locationName;
+  const Adults = adults;
   const [pageNumber, setPageNumber] = useState(1);
 
   const onPageChange = (page) => setPageNumber(page);
   
 
-
-  React.useEffect(() => {
-    const fetchTravelDetails = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${planId}`, {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${user.token}`,
-          },
-        });
-        const startDate = response.data.StartDate;
-        const endDate = response.data.EndDate;
-        const City = response.data.City;
-        const adults = response.data.Adults;
-        setSelectedDates({ startDate, endDate });
-        setlocationName(City);
-        setAdults(adults);
-        setLoading(false);
-        console.log("City", City);
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchTravelDetails();
-  }, [id, loading]);
-
   React.useEffect(() => {
     const FetchHotels = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/api/hotels/fetch/${locationName}/${sortby}/${pageNumber}/${Adults}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`,
-            },
-          }
-        );
-        sethotels(response.data);
+        const response = await searchHotels(LocationName,selectedDates.CheckIn,selectedDates.CheckOut,Adults)
+        sethotels(response);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    FetchHotels();
-  }, [locationName, sortby, pageNumber, Adults, user.token]);
+    if(index === 0){
+      FetchHotels();
+    }
+  }, [LocationName, sortby, pageNumber, Adults, selectedDates.CheckIn, selectedDates.CheckOut, index]);
 
   function handleClick() {
     setfilter(!filter);
   }
 
-  if (loading || !selectedDates || !locationName) {
-    return (<div>Loading...</div>)
-  }
   function renderFilter() {
     return (
       <div className='mx-auto flex flex-wrap items-center'>
@@ -138,7 +97,20 @@ export default function Hotels() {
     );
   }
 
+  function handleApply() {
+    const FetchHotels = async () => {
+      try {
+        const response = await searchHotels(LocationName,selectedDates.CheckIn,selectedDates.CheckOut,Adults,pageNumber,sortby)
+        sethotels(response);
+      } catch (error) {
+        console.error('Error fetching travel plans:', error);
+      }
+    };
 
+    if(index === 0){
+      FetchHotels();
+    }
+  }
 
   function handleAdd(index, selectedHotel) {
 
@@ -169,7 +141,7 @@ export default function Hotels() {
   function handleSave() {
     console.log("Selected Hotels:", selectedhotels);
     axios.post(
-      `http://localhost:4000/api/hotels/add/${id}`,
+      `http://localhost:4000/api/hotels/add/${planId}`,
       JSON.stringify(selectedhotels),
       {
         headers: {
@@ -205,21 +177,19 @@ export default function Hotels() {
 
   return (
     <div >
-      <NavbarComponent />
-      <SpecificPlanTabs />
       <div className='w-full flex-col top-0 '>
-        <Button className=' text-xl ml-16 mb-5 -mt-2 font-semibold  bg-transparent hover:shadow' style={{ color: '#5F2EEA', backgroundColor: 'white' }} onClick={handleClick} ><FaFilter />Filter</Button>
+        <Button className=' text-xl ml-16 mb-5 -mt-2 font-semibold  bg-transparent hover:shadow' style={{ color: '#5F2EEA', backgroundColor: 'transparent' }} onClick={handleClick} ><FaFilter />Filter</Button>
         {
           filter ? renderFilter() : null
         }
       </div>
-      <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Hotels</h1>
-      {hotels.length === 0 ? (
-        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Hotels Available.
+      <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover', 'color': '#5F2EEA' }}>Hotels</h1>
+      {hotels && hotels.length === 0 ? (
+        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">Oops!! No Hotels Available.
         </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hotels.map((hotel, index) => (
+          {hotels && hotels.map((hotel, index) => (
             <Card key={index} imgSrc={hotel.imageurl} className="mb-6">
               <h3 className="text-2xl font-bold mb-2">{hotel.name}</h3>
               <p className="font-semibold text-gray-700 dark:text-gray-400">{hotel.Location}</p>
@@ -270,7 +240,6 @@ export default function Hotels() {
         </div>
 
       )}
-      <Footer />
     </div>
   )
 }

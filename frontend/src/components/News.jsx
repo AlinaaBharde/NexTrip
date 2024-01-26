@@ -2,92 +2,57 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { Button } from 'flowbite-react';
 import axios from 'axios';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import NavbarComponent from './Navbar';
-import Footer from './Footer';
-import SpecificPlanTabs from '../pages/Planning';
-import { useAuthContext } from '../hooks/useAuthContext';
 
-const News = () => {
+const API_KEY_NEWS = 'be08998cf6b34115895517e0fbde1df9';
+const API_KEY_EVENTS = 'bb35022490msh13314922336777ap17bf40jsn764d272f6d64';
+const NEWS_API_URL = 'https://newsapi.org/v2/everything';
+const EVENTS_API_URL = 'https://real-time-events-search.p.rapidapi.com/search-events';
+
+export default function News({ locationName, index }) {
   const [news, setNews] = useState([]);
-  const { user } = useAuthContext();
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true)
-  const [locationName, setlocationName] = useState(null);
+  const City = locationName;
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1224);
-
-  useEffect(() => {
-
-    const fetchTravelDetails = async () => {
-      try {
-        setLoading(true)
-        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`,
-            }
-          },
-        );
-        
-        const City = response.data.City;
-        setlocationName(City);
-        setLoading(false)
-        console.log("City", City)
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-        setLoading(false)
-      }
-    };
-
-    fetchTravelDetails();
-  }, [id, loading]);
-
-  if (loading || !locationName) {
-    return (<div>Loading...</div>)
-  }
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        axios.post(
-          `http://localhost:8000/api/news/fetch/`,
-          JSON.stringify(locationName),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) =>{
-          const limitedNews = response.data.articles.slice(0, 15);
-          setNews(limitedNews);
-        })
+        setLoading(true);
 
-       
-        axios.post(
-          `http://localhost:8000/api/events/fetch/`,
-          JSON.stringify({ CityToVisit: locationName }),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) =>{
-          const eventsData = response.data.data;
+        // Fetch news
+        const newsResponse = await axios.get(`${NEWS_API_URL}?q=${City}&apiKey=${API_KEY_NEWS}`);
+        const limitedNews = newsResponse.data.articles.slice(0, 15);
+        setNews(limitedNews);
 
-          console.log('Events data:', eventsData);
-          setEvents(eventsData);
-        })
+        // Fetch events
+        const eventsResponse = await axios.get(EVENTS_API_URL, {
+          params: {
+            query: `Concerts in ${City}`,
+            start: '0',
+          },
+          headers: {
+            'X-RapidAPI-Key': API_KEY_EVENTS,
+            'X-RapidAPI-Host': 'real-time-events-search.p.rapidapi.com',
+          },
+        });
 
+        const eventsData = eventsResponse.data.data;
+        const limitedEvents = eventsData.slice(0,10);
+        setEvents(limitedEvents);
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchData();
+    if (index === 4) {
+      fetchData();
+    }
 
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 1224);
@@ -98,19 +63,15 @@ const News = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [locationName]);
-
-  if (!events) {
-    return <div>Loading...</div>;
-  }
+  }, [City, index]);
 
   const settings = {
+    dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
@@ -127,11 +88,14 @@ const News = () => {
     ],
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-      <NavbarComponent />
-      <SpecificPlanTabs />
-      <div className='w-3/4 m-auto '>
+      {/* Events Slider */}
+      <div className='w-3/4 m-auto mb-20'>
         <strong className='mx-auto justify-center items-center'>Events</strong>
         <div className='mt-10'>
           <Slider {...settings} slidesToShow={isSmallScreen ? 1 : 3}>
@@ -140,8 +104,8 @@ const News = () => {
                 <div className='flex flex-col justify-center items-center gap-4 p-4'>
                   <h3 className='text-xl font-semibold'>{event.name}</h3>
                   <p>{event.description ? event.description.slice(0, 100) : null}...</p>
-                  <p>Start Time: {event.startdate ? event.startdate : null}</p>
-                  <p>End Time: {event.enddate ? event.enddate : null}</p>
+                  <p>Start Time: {event.start_time ? event.start_time : null}</p>
+                  <p>End Time: {event.end_time ? event.end_time : null}</p>
                 </div>
               </div>
             ))}
@@ -149,7 +113,9 @@ const News = () => {
         </div>
       </div>
 
-      <div className='w-3/4 m-auto mb-20'><strong className='mx-auto justify-center items-center'>News</strong>
+      {/* News Slider */}
+      <div className='w-3/4 m-auto mb-20'>
+        <strong className='mx-auto justify-center items-center'>News</strong>
         <div className='mt-10'>
           <Slider {...settings} slidesToShow={isSmallScreen ? 1 : 3}>
             {news.map((article, index) => (
@@ -169,12 +135,13 @@ const News = () => {
           </Slider>
         </div>
       </div>
-      <Footer />
     </div>
   );
-};
+}
 
-const NextArrow = (props) => {
+
+
+const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -185,7 +152,7 @@ const NextArrow = (props) => {
   );
 };
 
-const PrevArrow = (props) => {
+const SamplePrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -196,4 +163,4 @@ const PrevArrow = (props) => {
   );
 };
 
-export default News;
+

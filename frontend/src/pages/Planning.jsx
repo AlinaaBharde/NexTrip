@@ -1,93 +1,96 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Tabs } from 'flowbite-react';
 import { IoMdRestaurant } from "react-icons/io";
 import { FaHotel, FaPlane, FaRegNewspaper } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
-import { useParams, Link , useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import Hotels from '../components/hotels';
+import Restaurants from '../components/restaurants';
+import Places from '../components/places';
+import Flights from '../components/flights';
+// import News from '../components/News';
+import { useAuthContext } from '../hooks/useAuthContext';
+import axios from 'axios';
+import NavbarComponent from '../components/Navbar';
+import Footer from '../components/Footer';
+import Events from '../components/Events';
+import '../styles/colorgradient.css';
 
 
-export default function SpecificPlanTabs() {
-  // const { user } = useAuthContext();
-  // const { id } = useParams();
-  // const location = useLocation();
-  // const [selectedDates, setSelectedDates] = useState(null);
-  // const [locationName, setlocationName] = useState(null);
-  // const [loading, setLoading] = useState(true)
-  // const [adults, setAdults] = useState(1);
+export default function SpecificPlan() {
+  const { user } = useAuthContext();
+  const { id } = useParams();
+  const [activeTab, setActiveTab] = useState(0);
+  const [selectedDates, setSelectedDates] = useState({
+    checkin : null,
+    checkout : null
+  }
+  );
+  const [locationName, setlocationName] = useState(null);
+  const [loading, setLoading] = useState(true)
+  const [adults, setAdults] = useState(1);
   
 
 
-  // React.useEffect(() => {
+  React.useEffect(() => {
 
-  //   const fetchTravelDetails = async () => {
-  //     try {
-  //       setLoading(true)
-  //       const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             "Authorization": `Bearer ${user.token}`,
-  //           }
-  //         },
-  //       );
-  //       const startDate = response.data.StartDate;
-  //       const endDate = response.data.EndDate;
-  //       const City = response.data.City;
-  //       const adults = response.data.Adults;
-  //       setSelectedDates({ startDate, endDate });
-  //       setlocationName(City);
-  //       setAdults(adults);
-  //       setLoading(false);
-  //       console.log("City", City)
-  //     } catch (error) {
-  //       console.error('Error fetching travel plans:', error);
-  //       setLoading(false)
-  //     }
-  //   };
+    const fetchTravelDetails = async () => {
+      try {
+        setLoading(true)
+        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${user.token}`,
+            }
+          },
+        );
+        const startDate = response.data.startDate;
+        const endDate = response.data.endDate;
+        const City = response.data.City;
+        const adults = response.data.adults;
+        setSelectedDates({ startDate, endDate });
+        setlocationName(City);
+        setAdults(adults);
+        setLoading(false);
+        console.log("City", City)
+      } catch (error) {
+        console.error('Error fetching travel plans:', error);
 
-  //   fetchTravelDetails();
-  // }, [id, loading]);
+        setLoading(false)
+      }
+    };
 
-  // if (loading || !selectedDates || !locationName) {
-  //   return (<div>Loading...</div>)
-  // }
+    fetchTravelDetails();
+  }, [id]);
+
+  if (loading || !selectedDates || !locationName) {
+    return (<div>Loading...</div>)
+  }
 
   return (
-    <div>
-
-      <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-md' >
-        <Tabs.Item>
-          <Link to={`/plan/hotels/${id}`} >
-            <FaHotel />
-            <span>Hotels</span>
-          </Link>
+    <div className=' w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate'>
+      <NavbarComponent />
+      <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-m ' onActiveTabChange={(tab) => setActiveTab(tab)} >
+        <Tabs.Item icon={FaHotel}>
+          <Hotels locationName={locationName} startDate={selectedDates.checkin} endDate={selectedDates.checkout} adults={adults} index={activeTab} />
         </Tabs.Item>
-        <Tabs.Item>
-          <Link to={`/plan/restaurants/${id}`} >
-            <IoMdRestaurant />
-            <span>Restaurants</span>
-          </Link>
+        <Tabs.Item icon={IoMdRestaurant}>
+          <Restaurants locationName={locationName} index={activeTab}/>
         </Tabs.Item>
-        <Tabs.Item>
-          <Link to={`/plan/places/${id}`} >
-            <MdPlace />
-            <span>Places</span>
-          </Link>
+        <Tabs.Item icon={MdPlace}>
+          <Places locationName={locationName} index={activeTab} />
         </Tabs.Item>
-        <Tabs.Item>
-          <Link to={`/plan/flights/${id}`} >
-            <FaPlane />
-            <span>Flights</span>
-          </Link>
+        <Tabs.Item icon={FaPlane}>
+          <Flights locationName={locationName} index={activeTab} startDate={selectedDates.checkin} endDate={selectedDates.checkout} adults={adults} />
         </Tabs.Item>
-        <Tabs.Item>
-          <Link to={`/plan/news/${id}`} >
-            <FaRegNewspaper />
-            <span>Latest News</span>
-          </Link>
+        <Tabs.Item icon={FaRegNewspaper}>
+          <Events locationName={locationName} index={activeTab} />
         </Tabs.Item>
       </Tabs>
-
+      <Footer />
     </div>
   )
 }
+
+

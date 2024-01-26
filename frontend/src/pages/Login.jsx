@@ -60,7 +60,7 @@ const Login = () => {
                     </form>
                 </Card>
             </div>
-        </div >
+        </div>
     );
 }
 

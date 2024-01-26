@@ -1,7 +1,7 @@
 import { Footer } from 'flowbite-react';
 import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from 'react-icons/bs';
 import { FooterDivider } from 'flowbite-react';
-import Logo from '../images/travelLogo.jpg';
+import Logo from '../images/travelLogo.png';
 
 export default function footer() {
     const Year = new Date().getFullYear();
@@ -9,7 +9,7 @@ export default function footer() {
   return (
     <div className="flex flex-col min-h-screen ">
       <div className="flex-grow" />
-    <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border w-full bottom-0' style={{
+    <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border w-full bottom-0  bg-gradient-to-bl from-cyan-100 via-white to-gray-300 background-animate' style={{
       backgroundColor: 'white'
     }}>
       <div className="w-full mt-0">

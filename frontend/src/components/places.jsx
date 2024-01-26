@@ -3,81 +3,39 @@ import { Button, Card,Rating,Pagination } from 'flowbite-react';
 import { MdAdd,MdRemove } from "react-icons/md";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import NavbarComponent from './Navbar';
-import Footer from './Footer';
-import SpecificPlanTabs from '../pages/Planning';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { fetchPlacesData } from '../services/placeservices';
 
-export default function Places(){
+export default function Places({locationName, index}){
   const {id} = useParams();
   const planId = id ? id.toString() : '';
   const { user } = useAuthContext();
-  const [locationName, setlocationName] = useState(null);
+  const LocationName = locationName;
   const [places, setplaces] = useState([]);
   const [selectedplaces, setSelectedplaces] = useState([]);
   const [pageNumber, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
 
   const onPageChange = (page) => setCurrentPage(page);
 
-  React.useEffect(() => {
-
-    const fetchTravelDetails = async () => {
-      try {
-        setLoading(true)
-        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`,
-            }
-          },
-        );
-        
-        const City = response.data.City;
-        setlocationName(City);
-        setLoading(false)
-        console.log("City", City)
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-        setLoading(false)
-      }
-    };
-
-    fetchTravelDetails();
-  }, [id, loading]);
-
-  if (loading || !locationName) {
-    return (<div>Loading...</div>)
-  }
+  
 
 
   React.useEffect(() => {
 
-    const FetchPlaces = () => {
+    const FetchPlaces = async () => {
       try {
-        axios.post(
-          `http://localhost:8000/api/places/fetch`,
-          JSON.stringify( locationName, pageNumber),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) => {
-          setplaces(response.data);
-        })
+        const response = await fetchPlacesData(LocationName);
+        setplaces(response.data);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
+    if(index === 2){
+      FetchPlaces();
+    }
 
-    
-    FetchPlaces();
-
-  }, [planId]);
+  }, [LocationName, index]);
 
 
 
@@ -111,7 +69,7 @@ function handleRemove(index, selectedPlace) {
   function handleSave() {
     console.log("Selected Restaurants:", selectedplaces);
     axios.post(
-      `http://localhost:8000/api/places/add/${id}`,
+      `http://localhost:8000/api/places/add/${planId}`,
       JSON.stringify(selectedplaces),
       {
         headers: {
@@ -167,11 +125,9 @@ function handleRemove(index, selectedPlace) {
 
   return (
     <div >
-    <NavbarComponent />
-    <SpecificPlanTabs />
-    <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Places</h1>
+    <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover', 'color': '#5F2EEA' }}>Places</h1>
             {places.length === 0 ? (
-                <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Places Available.
+                <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 text-indigo-700">Oops!! No Places Available.
                 </p>
             ) : (
               <div>
@@ -226,7 +182,6 @@ function handleRemove(index, selectedPlace) {
                 </div>
                 )
               }
-      <Footer />
     </div>
   )
 }

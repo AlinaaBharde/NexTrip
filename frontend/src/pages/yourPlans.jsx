@@ -5,6 +5,7 @@ import logo from '../images/logo.png';
 import { Card, Button, Modal } from 'flowbite-react';
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const TravelPlansList = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -12,14 +13,13 @@ const TravelPlansList = () => {
 
     const [travelPlans, setTravelPlans] = useState([]);
 
-    const { username } = React.useContext(userContext);
+    const { user } = useAuthContext();
 
     const fetchTravelPlans = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/yourPlans/${username}`);
+            const response = await axios.get(`http://localhost:8000/api/yourPlans/${user.email}`);
             console.log('Response data:', response.data);
             setTravelPlans(response.data);
-            console.log('Username:', username);
             console.log('Travel Plans:', travelPlans);
 
         } catch (error) {
@@ -30,7 +30,7 @@ const TravelPlansList = () => {
 
     React.useEffect(() => {
         fetchTravelPlans();
-    }, [username]);
+    }, [user]);
 
 
     const handleDelete = async () => {
@@ -53,11 +53,11 @@ const TravelPlansList = () => {
 
 
     return (
-        <div>
+        <div className=' w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate'>
             <Navbar />
-            <h1 className="pl-12 mt-24 font-bold text-7xl rounded-md shadow underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Your Travel Plans_______</h1>
+            <h1 className="pl-12 mt-20 pt-16 pb-4 font-bold text-7xl rounded-md shadow underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover' ,'color': '#5F2EEA' }}>Your Travel Plans_______</h1>
             {travelPlans.length === 0 ? (
-                <p className="pl-12 mt-12 mb-12 font-bold text-7xl w-full">No travel plans made.
+                <p className="pl-12 mt-12 mb-12 font-bold text-7xl w-2/3 text-indigo-700">No travel plans made.
                 </p>
             ) : (
                 <ul>

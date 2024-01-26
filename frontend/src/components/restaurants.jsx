@@ -4,85 +4,40 @@ import { FaFilter } from "react-icons/fa";
 import { MdAdd,MdRemove } from "react-icons/md";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import NavbarComponent from './Navbar';
-import Footer from './Footer';
-import SpecificPlanTabs from '../pages/Planning';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { searchRestaurants } from '../services/restaurantservices';
 
-export default function Restaurants(){
+export default function Restaurants({locationName, index}){
   const [filter, setfilter] = useState(false);
   const {id} = useParams();
   const planId = id ? id.toString() : '';
   const { user } = useAuthContext();
-  const [locationName, setlocationName] = useState(null);
+  const LocationName = locationName;
   const [restaurants, setrestaurants] = useState([]);
   const [selectedrestaurants, setSelectedrestaurants] = useState([]);
   const [sortby, setsortby] = useState('');
-  const [loading, setLoading] = useState(true);
 
   const [pageNumber, setCurrentPage] = useState(1);
-  console.log(pageNumber)
 
   const onPageChange = (page) => setCurrentPage(page);
 
-  React.useEffect(() => {
-
-    const fetchTravelDetails = async () => {
-      try {
-        setLoading(true)
-        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`,
-            }
-          },
-        );
-        
-        const City = response.data.City;
-        setlocationName(City);
-        setLoading(false)
-        console.log("City", City)
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-        setLoading(false)
-      }
-    };
-
-    fetchTravelDetails();
-  }, [id, loading]);
-
-  if (loading || !locationName) {
-    return (<div>Loading...</div>)
-  }
-
 
   React.useEffect(() => {
 
-    const FetchRestaurants = () => {
+    const FetchRestaurants = async () => {
       try {
-        axios.post(
-          `http://localhost:8000/api/restaurants/fetch`,
-          JSON.stringify(sortby, locationName, pageNumber),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) => {
-          setrestaurants(response.data);
-        })
+        const response = await searchRestaurants(LocationName);
+        setrestaurants(response);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
+    if(index === 1){
+      FetchRestaurants();
+    }
 
-    
-    FetchRestaurants();
-
-  }, [planId]);
+  }, [LocationName, index]);
 
   function handleClick(){
     setfilter(!filter);
@@ -166,49 +121,37 @@ export default function Restaurants(){
   const handleApply=  (event) => {
     event.preventDefault();
     
-    axios.post(
-      `http://localhost:8000/api/restaurants/fetch/`,
-      JSON.stringify(sortby, locationName, pageNumber),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const FetchRestaurants = async () => {
+      try {
+        const response = await searchRestaurants(LocationName);
+        setrestaurants(response);
+      } catch (error) {
+        console.error('Error fetching travel plans:', error);
       }
-    )
-    .then((response) => {
-      setrestaurants(response.data);
-    })
-    .catch((error)=>{
-      console.error('Error submitting filter:', error);
-      if (error) {
-        
-        console.error('Server responded with:', error.data);
-      } else if (error.request) {
-        console.error('No response received');
-      } else {
-        console.error('Error setting up the request:', error.message);
-      } 
-    } )
+    };
+
+    if(index === 1){
+      FetchRestaurants();
+    }
+
   }
 
   return (
     <div >
-    <NavbarComponent />
-    <SpecificPlanTabs />
-    <div className='w-full flex-col top-0 '>
-      <Button className='ml-16 text-xl font-semibold mb-5 -mt-2 bg-transparent hover:shadow' style={{color: '#5F2EEA', backgroundColor: 'white'}} onClick={handleClick} ><FaFilter />Filter</Button>
+    <div className='w-full flex-col top-0 bg-transparent '>
+      <Button className='ml-16 text-xl font-semibold mb-5 -mt-2 bg-transparent hover:bg-none' style={{color: '#5F2EEA', backgroundColor: 'transparent' }} onClick={handleClick} ><FaFilter />Filter</Button>
       {
         filter? renderFilter() : null 
       } 
     </div>
-    <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Restaurants</h1>
-            {restaurants.length === 0 ? (
-                <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-full">Oops!! No Restaurants Available.
+    <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover', 'color': '#5F2EEA'}}>Restaurants</h1>
+            {restaurants && restaurants.length === 0 ? (
+                <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-indigo-700 text-7xl w-2/3">Oops!! No Restaurants Available.
                 </p>
             ) : (
               <div>
                 <ul className=' bg-white'>
-                    {restaurants.map((restaurant, index) => (
+                    {restaurants && restaurants.map((restaurant, index) => (
                         <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={restaurant.image}  horizontal >
                             <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{restaurant.name}</h3>
                             <p className="font-semibold text-gray-700 dark:text-gray-400">{restaurant.location}</p>
@@ -258,7 +201,8 @@ export default function Restaurants(){
                 </div>
                 )
               }
-      <Footer />
     </div>
   )
 }
+
+
