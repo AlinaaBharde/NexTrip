@@ -15,6 +15,11 @@ export default function SpecificPlan() {
   const { id } = useParams();
   console.log(id);
 
+
+  const handleUpdate = () => {
+    window.location.href = 'http://localhost:5173/plan/' + id;
+  };
+
   return (
     <div className='w-screen bg-white'>
       <Navbar />
@@ -29,6 +34,9 @@ export default function SpecificPlan() {
           <Places planid={id} />
         </Tabs.Item>
       </Tabs>
+      <button className="fixed bottom-8 right-8 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow z-10" onClick={handleUpdate}>
+        Update
+      </button>
       <Footer />
     </div>
   )
