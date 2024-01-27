@@ -4,6 +4,7 @@ const Place = require('../models/placeModel.js')
 const User = require('../models/userModel.js');
 
 const placeController = {
+
     fetchPlaces: async (req, res) => {
         try {
             const { locationName } = req.body;
@@ -70,7 +71,7 @@ const placeController = {
     deletePlaces: async (req, res) => {
         try {
             const { planId } = req.params;
-            const { placeId } = req.body;
+            const placeId = req.body.placeId;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)

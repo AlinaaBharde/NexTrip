@@ -1,9 +1,10 @@
 const express = require('express')
 const yourPlansRouter = require('../controllers/planController')
+const requireAuth = require('../middleware/requireAuth')
 
 const PlansRouter = express.Router();
 
-PlansRouter.get('/:username', yourPlansRouter.getYourPlans);
+PlansRouter.get('/', requireAuth, yourPlansRouter.getYourPlans);
 
 PlansRouter.delete('/:id', yourPlansRouter.deleteYourPlan);
 

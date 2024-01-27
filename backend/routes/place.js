@@ -9,7 +9,7 @@ placeRouter.post('/fetch', placeController.fetchPlaces);
 
 placeRouter.post('/add/:planId', requireAuth, placeController.addPlaces);
 
-placeRouter.get('/display/:planId', requireAuth, placeController.displayPlaces);
+placeRouter.get('/display/:planId', placeController.displayPlaces);
 
 placeRouter.delete('/delete/:planId', requireAuth, placeController.deletePlaces);
 

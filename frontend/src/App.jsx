@@ -9,6 +9,8 @@ import Signup from './pages/Signup';
 import Form from './pages/form';
 import TravelPlansList from './pages/yourPlans';
 import SpecificPlan from './pages/Planning';
+import SavedSpecificPlan from './pages/specificPlan';
+
 
 function App() {
   const { user } = useAuthContext();
@@ -26,6 +28,7 @@ function App() {
         <Route path='/yourPlans' element={user ? <TravelPlansList /> : <Navigate to="/signup" />} />
         <Route path='/plan/:id' element={<SpecificPlan />} />
         <Route path='/login' element={!user ? <Login /> : <Navigate to="/" />} />
+        <Route path='/yourplan/:id' element={<SavedSpecificPlan />} />
       </Routes>
     </Router>
   );

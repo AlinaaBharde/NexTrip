@@ -9,7 +9,7 @@ HotelsRouter.get('/fetch', hotelController.fetchHotel);
 
 HotelsRouter.post('/add/:planId', requireAuth, hotelController.addHotel);
 
-HotelsRouter.get('/display/:planId', requireAuth, hotelController.displayHotel);
+HotelsRouter.get('/display/:planId', hotelController.displayHotel);
 
 HotelsRouter.delete('/delete/:planId', requireAuth, hotelController.deleteHotel);
 

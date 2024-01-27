@@ -76,7 +76,7 @@ const hotelController = {
     deleteHotel: async (req, res) => {
         try {
             const { planId } = req.params;
-            const { HotelId } = req.body;
+            const HotelId = req.body.hotelId;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)

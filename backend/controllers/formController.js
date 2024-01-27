@@ -37,6 +37,9 @@ const formController = {
             const savedPlan = await newPlan.save();
             console.log(savedPlan);
             const planId = savedPlan._id;
+            existingUser.plans.push(planId);
+            await existingUser.save();
+            console.log(existingUser.plans)
             res.status(201).json(planId);
 
         } catch (err) {

@@ -17,7 +17,13 @@ const TravelPlansList = () => {
 
     const fetchTravelPlans = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/yourPlans/${user.email}`);
+            const authToken = user.token;
+            const response = await axios.get(`http://localhost:4000/api/yourPlans/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            }
+            );
             console.log('Response data:', response.data);
             setTravelPlans(response.data);
             console.log('Travel Plans:', travelPlans);
@@ -39,7 +45,7 @@ const TravelPlansList = () => {
             const planToDelete = travelPlans[deleteIndex];
 
             try {
-                await axios.delete(`http://localhost:8000/api/yourPlans/${planToDelete._id}`);
+                await axios.delete(`http://localhost:4000/api/yourPlans/${planToDelete._id}`);
 
                 const updatedPlans = [...travelPlans];
                 updatedPlans.splice(deleteIndex, 1);
@@ -55,8 +61,8 @@ const TravelPlansList = () => {
     return (
         <div className=' w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate'>
             <Navbar />
-            <h1 className="pl-12 mt-20 pt-16 pb-4 font-bold text-7xl rounded-md shadow underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover' ,'color': '#5F2EEA' }}>Your Travel Plans_______</h1>
-            {travelPlans.length === 0 ? (
+            <h1 className="pl-12 mt-20 pt-16 pb-4 font-bold text-7xl rounded-md shadow underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover', 'color': '#5F2EEA' }}>Your Travel Plans_______</h1>
+            {!travelPlans || travelPlans.length === 0 ? (
                 <p className="pl-12 mt-12 mb-12 font-bold text-7xl w-2/3 text-indigo-700">No travel plans made.
                 </p>
             ) : (
@@ -66,8 +72,8 @@ const TravelPlansList = () => {
                             <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{plan.tripName}</h3>
                             <p className="font-normal text-gray-700 dark:text-gray-400">Destination: {plan.cityToVisit}</p>
                             <p className="font-normal text-gray-700 dark:text-gray-400">Group Size: {plan.numberOfPeople}</p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Budget: {plan.budget}</p>
                             <Button onClick={() => { setOpenModal(true); setDeleteIndex(index); }} className="mt-2 w-10 text-white  hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}><MdDelete /></Button>
+                            <Button onClick={() => { window.location.href = `/yourplan/${plan._id}` }} className="mt-2 w-10 text-white  hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}>Edit</Button>
                             <Modal show={openModal} size="md" onClose={() => { setOpenModal(false); setDeleteIndex(null); }} popup>
                                 <Modal.Header />
                                 <Modal.Body>

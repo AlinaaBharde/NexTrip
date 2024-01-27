@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Tabs } from 'flowbite-react';
 import { IoMdRestaurant } from "react-icons/io";
 import { FaHotel, FaPlane, FaRegNewspaper } from "react-icons/fa";
@@ -22,14 +22,14 @@ export default function SpecificPlan() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState(0);
   const [selectedDates, setSelectedDates] = useState({
-    checkin : null,
-    checkout : null
+    checkin: null,
+    checkout: null
   }
   );
   const [locationName, setlocationName] = useState(null);
   const [loading, setLoading] = useState(true)
   const [adults, setAdults] = useState(1);
-  
+
 
 
   React.useEffect(() => {
@@ -76,7 +76,7 @@ export default function SpecificPlan() {
           <Hotels locationName={locationName} startDate={selectedDates.checkin} endDate={selectedDates.checkout} adults={adults} index={activeTab} />
         </Tabs.Item>
         <Tabs.Item icon={IoMdRestaurant}>
-          <Restaurants locationName={locationName} index={activeTab}/>
+          <Restaurants locationName={locationName} index={activeTab} />
         </Tabs.Item>
         <Tabs.Item icon={MdPlace}>
           <Places locationName={locationName} index={activeTab} />

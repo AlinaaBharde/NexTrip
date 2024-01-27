@@ -80,8 +80,9 @@ const restaurantController = {
     deleteRestaurant: async (req, res) => {
         try {
             const { planId } = req.params;
-            const { restaurantId } = req.body;
+            const restaurantId = req.body.restaurantId;
             const userId = req.user._id;
+            console.log(userId)
             const existingUser = await User.findById(userId)
             if (!existingUser) {
                 return res.status(404).json({ error: "User not found" });

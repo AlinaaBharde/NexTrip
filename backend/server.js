@@ -31,6 +31,7 @@ const newsRoutes = require('./routes/news');
 const weatherRoutes = require('./routes/weather');
 const planningpageRoutes = require('./routes/planningPage');
 const eventRoutes = require('./routes/event');
+const yourPlansRoutes = require('./routes/yourPlansRoute');
 
 app.use('/api/user', userRoutes);
 app.use('/api/form', formRoutes);
@@ -43,6 +44,7 @@ app.use('/api/news', newsRoutes);
 app.use('/api/weather', weatherRoutes);
 app.use('/api/planningpage', planningpageRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/yourplans', yourPlansRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
