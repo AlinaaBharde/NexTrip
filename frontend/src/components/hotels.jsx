@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Label, Card, Rating, Pagination, Radio } from 'flowbite-react';
+import { Button, Label, Card, Rating, Pagination, Radio, Spinner } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
 import { MdAdd, MdRemove } from "react-icons/md";
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { searchHotels } from '../services/hotelservices';
+import hotelImg from '../images/hotel.png';
 
 
 
@@ -24,24 +25,33 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
   const LocationName = locationName;
   const Adults = adults;
   const [pageNumber, setPageNumber] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const onPageChange = (page) => setPageNumber(page);
-  
+  console.log(startDate);
 
   React.useEffect(() => {
     const FetchHotels = async () => {
       try {
+        setLoading(true);
         const response = await searchHotels(LocationName,selectedDates.CheckIn,selectedDates.CheckOut,Adults)
-        sethotels(response);
+        const updatedHotels = response.map((hotel) => ({
+          ...hotel,
+          add: true,
+          remove: false
+        }));
+        sethotels(updatedHotels.slice(0,30));
+        console.log(hotels);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    if(index === 0){
+    if(index === 0 && loading){
       FetchHotels();
     }
-  }, [LocationName, sortby, pageNumber, Adults, selectedDates.CheckIn, selectedDates.CheckOut, index]);
+  }, [LocationName, sortby, pageNumber, Adults, selectedDates.CheckIn, selectedDates.CheckOut, index, loading,hotels]);
 
   function handleClick() {
     setfilter(!filter);
@@ -51,11 +61,11 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
     return (
       <div className='mx-auto flex flex-wrap items-center'>
         <div className="ml-5 mr-2 inline-flex gap-2">
-          <Radio id="Price" name='Sort' onChange={() => setsortby('price')} color='purple' />
+          <Radio id="Price" name='Sort' onChange={() => setsortby('PRICE')} color='purple' />
           <Label htmlFor="sortPrice">Sort by Price</Label>
         </div>
         <div className="ml-5 mr-2 inline-flex gap-2">
-          <Radio id="Rating" name='Sort' onChange={() => setsortby('rating')} color='purple' />
+          <Radio id="Rating" name='Sort' onChange={() => setsortby('RATING')} color='purple' />
           <Label htmlFor="sortRating">Sort by Rating</Label>
         </div>
         <div className='flex flex-row items-center'>
@@ -67,7 +77,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
               type="date"
               id="checkIn"
               name="checkIn"
-              className="mt-1 p-2 border rounded-md w-full"
+              className="mt-1 p-2 border rounded-md w-full text-black"
               value={selectedDates?.CheckIn}
               min={startDate}
               max={endDate}
@@ -82,7 +92,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
               type="date"
               id="checkOut"
               name="checkOut"
-              className="mt-1 p-2 border rounded-md w-full"
+              className="mt-1 p-2 border rounded-md w-full text-black"
               value={selectedDates?.CheckOut}
               min={startDate}
               max={endDate}
@@ -100,14 +110,16 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
   function handleApply() {
     const FetchHotels = async () => {
       try {
+        setLoading(true);
         const response = await searchHotels(LocationName,selectedDates.CheckIn,selectedDates.CheckOut,Adults,pageNumber,sortby)
         sethotels(response);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    if(index === 0){
+    if(index === 0 && loading){
       FetchHotels();
     }
   }
@@ -119,7 +131,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
 
     setSelectedhotels((prevSelected) => [...prevSelected, selectedHotel]);
 
-    updatedHotels[index] = { ...hotel, add: true, remove: false };
+    updatedHotels[index] = { ...hotel, add: !hotel.add, remove: !hotel.remove };
     sethotels(updatedHotels);
   }
 
@@ -132,7 +144,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
     );
 
     const hotel = updatedHotels[index];
-    updatedHotels[index] = { ...hotel, add: false, remove: true };
+    updatedHotels[index] = { ...hotel, add: !hotel.add, remove: !hotel.remove };
     sethotels(updatedHotels);
   }
 
@@ -146,6 +158,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
       {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
         },
       }
 
@@ -175,6 +188,17 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
     });
   };
 
+  if (loading) {
+    return (
+      <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
+        <div className="flex items-center justify-center text-black">
+          <Spinner aria-label="Default status example" size='xl' color='purple' />
+          Loading
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div >
       <div className='w-full flex-col top-0 '>
@@ -188,12 +212,23 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
         <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">Oops!! No Hotels Available.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
+        <div className="flex justify-center mt-4 mb-4">
+            <Button className="rounded-full" color="purple" onClick={handleSave}>
+              Save
+            </Button>
+          </div>
           {hotels && hotels.map((hotel, index) => (
-            <Card key={index} imgSrc={hotel.imageurl} className="mb-6">
-              <h3 className="text-2xl font-bold mb-2">{hotel.name}</h3>
-              <p className="font-semibold text-gray-700 dark:text-gray-400">{hotel.Location}</p>
-              <p className="font-normal text-gray-700 dark:text-gray-400">Visit site: <a href={hotel.url} className="text-purple-600">{hotel.url}</a></p>
+            <Card key={index} imgSrc={hotelImg} className="mb-6 md:max-w-4xl" horizontal>
+              <h3 className="text-2xl font-bold mb-2 text-black gap-2">{hotel.name}</h3>
+              <p className="font-semibold text-gray-700 dark:text-gray-400 pt-0 gap-0">{hotel.location}</p>
+              <Button
+                color="purple"
+                className="mb-2 w-40"
+                onClick={() => window.open(hotel.url, '_blank')}
+              >
+                Hotel Link
+              </Button>
               <p className="font-normal text-gray-700 dark:text-gray-400">Price/room: {hotel.price}</p>
               <div className="flex items-center">
                 <Rating>
@@ -201,10 +236,11 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
                   <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{hotel.rating}</p>
                 </Rating>
               </div>
-              <div className="flex justify-between mt-4">
+              <div className="flex justify-between items-center mt-2 w-44">
                 <Button
                   pill
-                  className={`w-1/2 ${hotel.add ? 'bg-purple-500' : 'bg-gray-300'} text-white`}
+                  className={`w-20 mr-2 ${hotel.add ? 'text-white': 'text-gray-300'} `}
+                  color={hotel.add ? 'purple' : 'bg-gray-300'}
                   onClick={() => handleAdd(index, hotel)}
                   disabled={!hotel.add}
                 >
@@ -213,7 +249,8 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
                 <Button
                   outline
                   pill
-                  className={`w-1/2 ${hotel.remove ? 'bg-purple-500' : 'bg-gray-300'} text-white`}
+                  className={`w-20 ml-2 bg-purple-700 text-white`}
+                  color={hotel.remove ? 'purple' : 'bg-gray-300'}
                   onClick={() => handleRemove(index, hotel)}
                   disabled={!hotel.remove}
                 >
@@ -232,13 +269,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
               showIcons
             />
           </div>
-          <div className="flex justify-center mt-4">
-            <Button className="rounded-full" color="purple" onClick={handleSave}>
-              Save
-            </Button>
-          </div>
         </div>
-
       )}
     </div>
   )

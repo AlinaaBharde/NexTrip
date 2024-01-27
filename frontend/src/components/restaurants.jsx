@@ -16,6 +16,7 @@ export default function Restaurants({locationName, index}){
   const [restaurants, setrestaurants] = useState([]);
   const [selectedrestaurants, setSelectedrestaurants] = useState([]);
   const [sortby, setsortby] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const [pageNumber, setCurrentPage] = useState(1);
 
@@ -26,18 +27,25 @@ export default function Restaurants({locationName, index}){
 
     const FetchRestaurants = async () => {
       try {
+        setLoading(true);
         const response = await searchRestaurants(LocationName);
-        setrestaurants(response);
+        const updateRestaurants = response.map((restaurant) => ({
+          ...restaurant,
+          add: true,
+          remove: false,
+        }))
+        setrestaurants(updateRestaurants);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    if(index === 1){
+    if(index === 1 && loading){
       FetchRestaurants();
     }
 
-  }, [LocationName, index]);
+  }, [LocationName, index, loading]);
 
   function handleClick(){
     setfilter(!filter);
@@ -71,7 +79,7 @@ export default function Restaurants({locationName, index}){
   
     setSelectedrestaurants((prevSelected) => [...prevSelected, selectedrestaurant]);
   
-    updatedrestaurants[index] = { ...restaurant, add: true, remove: false };
+    updatedrestaurants[index] = { ...restaurant, add: !restaurant.add, remove: !restaurant.remove };
     setrestaurants(updatedrestaurants);
   }
   
@@ -84,7 +92,7 @@ export default function Restaurants({locationName, index}){
     );
   
     const restaurant = updatedrestaurants[index];
-    updatedrestaurants[index] = { ...restaurant, add: false, remove: true };
+    updatedrestaurants[index] = { ...restaurant, add: !restaurant.add, remove: !restaurant.remove };
     setrestaurants(updatedrestaurants);
   }
   
@@ -92,17 +100,18 @@ export default function Restaurants({locationName, index}){
   function handleSave() {
     console.log("Selected Restaurants:", selectedrestaurants);
     axios.post(
-      `http://localhost:8000/api/restaurants/add/${planId}`,
+      `http://localhost:4000/api/restaurants/add/${planId}`,
       JSON.stringify(selectedrestaurants),
       {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
         },
       }
 
     )
     .then((response) => {
-      console.log("Hotels saved successfully: ",  response);
+      console.log("Restaurants saved successfully: ",  response);
     })
     .catch((error)=>{
       console.error('Error submitting filter:', error);
@@ -123,14 +132,16 @@ export default function Restaurants({locationName, index}){
     
     const FetchRestaurants = async () => {
       try {
+        setLoading(true);
         const response = await searchRestaurants(LocationName);
         setrestaurants(response);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    if(index === 1){
+    if(index === 1 && loading){
       FetchRestaurants();
     }
 
@@ -150,12 +161,12 @@ export default function Restaurants({locationName, index}){
                 </p>
             ) : (
               <div>
-                <ul className=' bg-white'>
+                <ul className=''>
                     {restaurants && restaurants.map((restaurant, index) => (
                         <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={restaurant.image}  horizontal >
                             <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{restaurant.name}</h3>
                             <p className="font-semibold text-gray-700 dark:text-gray-400">{restaurant.location}</p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Cuisine: {restaurant.cuisine.map((type) => ({type}))}</p>
+                            <p className="font-normal text-gray-700 dark:text-gray-400">Cuisine: {restaurant.cuisine.join(', ')}</p>
                             <p className="font-normal text-gray-700 dark:text-gray-400">Price: {restaurant.pricetag}</p>
                             <Rating>
                               <Rating.Star />

@@ -14,6 +14,7 @@ export default function Places({locationName, index}){
   const [places, setplaces] = useState([]);
   const [selectedplaces, setSelectedplaces] = useState([]);
   const [pageNumber, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const onPageChange = (page) => setCurrentPage(page);
 
@@ -24,6 +25,7 @@ export default function Places({locationName, index}){
 
     const FetchPlaces = async () => {
       try {
+        setLoading(true);
         const response = await fetchPlacesData(LocationName);
         console.log(response);
         const updatedPlaces = response.map((place) => ({
@@ -33,21 +35,17 @@ export default function Places({locationName, index}){
           remove: false
         }));
         setplaces(updatedPlaces);
-        const updatedplaces = places.map((place) => ({
-          ...place,
-          description: place.description.slice(0,100)
-        }));
-        setplaces(updatedplaces);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    if(index === 2){
+    if(index === 2 && loading){
       FetchPlaces();
     }
 
-  }, [LocationName, index]);
+  }, [LocationName, index, loading]);
 
 
 
@@ -81,17 +79,18 @@ function handleRemove(index, selectedPlace) {
   function handleSave() {
     console.log("Selected Places:", selectedplaces);
     axios.post(
-      `http://localhost:8000/api/places/add/${planId}`,
+      `http://localhost:4000/api/places/add/${planId}`,
       JSON.stringify(selectedplaces),
       {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
         },
       }
 
     )
     .then((response) => {
-      console.log("Hotels saved successfully: ",  response);
+      console.log("Places saved successfully: ",  response);
     })
     .catch((error)=>{
       console.error('Error submitting filter:', error);
@@ -107,32 +106,24 @@ function handleRemove(index, selectedPlace) {
   }
 
 
-  const handleApply=  (event) => {
+  const handleApply= async (event) => {
     event.preventDefault();
     
-    axios.post(
-      `http://localhost:8000/api/places/fetch`,
-      JSON.stringify( locationName, pageNumber),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    .then((response) => {
-      setplaces(response.data);
-    })
-    .catch((error)=>{
-      console.error('Error submitting filter:', error);
-      if (error) {
-        
-        console.error('Server responded with:', error.data);
-      } else if (error.request) {
-        console.error('No response received');
-      } else {
-        console.error('Error setting up the request:', error.message);
-      } 
-    } )
+    try {
+      setLoading(true);
+      const response = await fetchPlacesData(LocationName);
+      console.log(response);
+      const updatedPlaces = response.map((place) => ({
+        ...place,
+        description: place.description.slice(0,100),
+        add: true,
+        remove: false
+      }));
+      setplaces(updatedPlaces);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching travel plans:', error);
+    }
   }
 
   return (
@@ -145,7 +136,7 @@ function handleRemove(index, selectedPlace) {
               <div>
                 <ul className=' bg-transparent' >
                 {places && places.map((place, index) => (
-                        <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={place.url}  horizontal >
+                        <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={place.image}  horizontal >
                             <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{place.name}</h3>
                             <p className="font-semibold text-gray-700 dark:text-gray-400">{place.Location}</p>
                             <p name='description' className="font-normal text-gray-700 dark:text-gray-400">Description: {place.description}</p>

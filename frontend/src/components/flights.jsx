@@ -11,8 +11,8 @@ export default function Flights({locationName, startDate, endDate, adults, index
   const [flights, setflights] = useState([]);
 
   const [selectedDates, setSelectedDates] = useState({
-    CheckIn: startDate,
-    CheckOut: endDate
+    start: startDate,
+    end: endDate
   });
   const [classOfService, setservice] = useState('Economy');
   const [itenaryType , setType] = useState('One-Way');
@@ -26,6 +26,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
   });
   const [Adults, setadults] = useState(adults);
   const [pageNumber, setPageNumber] = useState();
+  const [loading, setLoading] = useState(true);
 
   const onPageChange = (page) => setPageNumber(page);
 
@@ -34,17 +35,19 @@ export default function Flights({locationName, startDate, endDate, adults, index
   React.useEffect(() => {
     const FetchFlights = async () => {
       try {
-        const response = await fetchFlightsFromAPI(departureCity,arrivalCity,itenaryType,classOfService, selectedDates.CheckIn, selectedDates.CheckOut,Adults)
-        setflights(response);
+        setLoading(true);
+        const response = await fetchFlightsFromAPI(departureCity,arrivalCity, selectedDates.start, selectedDates.end,itenaryType,classOfService,Adults)
+        setflights([...response]);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    if(index === 3){
+    if(index === 3 && loading){
       FetchFlights();
     }
-  }, [departureCity,arrivalCity,itenaryType,classOfService, selectedDates.CheckIn, selectedDates.CheckOut,Adults, pageNumber, index]);
+  }, [departureCity,arrivalCity,itenaryType,classOfService, selectedDates.start, selectedDates.end,Adults, pageNumber, index,loading]);
 
   const handleDateChange = (name, value) => {
     setSelectedDates((prevValue) => {
@@ -83,7 +86,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
             </Label>
             <Select
             options={Cities}
-            className="w-40 m-2 mt-0 h-6 border rounded-md text-md shadow-lg"
+            className="w-40 m-2 mt-0 h-6 border rounded-md text-md shadow-lg text-black"
             value={departureCity}
             onChange={(selectedOption) => setdepartureCity(selectedOption)}
             required
@@ -95,7 +98,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
             </Label>
             <Select
             options={Cities}
-            className="w-40 m-2 mt-0 h-6 border rounded-md text-md shadow"
+            className="w-40 m-2 mt-0 h-6 border rounded-md text-md shadow text-black"
             value={arrivalCity}
             onChange={(selectedOption) => setarrivalCity(selectedOption)}
             required
@@ -110,7 +113,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
             id="date"
             name="date"
             className=" m-2 p-2 border rounded-md w-36 text-black"
-            value={selectedDates?.CheckIn}
+            value={selectedDates?.start}
             min={startDate}
             max={endDate}
             onChange={(e) => handleDateChange('start',e.target.value)}
@@ -125,7 +128,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
             id="date"
             name="date"
             className=" m-2 p-2 border rounded-md w-36  text-black"
-            value={selectedDates?.CheckOut}
+            value={selectedDates?.end}
             min={startDate}
             max={endDate}
             onChange={(e) => handleDateChange('end',e.target.value)}
@@ -144,7 +147,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
         <div className="flex items-center ml-4 m-2">
             <Label htmlFor="numberOfPeople"  className='text-sm font-medium text-gray-700 dark:text-white'><FaPeopleGroup />Adults</Label>
           </div>
-          <input id="groupSize" type="number" placeholder="adults" className='m-2 mt-4 p-2 border rounded-md text-md shadow h-8 w-14' defaultValue={1} min={1} name='numberOfPeople' value={Adults} onChange={(e) =>setadults(e.target.value) } required />
+          <input id="groupSize" type="number" placeholder="adults" className='m-2 mt-4 p-2 border rounded-md text-md shadow h-8 w-14 text-black' defaultValue={adults} min={1} name='numberOfPeople' value={Adults} onChange={(e) =>setadults(e.target.value) } required />
         <Button pill className="w-16 ml-2 h-10 m-4" color="purple" onClick={handleApply}>
           Apply
         </Button>
@@ -180,13 +183,13 @@ export default function Flights({locationName, startDate, endDate, adults, index
         renderFilter()
       } 
     </div>
-    <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'white', 'width': 'cover' }}>Flights</h1>
+    <h1 className="pl-12 top-0 font-bold text-indigo-700 text-7xl rounded-md underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover' }}>Flights</h1>
             {flights && flights.length === 0 ? (
-                <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-fit">Oops!! No Flights Available.
+                <p className=" ml-10 container border rounded-md shadow bg-transparent text-indigo-700 p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-fit">Oops!! No Flights Available.
                 </p>
             ) : (
                 <div>
-                <ul className='bg-white'>
+                <ul >
                     {flights && flights.map((flight, index) => (
                     <div key={index} className=''>
                         <Card className="md:max-w-4xl mr-4 ml-12 mt-6 mb-6" imgSrc={flight.logo} horizontal>

@@ -57,7 +57,11 @@ export default function Events({ locationName, index }) {
       <div className='w-3/4 m-auto mb-20'>
         <strong className='mx-auto justify-center items-center text-5xl text-indigo-700'>Events</strong>
         <div className='mt-10 events-carousel'>
-        {events.length === 0 ? (<Spinner aria-label="Default status example" className='mx-auto' size='xl' color='purple'/> ) : (
+        {events.length === 0 ? (
+          <div className='flex items-center justify-center h-full'>
+            <Spinner aria-label="Default status example" className='m-auto flex items-center justify-center' size='xl' color='purple' />
+          </div>
+         ) : (
           events.map((event, index) => (
             <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl event-card'>
               <div className='flex flex-col justify-center items-center gap-4 p-4'>
@@ -75,7 +79,7 @@ export default function Events({ locationName, index }) {
       <div className='w-3/4 m-auto mb-20'>
         <strong className='mx-auto justify-center items-center text-5xl text-indigo-700'>News</strong>
         <div className='mt-10 news-carousel'>
-          {news ? (news.map((article, index) => (
+          {news.length !== 0 ? (news.map((article, index) => (
             <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl news-card'>
               <div className='rounded-t-xl flex justify-center items-center h-56'>
                 <img src={article.urlToImage} alt='' className='h-full w-full rounded-xl' />
@@ -96,7 +100,11 @@ export default function Events({ locationName, index }) {
                 </Button>
               </div>
             </animated.div>
-          ))) : (<Spinner aria-label="Default status example" size='lg' color='purple' />)}
+          ))) : (
+            <div className='flex items-center justify-center h-full'>
+              <Spinner aria-label="Default status example" className='flex items-center justify-center m-auto' size='xl' color='purple' />
+            </div>
+          )}
         </div>
       </div>
     </div>
