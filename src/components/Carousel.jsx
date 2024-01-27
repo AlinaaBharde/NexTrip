@@ -34,7 +34,7 @@ flex flex-col justify-between ">
   p-6 bg-cover  bg-[url('https://i.pinimg.com/736x/b2/85/2e/b2852e0f2efeb404d63ee8bf7ccb8115.jpg')] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700
 flex flex-col justify-between ">
 
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-[#fef9fc] dark:text-white">Dubai,UAE</h5>
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-[#fef9fc] ">Dubai,UAE</h5>
 
 
           <a class=" mb-4  inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg
