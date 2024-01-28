@@ -14,6 +14,7 @@ export default function Places({locationName, index}){
   const [places, setplaces] = useState([]);
   const [selectedplaces, setSelectedplaces] = useState([]);
   const [pageNumber, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const onPageChange = (page) => setCurrentPage(page);
 
@@ -24,18 +25,27 @@ export default function Places({locationName, index}){
 
     const FetchPlaces = async () => {
       try {
+        setLoading(true);
         const response = await fetchPlacesData(LocationName);
-        setplaces(response.data);
+        console.log(response);
+        const updatedPlaces = response.map((place) => ({
+          ...place,
+          description: place.description.slice(0,100),
+          add: true,
+          remove: false
+        }));
+        setplaces(updatedPlaces);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
       }
     };
 
-    if(index === 2){
+    if(index === 2 && loading){
       FetchPlaces();
     }
 
-  }, [LocationName, index]);
+  }, [LocationName, index, loading]);
 
 
 
@@ -48,7 +58,7 @@ function handleAdd(index, selectedPlace) {
 
   setSelectedplaces((prevSelected) => [...prevSelected, selectedPlace]);
 
-  updatedPlaces[index] = { ...place, add: true, remove: false };
+  updatedPlaces[index] = { ...place, add: !place.add, remove: !place.remove };
   setplaces(updatedPlaces);
 }
 
@@ -61,25 +71,26 @@ function handleRemove(index, selectedPlace) {
   );
 
   const place = updatedPlaces[index];
-  updatedPlaces[index] = { ...place, add: false, remove: true };
+  updatedPlaces[index] = { ...place, add: !place.add, remove: !place.remove };
   setplaces(updatedPlaces);
 }
   
 
   function handleSave() {
-    console.log("Selected Restaurants:", selectedplaces);
+    console.log("Selected Places:", selectedplaces);
     axios.post(
-      `http://localhost:8000/api/places/add/${planId}`,
+      `http://localhost:4000/api/places/add/${planId}`,
       JSON.stringify(selectedplaces),
       {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
         },
       }
 
     )
     .then((response) => {
-      console.log("Hotels saved successfully: ",  response);
+      console.log("Places saved successfully: ",  response);
     })
     .catch((error)=>{
       console.error('Error submitting filter:', error);
@@ -95,48 +106,40 @@ function handleRemove(index, selectedPlace) {
   }
 
 
-  const handleApply=  (event) => {
+  const handleApply= async (event) => {
     event.preventDefault();
     
-    axios.post(
-      `http://localhost:8000/api/places/fetch`,
-      JSON.stringify( locationName, pageNumber),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    .then((response) => {
-      setplaces(response.data);
-    })
-    .catch((error)=>{
-      console.error('Error submitting filter:', error);
-      if (error) {
-        
-        console.error('Server responded with:', error.data);
-      } else if (error.request) {
-        console.error('No response received');
-      } else {
-        console.error('Error setting up the request:', error.message);
-      } 
-    } )
+    try {
+      setLoading(true);
+      const response = await fetchPlacesData(LocationName);
+      console.log(response);
+      const updatedPlaces = response.map((place) => ({
+        ...place,
+        description: place.description.slice(0,100),
+        add: true,
+        remove: false
+      }));
+      setplaces(updatedPlaces);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching travel plans:', error);
+    }
   }
 
   return (
     <div >
     <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover', 'color': '#5F2EEA' }}>Places</h1>
-            {places.length === 0 ? (
+            {places && places.length === 0 ? (
                 <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 text-indigo-700">Oops!! No Places Available.
                 </p>
             ) : (
               <div>
-                <ul className=' bg-white' >
-                {places.map((place, index) => (
-                        <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={place.url}  horizontal >
+                <ul className=' bg-transparent' >
+                {places && places.map((place, index) => (
+                        <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={place.image}  horizontal >
                             <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{place.name}</h3>
                             <p className="font-semibold text-gray-700 dark:text-gray-400">{place.Location}</p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Description: {place.description}</p>
+                            <p name='description' className="font-normal text-gray-700 dark:text-gray-400">Description: {place.description}</p>
                             
                             <Rating>
                               <Rating.Star />

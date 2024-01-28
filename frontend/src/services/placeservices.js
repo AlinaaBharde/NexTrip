@@ -23,6 +23,7 @@ const fetchPlacesData = async (city) => {
 
         if (response.status >= 200 && response.status < 300) {
             const relevantPlaceDetails = extractRelevantPlaceDetails(response.data.results.data);
+            console.log(relevantPlaceDetails);
             return relevantPlaceDetails;
         } else {
             throw new Error(`Error: ${response.status} - ${response.statusText}`);

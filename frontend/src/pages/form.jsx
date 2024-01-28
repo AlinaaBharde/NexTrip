@@ -103,7 +103,7 @@ function Form() {
     <div className=' w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate'>
       <Navbar />
 
-      <Card className="p-4 mx-auto mt-20 mb-8 md:w-[80%] md:h-[100%] flex flex-col justify-around border shadow-lg">
+      <Card className="p-4 mx-auto mt-20 mb-8 md:w-[80%] md:h-[100%] flex flex-col justify-around border shadow-lg w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate">
         <h1 className=' ml-12 mt-10  mx-auto font-bold text-7xl w-full text-indigo-700' >Travel Details</h1>
         <form className="max-w-lg mx-auto container bg-transparent mb-24 "  >
           <div className="mb-2 block  pt-8" >
@@ -124,11 +124,11 @@ function Form() {
             <div className="mb-2 block mt-8">
               <Label htmlFor="startDate" value="From" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
             </div>
-            <input type='date' id='startDate' className='w-full border border-gray-300 rounded-md text-xl shadow-lg bg-slate-50' name='startDate' value={selectedDates?.startDate ? formatDate(selectedDates.startDate) : ''} min={today} onChange={(event) => handleDateChange('startDate', event.target.value)} />
+            <input type='date' id='startDate' className='w-full border border-gray-300 text-black rounded-md text-xl shadow-lg bg-slate-300' name='startDate' value={selectedDates?.startDate ? formatDate(selectedDates.startDate) : ''} min={today} onChange={(event) => handleDateChange('startDate', event.target.value)} />
             <div className="mb-2 block">
               <Label htmlFor="endDate" value="Till" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
             </div>
-            <input type='date' id='endDate' className='w-full border border-gray-300 rounded-md text-xl shadow-lg bg-slate-50' name='endDate' value={selectedDates?.endDate ? formatDate(selectedDates.endDate) : ''} min={today} onChange={(event) => handleDateChange('endDate', event.target.value)} />
+            <input type='date' id='endDate' className='w-full border border-gray-300  text-black rounded-md text-xl shadow-lg bg-slate-300' name='endDate' value={selectedDates?.endDate ? formatDate(selectedDates.endDate) : ''} min={today} onChange={(event) => handleDateChange('endDate', event.target.value)} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             {

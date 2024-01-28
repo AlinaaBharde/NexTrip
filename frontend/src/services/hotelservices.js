@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getLocationId } from './getgeolocationid';
 
 
-const searchHotels = async (locationName, checkin, checkout, adults, pageNumber = 1, sortby = "PRICE") => {
+const searchHotels = async (locationName, checkin, checkout, adults, pageNumber = 1, sortby = 'PRICE') => {
     const options = {
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotels',
@@ -16,18 +16,21 @@ const searchHotels = async (locationName, checkin, checkout, adults, pageNumber 
             sort: sortby
         },
         headers: {
-            'X-RapidAPI-Key': 'f672727da4msh1f681b18c06c6e3p1cca4ajsn1a3766c48e8e', 
+            'X-RapidAPI-Key': '91b25fea6bmsh1eabd54c80bd2a4p16b1b6jsnb987a2b30521', 
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',  
         }
     };
 
     try {
         const response = await axios.request(options);
-
+        
         if (response.status >= 200 && response.status < 300) {
-            const relevantHotelDetails = Array.isArray(response.data.data) 
-            ? extractRelevantHotelDetails(response.data.data)
+
+            console.log(response.data.data.data);
+            const relevantHotelDetails = Array.isArray(response.data.data.data) 
+            ? extractRelevantHotelDetails(response.data.data.data)
             : [];
+            console.log(relevantHotelDetails);
             return relevantHotelDetails;
         } else {
             throw new Error(`Error: ${response.status} - ${response.statusText}`);
