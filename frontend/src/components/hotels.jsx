@@ -10,9 +10,9 @@ import hotelImg from '../images/hotel.png';
 
 
 
-export default function Hotels({locationName, startDate, endDate, adults, index }) {
+export default function Hotels({ locationName, startDate, endDate, adults, index }) {
   const [filter, setfilter] = useState(false);
-  const {id} = useParams();
+  const { id } = useParams();
   const planId = id ? id.toString() : '';
   const [hotels, sethotels] = useState([]);
   const [selectedhotels, setSelectedhotels] = useState([]);
@@ -34,24 +34,25 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
     const FetchHotels = async () => {
       try {
         setLoading(true);
-        const response = await searchHotels(LocationName,selectedDates.CheckIn,selectedDates.CheckOut,Adults)
+        const response = await searchHotels(LocationName, selectedDates.CheckIn, selectedDates.CheckOut, Adults)
         const updatedHotels = response.map((hotel) => ({
           ...hotel,
           add: true,
           remove: false
         }));
-        sethotels(updatedHotels.slice(0,30));
+        sethotels(updatedHotels.slice(0, 30));
         console.log(hotels);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching travel plans:', error);
+        setLoading(false)
       }
     };
 
-    if(index === 0 && loading){
+    if (index === 0 && loading) {
       FetchHotels();
     }
-  }, [LocationName, sortby, pageNumber, Adults, selectedDates.CheckIn, selectedDates.CheckOut, index, loading,hotels]);
+  }, [LocationName, sortby, pageNumber, Adults, selectedDates.CheckIn, selectedDates.CheckOut, index, loading, hotels]);
 
   function handleClick() {
     setfilter(!filter);
@@ -111,7 +112,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
     const FetchHotels = async () => {
       try {
         setLoading(true);
-        const response = await searchHotels(LocationName,selectedDates.CheckIn,selectedDates.CheckOut,Adults,pageNumber,sortby)
+        const response = await searchHotels(LocationName, selectedDates.CheckIn, selectedDates.CheckOut, Adults, pageNumber, sortby)
         sethotels(response);
         setLoading(false);
       } catch (error) {
@@ -119,7 +120,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
       }
     };
 
-    if(index === 0 && loading){
+    if (index === 0 && loading) {
       FetchHotels();
     }
   }
@@ -213,7 +214,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
         </p>
       ) : (
         <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
-        <div className="flex justify-center mt-4 mb-4">
+          <div className="flex justify-center mt-4 mb-4">
             <Button className="rounded-full" color="purple" onClick={handleSave}>
               Save
             </Button>
@@ -239,7 +240,7 @@ export default function Hotels({locationName, startDate, endDate, adults, index 
               <div className="flex justify-between items-center mt-2 w-44">
                 <Button
                   pill
-                  className={`w-20 mr-2 ${hotel.add ? 'text-white': 'text-gray-300'} `}
+                  className={`w-20 mr-2 ${hotel.add ? 'text-white' : 'text-gray-300'} `}
                   color={hotel.add ? 'purple' : 'bg-gray-300'}
                   onClick={() => handleAdd(index, hotel)}
                   disabled={!hotel.add}

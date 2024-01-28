@@ -34,4 +34,4 @@ const extractRelevantDetails = (eventData) => {
     }));
 }
 
-export {fetchEventsFromAPI};
+export { fetchEventsFromAPI };

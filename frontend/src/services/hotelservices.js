@@ -7,7 +7,7 @@ const searchHotels = async (locationName, checkin, checkout, adults, pageNumber 
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotels',
         params: {
-            geoId: await getLocationId(locationName),
+            geoId: 304554, //await getLocationId(locationName),
             checkIn: checkin,
             checkOut: checkout,
             pageNumber: pageNumber.toString(),
@@ -16,20 +16,20 @@ const searchHotels = async (locationName, checkin, checkout, adults, pageNumber 
             sort: sortby
         },
         headers: {
-            'X-RapidAPI-Key': '91b25fea6bmsh1eabd54c80bd2a4p16b1b6jsnb987a2b30521', 
-            'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',  
+            'X-RapidAPI-Key': 'b926667f17msh075ea081171fac5p1c2f98jsn3f8360bff0a',
+            'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',
         }
     };
 
     try {
         const response = await axios.request(options);
-        
+
         if (response.status >= 200 && response.status < 300) {
 
             console.log(response.data.data.data);
-            const relevantHotelDetails = Array.isArray(response.data.data.data) 
-            ? extractRelevantHotelDetails(response.data.data.data)
-            : [];
+            const relevantHotelDetails = Array.isArray(response.data.data.data)
+                ? extractRelevantHotelDetails(response.data.data.data)
+                : [];
             console.log(relevantHotelDetails);
             return relevantHotelDetails;
         } else {

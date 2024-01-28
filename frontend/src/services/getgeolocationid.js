@@ -2,14 +2,13 @@ import axios from 'axios';
 
 
 
-
 async function getLocationId(locationQuery) {
     const options = {
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchLocation',
         params: { query: locationQuery },
         headers: {
-            'X-RapidAPI-Key': '91b25fea6bmsh1eabd54c80bd2a4p16b1b6jsnb987a2b30521',
+            'X-RapidAPI-Key': 'b926667f17msh075ea081171fac5p1c2f98jsn3f8360bff0a',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
         },
     };

@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.4",
     "dotenv": "^16.4.1",
+    "env": "^0.0.2",
     "flowbite": "^2.2.1",
     "flowbite-react": "^0.7.2",
     "form-data": "^4.0.0",
