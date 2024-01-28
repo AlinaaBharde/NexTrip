@@ -27,28 +27,32 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  const onPageChange = (page) => setPageNumber(page);
+  const onPageChange = (page) => {
+    setPageNumber(page);
+    FetchHotels();
+  };
+
   console.log(startDate);
 
-  React.useEffect(() => {
-    const FetchHotels = async () => {
-      try {
-        setLoading(true);
-        const response = await searchHotels(LocationName, selectedDates.CheckIn, selectedDates.CheckOut, Adults)
-        const updatedHotels = response.map((hotel) => ({
-          ...hotel,
-          add: true,
-          remove: false
-        }));
-        sethotels(updatedHotels.slice(0, 30));
-        console.log(hotels);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-        setLoading(false)
-      }
-    };
+  const FetchHotels = async () => {
+    try {
+      setLoading(true);
+      const response = await searchHotels(LocationName, selectedDates.CheckIn, selectedDates.CheckOut, Adults, pageNumber, sortby)
+      const updatedHotels = response.map((hotel) => ({
+        ...hotel,
+        add: true,
+        remove: false
+      }));
+      sethotels(updatedHotels.slice(0, 30));
+      console.log(hotels);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching travel plans:', error);
+      setLoading(false)
+    }
+  };
 
+  React.useEffect(() => {
     if (index === 0 && loading) {
       FetchHotels();
     }
@@ -57,6 +61,14 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
   function handleClick() {
     setfilter(!filter);
   }
+
+  const replaceWidthHeight = (url) => {
+    let replacedUrl = url.replace('{width}', '200');
+    replacedUrl = replacedUrl.replace('{height}', '300');
+    return replacedUrl;
+  };
+
+
 
   function renderFilter() {
     return (
@@ -108,20 +120,10 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
     );
   }
 
-  function handleApply() {
-    const FetchHotels = async () => {
-      try {
-        setLoading(true);
-        const response = await searchHotels(LocationName, selectedDates.CheckIn, selectedDates.CheckOut, Adults, pageNumber, sortby)
-        sethotels(response);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-      }
-    };
-
+  async function handleApply() {
+    setLoading(true);
     if (index === 0 && loading) {
-      FetchHotels();
+      await FetchHotels();
     }
   }
 
@@ -220,7 +222,7 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
             </Button>
           </div>
           {hotels && hotels.map((hotel, index) => (
-            <Card key={index} imgSrc={hotelImg} className="mb-6 md:max-w-4xl" horizontal>
+            <Card key={index} imgSrc={replaceWidthHeight(hotel.imageUrl)} className="mb-6 md:max-w-4xl" horizontal>
               <h3 className="text-2xl font-bold mb-2 text-black gap-2">{hotel.name}</h3>
               <p className="font-semibold text-gray-700 dark:text-gray-400 pt-0 gap-0">{hotel.location}</p>
               <Button
@@ -260,15 +262,10 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
               </div>
             </Card>
           ))}
-
           <div className="flex overflow-x-auto ml-20 md:justify-center">
-            <Pagination
-              layout="navigation"
-              currentPage={pageNumber}
-              onPageChange={onPageChange}
-              onClick={handleApply}
-              showIcons
-            />
+            <Button disabled={pageNumber === 1} onClick={() => onPageChange(pageNumber - 1)}>Previous</Button>
+            <Button onClick={() => onPageChange(pageNumber + 1)}>Next</Button>
+            {console.log("Page Number:", pageNumber)}
           </div>
         </div>
       )}

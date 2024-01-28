@@ -7,15 +7,14 @@ import Cities from './cities.json';
 import { fetchFlightsFromAPI } from '../services/flightservices';
 
 export default function Flights({ locationName, startDate, endDate, adults, index }) {
-  // const {id} = useParams();
   const [flights, setflights] = useState([]);
 
   const [selectedDates, setSelectedDates] = useState({
     start: startDate,
     end: endDate
   });
-  const [classOfService, setservice] = useState('Economy');
-  const [itenaryType, setType] = useState('One-Way');
+  const [classOfService, setservice] = useState('ECONOMY');
+  const [itenaryType, setType] = useState('ONE_WAY');
   const [arrivalCity, setarrivalCity] = useState({
     value: locationName,
     label: locationName,
@@ -25,29 +24,33 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
     label: locationName,
   });
   const [Adults, setadults] = useState(adults);
-  const [pageNumber, setPageNumber] = useState();
+  const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  const onPageChange = (page) => setPageNumber(page);
+  const onPageChange = (page) => {
+    setPageNumber(page);
+    FetchFlights();
+  };
 
 
+  const FetchFlights = async () => {
+    try {
+      setLoading(true);
+      console.log(departureCity.value, arrivalCity.value, itenaryType, classOfService, Adults, pageNumber, selectedDates.start, selectedDates.end)
+      const response = await fetchFlightsFromAPI(departureCity.value, arrivalCity.value, selectedDates.start, selectedDates.end, itenaryType, classOfService, Adults)
+      setflights(response);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching travel plans:', error);
+      setLoading(false)
+    }
+  };
 
   React.useEffect(() => {
-    const FetchFlights = async () => {
-      try {
-        setLoading(true);
-        const response = await fetchFlightsFromAPI(departureCity, arrivalCity, selectedDates.start, selectedDates.end, itenaryType, classOfService, Adults)
-        setflights([...response]);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-      }
-    };
-
     if (index === 3 && loading) {
       FetchFlights();
     }
-  }, [departureCity, arrivalCity, itenaryType, classOfService, selectedDates.start, selectedDates.end, Adults, pageNumber, index, loading]);
+  }, [pageNumber, index, loading, locationName, departureCity, arrivalCity, itenaryType, classOfService, Adults, selectedDates.start, selectedDates.end]);
 
   const handleDateChange = (name, value) => {
     setSelectedDates((prevValue) => {
@@ -136,11 +139,11 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
         </div>
         <div className=' border rounded-md shadow-sm flex h-10 ml-3 mr-3 mt-2 mb-0'>
           <div className="flex items-center gap-2 m-2 ">
-            <Radio id="OneWay" name="ItenaryType" onChange={() => setType('One-Way')} checked color='purple' />
+            <Radio id="OneWay" name="ItenaryType" onChange={() => setType('ONE_WAY')} checked color='purple' />
             <Label htmlFor="sortPrice">One Way</Label>
           </div>
           <div className="flex items-center gap-2 m-2">
-            <Radio id="RoundTrip" name="ItenaryType" onChange={() => setType('RoundTrip')} color='purple' />
+            <Radio id="RoundTrip" name="ItenaryType" onChange={() => setType('ROUND_TRIP')} color='purple' />
             <Label htmlFor="sortRating">Round Trip </Label>
           </div>
         </div>
@@ -157,27 +160,19 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
 
 
 
-  const handleApply = (event) => {
+  const handleApply = async (event) => {
     event.preventDefault();
-    console.log(departureCity.value, arrivalCity.value, itenaryType, classOfService, ...selectedDates, adults, pageNumber);
-    const FetchFlights = async () => {
-      try {
-        const response = await fetchFlightsFromAPI(departureCity, arrivalCity, itenaryType, classOfService, selectedDates.CheckIn, selectedDates.CheckOut, Adults, pageNumber)
-        sethotels(response.data);
-      } catch (error) {
-        console.error('Error fetching travel plans:', error);
-      }
-    };
-
+    setLoading(true);
+    console.log(departureCity.value, arrivalCity.value);
     if (index === 3) {
-      FetchFlights();
+      await FetchFlights();
+      setLoading(false);
     }
   }
 
 
   return (
     <div >
-
       <div className='w-full flex-col top-0 '>
         {
           renderFilter()
@@ -203,16 +198,11 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
             ))}
           </ul>
           <div className="flex overflow-x-auto ml-20 md:justify-center">
-            <Pagination
-              layout="navigation"
-              currentPage={pageNumber}
-              onPageChange={onPageChange}
-              onClick={handleApply}
-              showIcons
-            />
+            <Button disabled={pageNumber === 1} onClick={() => onPageChange(pageNumber - 1)}>Previous</Button>
+            <Button onClick={() => onPageChange(pageNumber + 1)}>Next</Button>
+            {console.log("Page Number:", pageNumber)}
           </div>
         </div>
-
       )
       }
     </div>

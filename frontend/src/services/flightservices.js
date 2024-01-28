@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const fetchFlightsFromAPI = async (departureCity, arrivalCity, startDate, endDate, itineraryType, classOfService, adults, pageNumber = 1) => {
+const fetchFlightsFromAPI = async (departureCity, arrivalCity, startDate, endDate, itineraryType, classOfService, adults, pageNumber) => {
     const options = {
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights',
@@ -18,7 +18,7 @@ const fetchFlightsFromAPI = async (departureCity, arrivalCity, startDate, endDat
             currencyCode: 'INR'
         },
         headers: {
-            'X-RapidAPI-Key': 'b926667f17msh075ea081171fac5p1c2f98jsn3f8360bff0aa',
+            'X-RapidAPI-Key': '18628cb623msh0cb40f87839e6bfp1c5b7fjsn4ace552f6a0b',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
         }
     };
