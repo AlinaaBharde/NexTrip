@@ -20,7 +20,7 @@ const fetchFlightsFromAPI = async (departureCity, arrivalCity, startDate, endDat
             currencyCode: 'INR'
         },
         headers: {
-            'X-RapidAPI-Key': '91b25fea6bmsh1eabd54c80bd2a4p16b1b6jsnb987a2b30521',
+            'X-RapidAPI-Key': 'a335ec1ed7mshbc7473ff34e0eafp16b669jsn52e63d642d6d',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
         }
     };
@@ -28,6 +28,7 @@ const fetchFlightsFromAPI = async (departureCity, arrivalCity, startDate, endDat
     try {
         const response = await axios.request(options);
         const relevantFlightDetails = extractRelevantDetails(response.data.data);
+        console.log(relevantFlightDetails);
         return relevantFlightDetails;
     } catch (error) {
         console.error("Error fetching flights:", error);

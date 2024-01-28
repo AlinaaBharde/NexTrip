@@ -21,8 +21,8 @@ export default function Flights({locationName, startDate, endDate, adults, index
     label: locationName,
   });
   const [departureCity, setdepartureCity] = useState({
-    value: locationName,
-    label: locationName,
+    value: 'Delhi',
+    label: "Delhi",
   });
   const [Adults, setadults] = useState(adults);
   const [pageNumber, setPageNumber] = useState();
@@ -36,7 +36,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
     const FetchFlights = async () => {
       try {
         setLoading(true);
-        const response = await fetchFlightsFromAPI(departureCity,arrivalCity, selectedDates.start, selectedDates.end,itenaryType,classOfService,Adults)
+        const response = await fetchFlightsFromAPI(departureCity.value,arrivalCity.value, selectedDates.start, selectedDates.end,itenaryType,classOfService,Adults)
         setflights([...response]);
         setLoading(false);
       } catch (error) {
@@ -47,7 +47,7 @@ export default function Flights({locationName, startDate, endDate, adults, index
     if(index === 3 && loading){
       FetchFlights();
     }
-  }, [departureCity,arrivalCity,itenaryType,classOfService, selectedDates.start, selectedDates.end,Adults, pageNumber, index,loading]);
+  }, [departureCity.value,arrivalCity.value,itenaryType,classOfService, selectedDates.start, selectedDates.end,Adults, pageNumber, index,loading]);
 
   const handleDateChange = (name, value) => {
     setSelectedDates((prevValue) => {
@@ -121,12 +121,13 @@ export default function Flights({locationName, startDate, endDate, adults, index
         </div>
         <div className="flex items-center ml-4 m-2">
           <Label htmlFor="checkOut" className="text-sm font-medium text-gray-700 dark:text-white">
-            Date
+            Return Date
           </Label>
           <input
             type="date"
             id="date"
             name="date"
+            disabled={itenaryType == 'RoundTrip' ? false : true}
             className=" m-2 p-2 border rounded-md w-36  text-black"
             value={selectedDates?.end}
             min={startDate}

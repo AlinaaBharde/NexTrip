@@ -16,7 +16,7 @@ const searchHotels = async (locationName, checkin, checkout, adults, pageNumber 
             sort: sortby
         },
         headers: {
-            'X-RapidAPI-Key': '91b25fea6bmsh1eabd54c80bd2a4p16b1b6jsnb987a2b30521', 
+            'X-RapidAPI-Key': '1f6bc9deafmsh5ed059c4232feb7p104807jsnac32690b8c55', 
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',  
         }
     };
@@ -51,7 +51,7 @@ const extractRelevantHotelDetails = (hotelData) => {
         location: hotel.secondaryInfo,
         price: hotel.priceForDisplay,
         url: hotel.commerceInfo.externalUrl,
-        imageUrl: hotel.cardPhotos[0].sizes.urlTemplate || null,
+        imageUrl: hotel.cardPhotos[0].sizes.urlTemplate.split('?')[0] || null,
         rating: hotel.bubbleRating.rating
     }));
 };

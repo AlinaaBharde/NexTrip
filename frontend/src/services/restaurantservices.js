@@ -11,7 +11,7 @@ async function searchRestaurants(locationName, page = 1) {
             page: page.toString(),
         },
         headers: {
-            'X-RapidAPI-Key': '91b25fea6bmsh1eabd54c80bd2a4p16b1b6jsnb987a2b30521',
+            'X-RapidAPI-Key': 'a335ec1ed7mshbc7473ff34e0eafp16b669jsn52e63d642d6d',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',
         },
     };

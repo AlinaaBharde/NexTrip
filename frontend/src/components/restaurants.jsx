@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Label, Card,Rating,Pagination, Radio } from 'flowbite-react';
+import { Button, Label, Card,Rating,Pagination, Radio, Spinner, Alert } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
-import { MdAdd,MdRemove } from "react-icons/md";
+import { MdAdd,MdRemove,MdClose } from "react-icons/md";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { searchRestaurants } from '../services/restaurantservices';
+import { IoMdCheckmarkCircle } from "react-icons/io";
 
 export default function Restaurants({locationName, index}){
   const [filter, setfilter] = useState(false);
@@ -17,7 +18,7 @@ export default function Restaurants({locationName, index}){
   const [selectedrestaurants, setSelectedrestaurants] = useState([]);
   const [sortby, setsortby] = useState('');
   const [loading, setLoading] = useState(true);
-
+  const [alert, setAlert] = useState({ show: false, type: 'success', message: '' });
   const [pageNumber, setCurrentPage] = useState(1);
 
   const onPageChange = (page) => setCurrentPage(page);
@@ -111,19 +112,22 @@ export default function Restaurants({locationName, index}){
 
     )
     .then((response) => {
-      console.log("Restaurants saved successfully: ",  response);
+      console.log("Restaurants saved successfully: ", response);
+      setAlert({ show: true, type: 'success', message: 'Restaurants saved successfully!' });
     })
-    .catch((error)=>{
+    .catch((error) => {
       console.error('Error submitting filter:', error);
       if (error) {
-        
         console.error('Server responded with:', error.data);
+        setAlert({ show: true, type: 'error', message: `Error: ${error.data}` });
       } else if (error.request) {
         console.error('No response received');
+        setAlert({ show: true, type: 'error', message: 'No response received from the server.' });
       } else {
         console.error('Error setting up the request:', error.message);
-      } 
-    } )
+        setAlert({ show: true, type: 'error', message: `Error: ${error.message}` });
+      }
+    });
   }
 
 
@@ -147,9 +151,21 @@ export default function Restaurants({locationName, index}){
 
   }
 
+  if (loading) {
+    return (
+      <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
+        <div className="flex items-center justify-center text-black">
+          <Spinner aria-label="Default status example" size='xl' color='purple' />
+          Loading
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div >
     <div className='w-full flex-col top-0 bg-transparent '>
+      
       <Button className='ml-16 text-xl font-semibold mb-5 -mt-2 bg-transparent hover:bg-none' style={{color: '#5F2EEA', backgroundColor: 'transparent' }} onClick={handleClick} ><FaFilter />Filter</Button>
       {
         filter? renderFilter() : null 
@@ -160,14 +176,26 @@ export default function Restaurants({locationName, index}){
                 <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-indigo-700 text-7xl w-2/3">Oops!! No Restaurants Available.
                 </p>
             ) : (
-              <div>
+              <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
+              <div className='flex flex-col justify-center mx-auto mt-4'>
+                  <Button className=' rounded-full mb-2 justify-center w-20' color='purple' onClick={handleSave} >Save</Button>
+                  {alert.show && (
+                    <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
+                      <div className="flex justify-between items-center max-w-2xl gap-10">
+                        <span>{alert.message}</span>
+                        <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent'  onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
+                          <MdClose />
+                        </Button>
+                      </div>
+                    </Alert>
+                  )}
+              </div>
                 <ul className=''>
                     {restaurants && restaurants.map((restaurant, index) => (
-                        <Card key={index} className=" md:max-w-4xl ml-12 mt-6 mb-6" imgSrc={restaurant.image}  horizontal >
-                            <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{restaurant.name}</h3>
-                            <p className="font-semibold text-gray-700 dark:text-gray-400">{restaurant.location}</p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Cuisine: {restaurant.cuisine.join(', ')}</p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Price: {restaurant.pricetag}</p>
+                        <Card key={index} className=" md:max-w-4xl mt-6 mb-6" imgSrc={restaurant.image}  horizontal >
+                            <h3 className="text-5xl font-serif font-bold tracking-tight text-gray-900 dark:text-white p-0">{restaurant.name}</h3>
+                            <p className=" font-serif text-gray-700 dark:text-gray-400">Cuisine: {restaurant.cuisine.join(', ')}</p>
+                            <p className="font-serif text-gray-700 dark:text-gray-400">PriceTag: {restaurant.pricetag}</p>
                             <Rating>
                               <Rating.Star />
                               <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{restaurant.averagerating}</p>
@@ -206,8 +234,18 @@ export default function Restaurants({locationName, index}){
                     showIcons
                   />
                 </div>
-                <div className='flex justify-center mt-4'>
-                  <Button className=' rounded-full' color='purple' onClick={handleSave} >Save</Button>
+                <div className='flex flex-col justify-center mt-4'>
+                  <Button className='rounded-full mb-2 justify-center items-center w-20' color='purple' onClick={handleSave} >Save</Button>
+                  {alert.show && (
+                    <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
+                      <div className="flex justify-between items-center max-w-2xl gap-10">
+                        <span>{alert.message}</span>
+                        <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent'  onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
+                          <MdClose />
+                        </Button>
+                      </div>
+                    </Alert>
+                  )}
                 </div>
                 </div>
                 )
