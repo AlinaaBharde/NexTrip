@@ -38,10 +38,10 @@ const hotelController = {
                 return res.status(404).json({ error: "Plan not found" });
             }
             for (const hotel of selectedHotel) {
-                const { name, location, price, url, imageurl, rating } = hotel;
+                const { name, location, price, url, imageUrl, rating } = hotel;
 
                 const newHotel = new Hotels({
-                    name, location, price, url, imageurl, rating
+                    name, location, price, url, imageUrl, rating
                 });
 
                 await newHotel.save();

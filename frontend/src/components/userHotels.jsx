@@ -37,11 +37,18 @@ function UserHotels({ planid }) {
     }
   };
 
+  const replaceWidthHeight = (url) => {
+    let replacedUrl = url.replace('{width}', '200');
+    replacedUrl = replacedUrl.replace('{height}', '300');
+    return replacedUrl;
+  };
+
+
   return (
     <div className="home">
       <div className="workouts">
         {hotels.map((hotel) => (
-          <Card key={hotel._id} className="custom-max-width flex relative" imgSrc={hotel.imageurl} horizontal>
+          <Card key={hotel._id} className="custom-max-width flex relative" imgSrc={hotel.imageUrl ? replaceWidthHeight(hotel.imageUrl) : null} horizontal>
             <div>
               <h5 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
                 {hotel.name}

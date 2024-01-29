@@ -100,7 +100,7 @@ function Form() {
 
   return (
 
-    <div className=' w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate'>
+    <div className=' w-screen h-full bg-gradient-to-br from-fuchsia-950 to-teal-500 background-animate'>
       <Navbar />
 
       <Card className="p-4 mx-auto mt-20 mb-8 md:w-[80%] md:h-[100%] flex flex-col justify-around border shadow-lg w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate">
@@ -134,9 +134,9 @@ function Form() {
             {
               user ? (
                 <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
-                  
-                    Make Your own Itinerary
-                  
+
+                  Make Your own Itinerary
+
                 </Button>
               ) : (
                 <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
@@ -146,22 +146,6 @@ function Form() {
                 </Button>
               )
             }
-
-            {/* {
-              user ? (
-                <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
-                  <Link to={'/'}   >
-                    Let AI Make your Itenary
-                  </Link>
-                </Button>
-              ) : (
-                <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
-                  <Link to={'/signup'}   >
-                    Let AI Make your Itenary
-                  </Link>
-                </Button>
-              )
-            } */}
           </div>
           <div className='mx-auto text-center block font-semibold text-lg underline' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>{
             user ? (
