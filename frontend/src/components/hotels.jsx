@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Label, Card, Rating, Pagination, Radio, Spinner } from 'flowbite-react';
+import { Button, Label, Card, Rating, Radio, Spinner, Alert } from 'flowbite-react';
 import { FaFilter } from "react-icons/fa";
-import { MdAdd, MdRemove } from "react-icons/md";
+import { FaMapLocation } from 'react-icons/fa6';
+import { MdAdd, MdRemove, MdClose } from "react-icons/md";
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { searchHotels } from '../services/hotelservices';
-import hotelImg from '../images/hotel.png';
+import { IoMdCheckmarkCircle } from "react-icons/io";
 
 
 
@@ -26,6 +27,8 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
   const Adults = adults;
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [alert, setAlert] = useState({ show: false, type: 'success', message: '' });
+
 
   const onPageChange = (page) => {
     setPageNumber(page);
@@ -61,14 +64,6 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
   function handleClick() {
     setfilter(!filter);
   }
-
-  const replaceWidthHeight = (url) => {
-    let replacedUrl = url.replace('{width}', '200');
-    replacedUrl = replacedUrl.replace('{height}', '300');
-    return replacedUrl;
-  };
-
-
 
   function renderFilter() {
     return (
@@ -168,18 +163,21 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
     )
       .then((response) => {
         console.log("Hotels saved successfully: ", response);
+        setAlert({ show: true, type: 'success', message: 'Hotels saved successfully!' });
       })
       .catch((error) => {
         console.error('Error submitting filter:', error);
         if (error) {
-
           console.error('Server responded with:', error.data);
+          setAlert({ show: true, type: 'error', message: `Error: ${error.data}` });
         } else if (error.request) {
           console.error('No response received');
+          setAlert({ show: true, type: 'error', message: 'No response received from the server.' });
         } else {
           console.error('Error setting up the request:', error.message);
+          setAlert({ show: true, type: 'error', message: `Error: ${error.message}` });
         }
-      })
+      });
   }
 
   const handleDateChange = (name, value) => {
@@ -216,15 +214,25 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
         </p>
       ) : (
         <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
-          <div className="flex justify-center mt-4 mb-4">
-            <Button className="rounded-full" color="purple" onClick={handleSave}>
+          <div className="flex flex-col justify-center mx-auto mt-4 mb-4">
+            <Button className="rounded-full mb-2 justify-center w-20" color="purple" onClick={handleSave}>
               Save
             </Button>
+            {alert.show && (
+              <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
+                <div className="flex justify-between items-center max-w-2xl gap-10">
+                  <span>{alert.message}</span>
+                  <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent' onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
+                    <MdClose />
+                  </Button>
+                </div>
+              </Alert>
+            )}
           </div>
           {hotels && hotels.map((hotel, index) => (
-            <Card key={index} imgSrc={replaceWidthHeight(hotel.imageUrl)} className="mb-6 md:max-w-4xl" horizontal>
-              <h3 className="text-2xl font-bold mb-2 text-black gap-2">{hotel.name}</h3>
-              <p className="font-semibold text-gray-700 dark:text-gray-400 pt-0 gap-0">{hotel.location}</p>
+            <Card key={index} imgSrc={hotel.imageUrl} className="mb-6 md:max-w-4xl mr-2" horizontal>
+              <h3 className="text-2xl font-serif font-bold mb-2 text-black gap-2">{hotel.name}</h3>
+              <p className="font-semibold text-gray-700 dark:text-gray-400 pt-0 gap-0 flex"><FaMapLocation />{hotel.location}</p>
               <Button
                 color="purple"
                 className="mb-2 w-40"
@@ -232,7 +240,7 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
               >
                 Hotel Link
               </Button>
-              <p className="font-normal text-gray-700 dark:text-gray-400">Price/room: {hotel.price}</p>
+              <p className="font-serif text-gray-700 dark:text-gray-400">Price/room: {hotel.price}</p>
               <div className="flex items-center">
                 <Rating>
                   <Rating.Star />
@@ -266,6 +274,21 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
             <Button disabled={pageNumber === 1} onClick={() => onPageChange(pageNumber - 1)}>Previous</Button>
             <Button onClick={() => onPageChange(pageNumber + 1)}>Next</Button>
             {console.log("Page Number:", pageNumber)}
+          </div>
+          <div className="flex flex-col justify-center mx-auto mt-4 mb-4">
+            <Button className="rounded-full mb-2 justify-center w-20" color="purple" onClick={handleSave}>
+              Save
+            </Button>
+            {alert.show && (
+              <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
+                <div className="flex justify-between items-center max-w-2xl gap-10">
+                  <span>{alert.message}</span>
+                  <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent' onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
+                    <MdClose />
+                  </Button>
+                </div>
+              </Alert>
+            )}
           </div>
         </div>
       )}

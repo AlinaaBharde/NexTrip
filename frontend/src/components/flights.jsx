@@ -20,8 +20,8 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
     label: locationName,
   });
   const [departureCity, setdepartureCity] = useState({
-    value: locationName,
-    label: locationName,
+    value: 'Delhi',
+    label: "Delhi",
   });
   const [Adults, setadults] = useState(adults);
   const [pageNumber, setPageNumber] = useState(1);
@@ -124,12 +124,13 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
         </div>
         <div className="flex items-center ml-4 m-2">
           <Label htmlFor="checkOut" className="text-sm font-medium text-gray-700 dark:text-white">
-            Date
+            Return Date
           </Label>
           <input
             type="date"
             id="date"
             name="date"
+            disabled={itenaryType == 'RoundTrip' ? false : true}
             className=" m-2 p-2 border rounded-md w-36  text-black"
             value={selectedDates?.end}
             min={startDate}

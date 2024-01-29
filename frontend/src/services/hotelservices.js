@@ -51,7 +51,7 @@ const extractRelevantHotelDetails = (hotelData) => {
         location: hotel.secondaryInfo,
         price: hotel.priceForDisplay,
         url: hotel.commerceInfo.externalUrl,
-        imageUrl: hotel.cardPhotos[0].sizes.urlTemplate || null,
+        imageUrl: hotel.cardPhotos[0].sizes.urlTemplate.split('?')[0] || null,
         rating: hotel.bubbleRating.rating
     }));
 };
