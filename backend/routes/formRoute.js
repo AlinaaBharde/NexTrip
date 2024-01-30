@@ -1,14 +1,8 @@
-import formController from '../controllers/formController.js';
-import { Router } from 'express';
+const formController = require('../controllers/formController.js');
+const express = require('express');
+const requireAuth = require('../middleware/requireAuth.js');
 
-const Formrouter = Router();
-// Formrouter.get('/', (req, res) => {
-//     res.send('<h1>Form</h1>');
-// }
-// )
-// Formrouter.get('/');
-Formrouter.post('/', formController.submitForm);
+const Formrouter = express.Router();
+Formrouter.post('/', requireAuth, formController.submitForm);
 
-export default Formrouter;
-
-
+module.exports = Formrouter;

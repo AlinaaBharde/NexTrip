@@ -1,13 +1,11 @@
-import { Router } from 'express';
-import yourPlansController from '../controllers/yourPlansController.js';
+const express = require('express')
+const yourPlansRouter = require('../controllers/planController')
+const requireAuth = require('../middleware/requireAuth')
 
-const PlansRouter = Router();
+const PlansRouter = express.Router();
 
-PlansRouter.get('/:username', yourPlansController.getYourPlans);
+PlansRouter.get('/', requireAuth, yourPlansRouter.getYourPlans);
 
-PlansRouter.delete('/:id', yourPlansController.deleteYourPlan);
+PlansRouter.delete('/:id', yourPlansRouter.deleteYourPlan);
 
-export default PlansRouter;
-
-
-
+module.exports = PlansRouter;
