@@ -9,7 +9,7 @@ const fetchEventsFromAPI = async (city) => {
             start: '0'
         },
         headers: {
-            'X-RapidAPI-Key': '48d971003dmsh0a9a5da4ce32eabp184f77jsn04c5607602eb',
+            'X-RapidAPI-Key': 'fdebd55b92msh21517247185c7e1p13b3cejsn928ff4381e55',
             'X-RapidAPI-Host': 'real-time-events-search.p.rapidapi.com'
         }
     };

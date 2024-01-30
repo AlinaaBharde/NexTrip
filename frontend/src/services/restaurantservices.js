@@ -11,7 +11,7 @@ async function searchRestaurants(locationName, page) {
             page: page
         },
         headers: {
-            'X-RapidAPI-Key': 'c564fb708bmshfccb6fe19b95262p13f1d0jsn944a3c8e41c2',
+            'X-RapidAPI-Key': 'fdebd55b92msh21517247185c7e1p13b3cejsn928ff4381e55',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',
         },
     };
