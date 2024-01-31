@@ -1,14 +1,34 @@
-import React from "react";
-import { Link } from 'react-router-dom';
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import React from 'react'
+import Navbar from '../components/Navbar'
+import Hero from '../components/Hero';
+// import Gallery from '../components/Gallery';
+// import Checklist from '../components/Checklist';
+import Testimonials from '../components/Testimonial';
+// import Carousel from '../components/Carousel';
+import Banner from '../components/Banner';
+import Footer from '../components/Footer';
 import '../styles/colorgradient.css';
+import Carousel from '../components/Carousel';
 
-export default function Home() {
+
+
+function Home() {
   return (
-    <div className=" h-full w-screen  bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate">
+    <div className='bg-gradient-to-br from-[#E7D4FA] via-white to-gray-300 background-animate w-screen h-full'>
       <Navbar />
-      <Link to={'/form'} className="relative top-48 " >Form</Link>
+      <div className='bg-gradient-to-br from-[#A742CC] via-white to-gray-300 background-animate w-screen h-full'>
+      <Hero />
+      {/* <Carousel /> */}
+      {/* <Gallery /> */}
+      
+      <Testimonials />
+      
+      <Banner />
       <Footer />
+      </div>
+      
     </div>
-  )}
+  );
+}
+
+export default Home;

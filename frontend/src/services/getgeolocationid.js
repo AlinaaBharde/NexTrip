@@ -8,7 +8,7 @@ async function getLocationId(locationQuery) {
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchLocation',
         params: { query: locationQuery },
         headers: {
-            'X-RapidAPI-Key': 'b926667f17msh075ea081171fac5p1c2f98jsn3f8360bff0a',
+            'X-RapidAPI-Key': '73b7913a2dmsh02776046d66da2cp154cf2jsna3d288d4eeca',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
         },
     };

@@ -192,7 +192,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
                   <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{flight.airline}</h3>
                   <p className="font-semibold text-gray-700 dark:text-gray-400">{flight.departureTime} - {flight.arrivalTime}</p>
                   <p className="font-normal text-gray-700 dark:text-gray-400">Class of Service: {flight.classOfService}</p>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">Book: <a href={flight.purchaseUrl}>{flight.purchaseUrl}</a></p>
+                  <p className="font-normal text-gray-700 dark:text-gray-400">Book: <a href={flight.purchaseUrl}>Book Now</a></p>
                   <p className="font-normal text-gray-700 dark:text-gray-400">Price/room: {flight.totalPrice}</p>
                 </Card>
               </div>
