@@ -85,7 +85,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
         </div>
         <div className="flex items-center ml-4 m-2">
           <Label htmlFor="departureCity" className="text-sm font-medium text-gray-700 dark:text-white">
-            <FaPlaneDeparture className='mx-auto' />Departure City
+            <FaPlaneDeparture className='mx-auto' />From
           </Label>
           <Select
             options={Cities}
@@ -97,7 +97,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
         </div>
         <div className="flex items-center ml-4 m-2">
           <Label htmlFor="arrivalCity" className="text-sm font-medium text-gray-700 dark:text-white">
-            <FaPlaneArrival className='mx-auto' /> Arrival City
+            <FaPlaneArrival className='mx-auto' /> To
           </Label>
           <Select
             options={Cities}
@@ -155,6 +155,35 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
         <Button pill className="w-16 ml-2 h-10 m-4" color="purple" onClick={handleApply}>
           Apply
         </Button>
+        {/* <div className='bg-indigo-900 w-screen'>
+          <h1 className='my-px'>Millions of cheap flights. One Simple Search</h1>
+          <div>
+            <div className="flex items-center ml-4 m-2">
+              <Label htmlFor="departureCity" className="text-sm font-medium text-gray-700 dark:text-white">
+                <FaPlaneDeparture className='mx-auto' />From
+              </Label>
+              <Select
+                options={Cities}
+                className="w-40 m-2 mt-0 h-6 border rounded-md text-md shadow-lg text-black"
+                value={departureCity}
+                onChange={(selectedOption) => setdepartureCity(selectedOption)}
+                required
+              />
+            </div>
+            <div className="flex items-center ml-4 m-2">
+              <Label htmlFor="arrivalCity" className="text-sm font-medium text-gray-700 dark:text-white">
+                <FaPlaneArrival className='mx-auto' /> To
+              </Label>
+              <Select
+                options={Cities}
+                className="w-40 m-2 mt-0 h-6 border rounded-md text-md shadow text-black"
+                value={arrivalCity}
+                onChange={(selectedOption) => setarrivalCity(selectedOption)}
+                required
+              />
+            </div>
+          </div>
+        </div> */}
       </div>
     );
   }
@@ -174,6 +203,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
 
   return (
     <div >
+      <h2 className='my-px'>Millions of cheap flights. One Simple Search</h2>
       <div className='w-full flex-col top-0 '>
         {
           renderFilter()
@@ -192,7 +222,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
                   <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{flight.airline}</h3>
                   <p className="font-semibold text-gray-700 dark:text-gray-400">{flight.departureTime} - {flight.arrivalTime}</p>
                   <p className="font-normal text-gray-700 dark:text-gray-400">Class of Service: {flight.classOfService}</p>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">Book: <a href={flight.purchaseUrl}>Book Now</a></p>
+                  <a href={flight.purchaseUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Book</a>
                   <p className="font-normal text-gray-700 dark:text-gray-400">Price/room: {flight.totalPrice}</p>
                 </Card>
               </div>

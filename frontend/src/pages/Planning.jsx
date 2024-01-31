@@ -83,7 +83,7 @@ export default function SpecificPlan() {
     <div className=' w-screen h-full bg-gradient-to-br from-cyan-400 via-white to-green-400 background-animate'>
       <NavbarComponent />
       <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-m ' onActiveTabChange={(tab) => setActiveTab(tab)} >
-        <Tabs.Item icon={FaHotel} title={window.innerWidth <= 1224 ? '' : 'Hotels'}>
+        <Tabs.Item icon={FaHotel} title='Hotels'>
           <Hotels locationName={locationName} startDate={selectedDates.startDate} endDate={selectedDates.endDate} adults={adults} index={activeTab} />
         </Tabs.Item>
         <Tabs.Item icon={IoMdRestaurant} title='Restaurants'>

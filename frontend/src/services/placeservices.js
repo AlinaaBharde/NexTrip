@@ -3,7 +3,7 @@ import { getLocationId } from './getgeolocationid';
 
 const fetchPlacesData = async (city) => {
     const encodedParams = new URLSearchParams();
-    encodedParams.set('location_id', 304554 || await getLocationId(city))
+    encodedParams.set('location_id', await getLocationId(city))
     encodedParams.set('language', 'en_US');
     encodedParams.set('currency', 'INR');
     encodedParams.set('offset', '0');
@@ -13,7 +13,7 @@ const fetchPlacesData = async (city) => {
         url: 'https://tourist-attraction.p.rapidapi.com/search',
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
-            'X-RapidAPI-Key': 'e7b157f7ecmsh85e977fcd6882e8p11ac9fjsn2bbb4d661243',
+            'X-RapidAPI-Key': 'fdebd55b92msh21517247185c7e1p13b3cejsn928ff4381e55',
             'X-RapidAPI-Host': 'tourist-attraction.p.rapidapi.com',
         },
         data: encodedParams,
