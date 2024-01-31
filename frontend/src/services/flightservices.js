@@ -53,7 +53,7 @@ const extractRelevantDetails = (flightData) => {
             arrivalTime: Segment.arrivalDateTime,
             classOfService: Segment.classOfService,
             airline: Segment.operatingCarrier.displayName,
-            logo: Segment.operatingCarrier.logoURL,
+            logo: Segment.operatingCarrier.logoUrl,
             totalPrice: temp.totalPrice,
             purchaseUrl: temp.url
         };
@@ -67,7 +67,7 @@ const getAirportCode = async (city) => {
             return "DEL";
         case "Mumbai":
             return "BOM";
-        case "Bangalore":
+        case "Bengaluru":
             return "BLR";
         case "Hyderabad":
             return "HYD";
@@ -113,7 +113,49 @@ const getAirportCode = async (city) => {
             return "VNS";
         case "Amritsar":
             return "ATQ";
-        case "Lakshadweep":
+        case "Visakhapatnam":
+            return "VTZ";
+        case "Ranchi":
+            return "IXR";
+        case "Mangalore":
+            return "IXE";
+        case "Dehradun":
+            return "DED";
+        case "Jammu":
+            return "IXJ";
+        case "Thiruchirapalli":
+            return "TRZ";
+        case "Agartala":
+            return "IXA";
+        case "Udaipir":
+            return "UDR";
+        case "Andaman and Nicobar Islands":
+            return "IXZ";
+        case "Leh":
+            return "IXL";
+        case "Kannur":
+            return "CNN";
+        case "Surat":
+            return "STV";
+        case "Imphal":
+            return "IMF";
+        case "Madurai":
+            return "IXM";
+        case "Bhopal":
+            return "BHO";
+        case "Vadodara":
+            return "BDQ";
+        case 'Tirupati':
+            return "TIR";
+        case "Jpdhpur":
+            return "JDH";
+        case 'Rajkot':
+            return "RAJ";
+        case "Shirdi":
+            return "SAG";
+        case "Gorakhpur":
+            return "GOP";
+        case "Laksadweep":
             return "AGX";
     }
 };

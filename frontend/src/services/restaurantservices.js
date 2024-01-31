@@ -7,7 +7,7 @@ async function searchRestaurants(locationName, page) {
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchRestaurants',
         params: {
-            locationId: 304554, //await getLocationId(locationName),
+            locationId: await getLocationId(locationName),
             page: page
         },
         headers: {

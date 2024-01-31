@@ -28,7 +28,7 @@ export default function Events({ locationName, index }) {
             start: '0'
           },
           headers: {
-            'X-RapidAPI-Key': 'ce9ccb6abdmshcee6c114d96bd1ep10df80jsn0186f0572a98',
+            'X-RapidAPI-Key': 'fdebd55b92msh21517247185c7e1p13b3cejsn928ff4381e55',
             'X-RapidAPI-Host': 'real-time-events-search.p.rapidapi.com'
           }
         });
@@ -57,22 +57,25 @@ export default function Events({ locationName, index }) {
       <div className='w-3/4 m-auto mb-20'>
         <strong className='mx-auto justify-center items-center text-5xl text-indigo-700'>Events</strong>
         <div className='mt-10 events-carousel'>
-        {events.length === 0 ? (
-          <div className='flex items-center justify-center h-full'>
-            <Spinner aria-label="Default status example" className='m-auto flex items-center justify-center' size='xl' color='purple' />
-          </div>
-         ) : (
-          events.map((event, index) => (
-            <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl event-card'>
-              <div className='flex flex-col justify-center items-center gap-4 p-4'>
-                <h3 className='text-xl font-semibold'>{event.name}</h3>
-                <p>{event.description ? event.description.slice(0, 100) : null}...</p>
-                <p>Start Time: {event.start_time ? event.start_time : null}</p>
-                <p>End Time: {event.end_time ? event.end_time : null}</p>
-              </div>
-            </animated.div>
-          )))
-        }
+          {events.length === 0 ? (
+            <div className='flex items-center justify-center h-full'>
+              <Spinner aria-label="Default status example" className='m-auto flex items-center justify-center' size='xl' color='purple' />
+            </div>
+          ) : (
+            events.map((event, index) => (
+              <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl event-card'>
+                <div className='rounded-t-xl flex justify-center items-center h-56'>
+                  <img src={event.thumbnail} alt='' className='h-full w-full rounded-xl' />
+                </div>
+                <div className='flex flex-col justify-center items-center gap-4 p-4'>
+                  <h3 className='text-xl font-semibold'>{event.name}</h3>
+                  <p>{event.description ? event.description.slice(0, 100) : null}...</p>
+                  <p>Start Time: {event.start_time ? event.start_time : null}</p>
+                  <p>End Time: {event.end_time ? event.end_time : null}</p>
+                </div>
+              </animated.div>
+            )))
+          }
         </div>
       </div>
 

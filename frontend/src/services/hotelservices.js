@@ -7,7 +7,7 @@ const searchHotels = async (locationName, checkin, checkout, adults, pageNumber 
         method: 'GET',
         url: 'https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotels',
         params: {
-            geoId: 304554, //await getLocationId(locationName),
+            geoId: await getLocationId(locationName),
             checkIn: checkin,
             checkOut: checkout,
             pageNumber: pageNumber.toString(),

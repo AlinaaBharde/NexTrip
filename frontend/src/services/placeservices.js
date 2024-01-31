@@ -3,7 +3,7 @@ import { getLocationId } from './getgeolocationid';
 
 const fetchPlacesData = async (city) => {
     const encodedParams = new URLSearchParams();
-    encodedParams.set('location_id', 304554 || await getLocationId(city))
+    encodedParams.set('location_id', await getLocationId(city))
     encodedParams.set('language', 'en_US');
     encodedParams.set('currency', 'INR');
     encodedParams.set('offset', '0');
