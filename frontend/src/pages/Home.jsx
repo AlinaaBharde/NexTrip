@@ -14,18 +14,17 @@ import Carousel from '../components/Carousel';
 
 function Home() {
   return (
-    <div className='bg-gradient-to-br from-[#E7D4FA] via-white to-gray-300 background-animate w-screen h-full'>
+    <div className='bg-gradient-to-br from-[#A742CC] via-white to-gray-300 background-animate w-screen h-full'>
       <Navbar />
-      <div className='bg-gradient-to-br from-[#A742CC] via-white to-gray-300 background-animate w-screen h-full'>
       <Hero />
-      {/* <Carousel /> */}
+      <Carousel />
       {/* <Gallery /> */}
       
       <Testimonials />
       
       <Banner />
       <Footer />
-      </div>
+      
       
     </div>
   );

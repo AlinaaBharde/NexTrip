@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, Label, TextInput, Carousel, Card } from 'flowbite-react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaPeopleGroup } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import '../styles/colorgradient.css';
+
 
 function Form() {
 
@@ -99,11 +99,10 @@ function Form() {
   }
 
   return (
+    // bg-gradient-to-br from-fuchsia-950 to-teal-500 background-animate
+    <div className=' w-screen h-full bg-gradient-to-br from-fuchsia-950 to-teal-500 background-animate' >
 
-    <div className=' w-screen h-full bg-gradient-to-br from-fuchsia-950 to-teal-500 background-animate'>
-      <Navbar />
-
-      <Card className="p-4 mx-auto mt-20 mb-8 md:w-[80%] md:h-[100%] flex flex-col justify-around border shadow-lg w-screen h-full bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate">
+      <Card className="p-4 mx-auto mt-0 pt-20 mb-8 md:w-[50%] md:h-[100%] flex flex-col justify-around border shadow-lg w-screen h-full ">
         <h1 className=' ml-12 mt-10  mx-auto font-bold text-7xl w-full text-indigo-700' >Travel Details</h1>
         <form className="max-w-lg mx-auto container bg-transparent mb-24 "  >
           <div className="mb-2 block  pt-8" >
