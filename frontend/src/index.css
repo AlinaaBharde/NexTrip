@@ -72,3 +72,14 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.swiper {
+  height: 550px;
+}
+
+.swiper-slide {
+  height: 150px;
+  width: 150px;
+
+  margin-left: 20px;
+}
