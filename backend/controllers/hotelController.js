@@ -23,7 +23,7 @@ const hotelController = {
     addHotel: async (req, res) => {
         try {
             const { planId } = req.params;
-            const selectedHotel = req.body;
+            const hotel = req.body;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)
@@ -37,17 +37,15 @@ const hotelController = {
             if (!existingPlan) {
                 return res.status(404).json({ error: "Plan not found" });
             }
-            for (const hotel of selectedHotel) {
-                const { name, location, price, url, imageUrl, rating } = hotel;
+            const { name, location, price, url, imageUrl, rating } = hotel;
 
-                const newHotel = new Hotels({
-                    name, location, price, url, imageUrl, rating
-                });
+            const newHotel = new Hotels({
+                name, location, price, url, imageUrl, rating
+            });
 
-                await newHotel.save();
+            await newHotel.save();
 
-                existingPlan.hotels.push(newHotel._id);
-            }
+            existingPlan.hotels.push(newHotel._id);
 
             const updatedPlan = await existingPlan.save();
 

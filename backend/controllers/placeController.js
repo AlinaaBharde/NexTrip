@@ -22,7 +22,7 @@ const placeController = {
     addPlaces: async (req, res) => {
         try {
             const { planId } = req.params;
-            const selectedPlace = req.body;
+            const place = req.body;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)
@@ -37,14 +37,12 @@ const placeController = {
                 return res.status(404).json({ error: "Plan not found" });
             }
 
-            for (const place of selectedPlace) {
-                const { name, image, description, address, ranking } = place;
-                const newPlace = new Place({
-                    name, image, description, address, ranking
-                });
-                await newPlace.save();
-                existingPlan.places.push(newPlace._id);
-            }
+            const { name, image, description, address, ranking } = place;
+            const newPlace = new Place({
+                name, image, description, address, ranking
+            });
+            await newPlace.save();
+            existingPlan.places.push(newPlace._id);
             const updatedPlan = await existingPlan.save();
 
             res.status(200).json(updatedPlan);

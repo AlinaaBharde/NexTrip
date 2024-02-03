@@ -23,7 +23,7 @@ const restaurantController = {
         try {
             const { planId } = req.params;
 
-            const selectedRestaurant = req.body;
+            const restaurant = req.body;
 
             const userId = req.user._id;
             const existingUser = await User.findById(userId)
@@ -38,22 +38,20 @@ const restaurantController = {
                 return res.status(404).json({ error: "Plan not found" });
             }
 
-            for (const restaurant of selectedRestaurant) {
-                const { name, location, cuisine, pricetag, averagerating, image } = restaurant;
+            const { name, location, cuisine, pricetag, averagerating, image } = restaurant;
 
-                const newRestaurant = new Restaurant({
-                    name: name,
-                    location: location,
-                    cuisine: cuisine,
-                    pricetag: pricetag,
-                    averagerating: averagerating,
-                    image: image,
-                });
+            const newRestaurant = new Restaurant({
+                name: name,
+                location: location,
+                cuisine: cuisine,
+                pricetag: pricetag,
+                averagerating: averagerating,
+                image: image,
+            });
 
-                await newRestaurant.save();
+            await newRestaurant.save();
 
-                existingPlan.restaurants.push(newRestaurant._id);
-            }
+            existingPlan.restaurants.push(newRestaurant._id);
             const updatedPlan = await existingPlan.save();
 
             res.status(200).json(updatedPlan);

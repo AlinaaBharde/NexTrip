@@ -21,6 +21,7 @@ module.exports = {
       fontFamily: {
         "mobile-text-small": "Poppins",
         "noto-sans": "'Noto Sans'",
+        display: ["Protest Riot", "sans-serif"],
       },
       borderRadius: {
         "21xl": "40px",
