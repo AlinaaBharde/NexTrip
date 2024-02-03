@@ -18,7 +18,7 @@ const fetchFlightsFromAPI = async (departureCity, arrivalCity, startDate, endDat
             currencyCode: 'INR'
         },
         headers: {
-            'X-RapidAPI-Key': '08ac0065femshbf54bbe61e7d568p161f5ejsnf619e4cbf4bc',
+            'X-RapidAPI-Key': 'db972594e5mshff746760220a9eap17ecc0jsnbbe6a6ef7569',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
         }
     };
@@ -147,7 +147,7 @@ const getAirportCode = async (city) => {
             return "BDQ";
         case 'Tirupati':
             return "TIR";
-        case "Jpdhpur":
+        case "Jodhpur":
             return "JDH";
         case 'Rajkot':
             return "RAJ";

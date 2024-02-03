@@ -5,7 +5,7 @@ import 'swiper/swiper-bundle.css'; // Import Swiper styles
 
 const CARD = ({ title, imageUrl }) => (
   <Card className="swiper-slide h-18 sm:h-27 md:h-36 lg:h-60 xl:h-80 hover:scale-110 transition-transform w-20 sm:w-30 md:w-40 lg:w-60 xl:w-80 mx-auto mt-8 mb-8 p-6 bg-cover border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between"
-  imgSrc={imageUrl}>
+    imgSrc={imageUrl}>
     <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">{title}</h5>
     <a
       className="mb-4 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-black bg-[#fefefe] rounded-lg hover:bg-black hover:text-[#fefefe] focus:ring-4 focus:outline-black focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

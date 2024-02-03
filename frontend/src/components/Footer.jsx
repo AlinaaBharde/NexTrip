@@ -4,7 +4,7 @@ import { FooterDivider } from 'flowbite-react';
 import Logo from '../images/travelLogo.png';
 
 export default function footer() {
-    const Year = new Date().getFullYear();
+  const Year = new Date().getFullYear();
 
   return (
     <div className="flex flex-col min-h-screen ">
@@ -56,6 +56,6 @@ export default function footer() {
       </div>
     </Footer>
     </div>
-    
+
   );
 }
