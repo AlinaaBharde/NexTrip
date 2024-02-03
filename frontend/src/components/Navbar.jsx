@@ -20,7 +20,7 @@ function NavbarComponent() {
                     <img src={Logo} className="mr-4 ml-6 mt-0 h-12 lg:h-15 " alt="Logo" style={{'backgroundColor': 'transparent'}}/>
                     <Link to={'/'} className="self-center whitespace-nowrap text-7xl font-bold mt-0" style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Trip Planner</Link>
                 </FlowbiteNavbar.Brand>
-                <div className="flex md:order-2 mr-10 ">
+                <div className="flex flex-col mr-2 sm:mr-10">
                     {user ? (
                         <Dropdown
                             arrowIcon={false}

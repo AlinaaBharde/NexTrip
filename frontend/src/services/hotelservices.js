@@ -16,7 +16,7 @@ const searchHotels = async (locationName, checkin, checkout, adults, pageNumber 
             sort: sortby
         },
         headers: {
-            'X-RapidAPI-Key': '73b7913a2dmsh02776046d66da2cp154cf2jsna3d288d4eeca',
+            'X-RapidAPI-Key': 'd4be25fdf0msh4167b89826aadb9p127605jsn2962827e5b9c',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',
         }
     };

@@ -18,7 +18,7 @@ const fetchFlightsFromAPI = async (departureCity, arrivalCity, startDate, endDat
             currencyCode: 'INR'
         },
         headers: {
-            'X-RapidAPI-Key': 'fdebd55b92msh21517247185c7e1p13b3cejsn928ff4381e55',
+            'X-RapidAPI-Key': '08ac0065femshbf54bbe61e7d568p161f5ejsnf619e4cbf4bc',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
         }
     };

@@ -1,33 +1,41 @@
-import React, { useState } from 'react';
-import { Button, Label, Card, Rating, Radio, Spinner, Alert } from 'flowbite-react';
-import { FaFilter } from "react-icons/fa";
-import { FaMapLocation } from 'react-icons/fa6';
-import { MdAdd, MdRemove, MdClose } from "react-icons/md";
-import { useAuthContext } from '../hooks/useAuthContext';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { searchHotels } from '../services/hotelservices';
-import { IoMdCheckmarkCircle } from "react-icons/io";
+import React, { useState } from "react";
+import {
+  Button,
+  Label,
+  Card,
+  Rating,
+  Radio,
+  Spinner,
+  Tooltip,
+} from "flowbite-react";
+import { FaMapLocation, FaArrowRight,  FaStar } from "react-icons/fa6";
+import { IoIosSearch } from "react-icons/io";
+import { useAuthContext } from "../hooks/useAuthContext";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { searchHotels } from "../services/hotelservices";
+import Heart from "react-heart";
 
-
-
-export default function Hotels({ locationName, startDate, endDate, adults, index }) {
-  const [filter, setfilter] = useState(false);
+export default function Hotels({
+  locationName,
+  startDate,
+  endDate,
+  adults,
+  index,
+}) {
   const { id } = useParams();
-  const planId = id ? id.toString() : '';
+  const planId = id ? id.toString() : "";
   const [hotels, sethotels] = useState([]);
-  const [selectedhotels, setSelectedhotels] = useState([]);
-  const [sortby, setsortby] = useState('PRICE');
+  const [sortby, setsortby] = useState("PRICE");
   const { user } = useAuthContext();
   const [selectedDates, setSelectedDates] = useState({
     CheckIn: startDate,
-    CheckOut: endDate
+    CheckOut: endDate,
   });
   const LocationName = locationName;
   const Adults = adults;
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [alert, setAlert] = useState({ show: false, type: 'success', message: '' });
 
 
   const onPageChange = (page) => {
@@ -40,18 +48,24 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
   const FetchHotels = async () => {
     try {
       setLoading(true);
-      const response = await searchHotels(LocationName, selectedDates.CheckIn, selectedDates.CheckOut, Adults, pageNumber, sortby)
+      const response = await searchHotels(
+        LocationName,
+        selectedDates.CheckIn,
+        selectedDates.CheckOut,
+        Adults,
+        pageNumber,
+        sortby
+      );
       const updatedHotels = response.map((hotel) => ({
         ...hotel,
-        add: true,
-        remove: false
+        active: false,
       }));
       sethotels(updatedHotels.slice(0, 30));
       console.log(hotels);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching travel plans:', error);
-      setLoading(false)
+      console.error("Error fetching travel plans:", error);
+      setLoading(false);
     }
   };
 
@@ -59,26 +73,72 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
     if (index === 0 && loading) {
       FetchHotels();
     }
-  }, [LocationName, sortby, pageNumber, Adults, selectedDates.CheckIn, selectedDates.CheckOut, index, loading, hotels]);
+  }, [
+    LocationName,
+    sortby,
+    pageNumber,
+    Adults,
+    selectedDates.CheckIn,
+    selectedDates.CheckOut,
+    index,
+    loading,
+    hotels,
+  ]);
 
-  function handleClick() {
-    setfilter(!filter);
+  function RenderFilterCard() {
+    return (
+      <div className="relative flex items-center justify-center w-screen">
+        <Card
+          className="bg-cover bg-center h-64 relative rounded-lg w-full"
+          style={{
+            backgroundImage: `url(https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg)`,
+          }}
+        >
+          <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
+          <div className="flex flex-col items-center justify-center relative z-10">
+            <div className="text-white text-center font-mono text-7xl sm:text-17xl">Discover Your Dream Stay</div>
+            <div className="flex items-center justify-center pb-4">
+              {renderFilter()}
+            </div>
+          </div>
+          </div>
+        </Card>
+      </div>
+    );
   }
+  
 
   function renderFilter() {
     return (
-      <div className='mx-auto flex flex-wrap items-center'>
-        <div className="ml-5 mr-2 inline-flex gap-2">
-          <Radio id="Price" name='Sort' onChange={() => setsortby('PRICE')} color='purple' />
-          <Label htmlFor="sortPrice">Sort by Price</Label>
+      <div className="mx-auto mt-4 flex flex-wrap justify-center items-center w-full rounded-sm backdrop-filter backdrop-blur-lg bg-opacity-10  bg-gray-200 dark:bg-gray-800 p-4">
+        <div className="ml-5 mr-2 inline-flex gap-2 ">
+          <Radio
+            id="Price"
+            name="Sort"
+            onChange={() => setsortby("PRICE")}
+            color="purple"
+          />
+          <Label htmlFor="sortPrice" className="text-white">
+            Sort by Price
+          </Label>
         </div>
         <div className="ml-5 mr-2 inline-flex gap-2">
-          <Radio id="Rating" name='Sort' onChange={() => setsortby('RATING')} color='purple' />
-          <Label htmlFor="sortRating">Sort by Rating</Label>
+          <Radio
+            id="Rating"
+            name="Sort"
+            onChange={() => setsortby("RATING")}
+            color="purple"
+          />
+          <Label htmlFor="sortRating" className="text-white">
+            Sort by Rating
+          </Label>
         </div>
-        <div className='flex flex-row items-center'>
+        <div className="flex items-center sm:flex-row">
           <div className="ml-5 m-2">
-            <Label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 dark:text-white">
+            <Label
+              htmlFor="checkIn"
+              className="block text-sm font-medium text-white dark:text-white"
+            >
               Check In
             </Label>
             <input
@@ -89,11 +149,14 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
               value={selectedDates?.CheckIn}
               min={startDate}
               max={endDate}
-              onChange={(e) => handleDateChange('CheckIn', e.target.value)}
+              onChange={(e) => handleDateChange("CheckIn", e.target.value)}
             />
           </div>
           <div className="ml-5 m-2">
-            <Label htmlFor="checkOut" className="block text-sm font-medium text-gray-700 dark:text-white">
+            <Label
+              htmlFor="checkOut"
+              className="block text-sm font-medium text-white dark:text-white"
+            >
               Check Out
             </Label>
             <input
@@ -104,16 +167,23 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
               value={selectedDates?.CheckOut}
               min={startDate}
               max={endDate}
-              onChange={(e) => handleDateChange('CheckOut', e.target.value)}
+              onChange={(e) => handleDateChange("CheckOut", e.target.value)}
             />
           </div>
         </div>
-        <Button pill className='w-16 m-2' color='purple' onClick={handleApply}>
-          Apply
+        <Button
+          pill
+          className="w-24 m-2 rounded-md"
+          color="purple"
+          gradientDuoTone="purpleToPink"
+          onClick={handleApply}
+        >
+          Search <IoIosSearch className="ml-2" />
         </Button>
       </div>
     );
   }
+  
 
   async function handleApply() {
     setLoading(true);
@@ -122,63 +192,57 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
     }
   }
 
-  function handleAdd(index, selectedHotel) {
-
+  async function handleAdd(index, hotel) {
     const updatedHotels = [...hotels];
-    const hotel = updatedHotels[index];
-
-    setSelectedhotels((prevSelected) => [...prevSelected, selectedHotel]);
-
-    updatedHotels[index] = { ...hotel, add: !hotel.add, remove: !hotel.remove };
+    const addedHotel = {
+      ...hotel,
+      active: hotel?.active ? !hotel.active : true,
+    };
+    updatedHotels[index] = addedHotel;
     sethotels(updatedHotels);
-  }
 
-  function handleRemove(index, selectedHotel) {
-
-    const updatedHotels = [...hotels];
-
-    setSelectedhotels((prevSelected) =>
-      prevSelected.filter((hotel) => hotel._id !== selectedHotel._id)
-    );
-
-    const hotel = updatedHotels[index];
-    updatedHotels[index] = { ...hotel, add: !hotel.add, remove: !hotel.remove };
-    sethotels(updatedHotels);
-  }
-
-
-
-  function handleSave() {
-    console.log("Selected Hotels:", selectedhotels);
-    axios.post(
-      `http://localhost:4000/api/hotels/add/${planId}`,
-      JSON.stringify(selectedhotels),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.token}`,
-        },
-      }
-
-    )
-      .then((response) => {
-        console.log("Hotels saved successfully: ", response);
-        setAlert({ show: true, type: 'success', message: 'Hotels saved successfully!' });
-      })
-      .catch((error) => {
-        console.error('Error submitting filter:', error);
-        if (error) {
-          console.error('Server responded with:', error.data);
-          setAlert({ show: true, type: 'error', message: `Error: ${error.data}` });
-        } else if (error.request) {
-          console.error('No response received');
-          setAlert({ show: true, type: 'error', message: 'No response received from the server.' });
-        } else {
-          console.error('Error setting up the request:', error.message);
-          setAlert({ show: true, type: 'error', message: `Error: ${error.message}` });
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/api/hotels/add/${planId}`,
+        JSON.stringify(addedHotel),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
         }
-      });
+      );
+
+      console.log("Hotel added successfully: ", response);
+    } catch (error) {
+      console.error("Error adding hotel:", error);
+    }
   }
+
+  async function handleRemove(index, hotel) {
+    const updatedHotels = [...hotels];
+    const removedHotel = { ...hotel, active: !hotel.active };
+    updatedHotels[index] = removedHotel;
+    sethotels(updatedHotels);
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:4000/api/hotels/delete/${planId}`,
+        JSON.stringify(removedHotel),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      console.log("Hotel added successfully: ", response);
+    } catch (error) {
+      console.error("Error adding hotel:", error);
+    }
+  }
+
 
   const handleDateChange = (name, value) => {
     setSelectedDates((prevValue) => {
@@ -191,9 +255,13 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
 
   if (loading) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
+      <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0">
         <div className="flex items-center justify-center text-black">
-          <Spinner aria-label="Default status example" size='xl' color='purple' />
+          <Spinner
+            aria-label="Default status example"
+            size="xl"
+            color="purple"
+          />
           Loading
         </div>
       </div>
@@ -201,97 +269,83 @@ export default function Hotels({ locationName, startDate, endDate, adults, index
   }
 
   return (
-    <div >
-      <div className='w-full flex-col top-0 '>
-        <Button className=' text-xl ml-16 mb-5 -mt-2 font-semibold  bg-transparent hover:shadow' style={{ color: '#5F2EEA', backgroundColor: 'transparent' }} onClick={handleClick} ><FaFilter />Filter</Button>
-        {
-          filter ? renderFilter() : null
-        }
-      </div>
-      <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover', 'color': '#5F2EEA' }}>Hotels</h1>
+    <div>
+      <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
       {hotels && hotels.length === 0 ? (
-        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">Oops!! No Hotels Available.
+        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">
+          Oops!! No Hotels Available.
         </p>
       ) : (
         <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
-          <div className="flex flex-col justify-center mx-auto mt-4 mb-4">
-            <Button className="rounded-full mb-2 justify-center w-20" color="purple" onClick={handleSave}>
-              Save
-            </Button>
-            {alert.show && (
-              <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
-                <div className="flex justify-between items-center max-w-2xl gap-10">
-                  <span>{alert.message}</span>
-                  <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent' onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
-                    <MdClose />
-                  </Button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-b-2">
+          {hotels &&
+            hotels.map((hotel, index) => (
+              <Card
+            key={index}
+            className="mb-6 md:max-w-4xl mr-6 hover:shadow-md rounded-sm overflow-hidden"
+          >
+            <img
+              src={hotel.imageUrl}
+              alt={hotel.name}
+              className="h-44 object-cover w-full mb-0 rounded-t-sm mt-0"
+            />
+            <div className="p-4">
+            <div className="flex justify-between items-center mt-2 gap-1 border-b-2">
+              <h2 className="text-xl font-serif font-bold mb-2 text-black">
+                {hotel.name}
+              </h2>
+              <Tooltip content={hotel.active ? "Remove it": "Save it"} >
+                <div style={{ width: "1rem", height: '1rem' }}>
+                  <Heart
+                    isActive={hotel.active}
+                    onClick={() =>
+                      hotel.active
+                        ? handleRemove(index, hotel)
+                        : handleAdd(index, hotel)
+                    }
+                    animationTrigger="both"
+                    animationScale={1.25}
+                    style={{ marginBottom: "1rem" }}
+                  />
                 </div>
-              </Alert>
-            )}
-          </div>
-          {hotels && hotels.map((hotel, index) => (
-            <Card key={index} imgSrc={hotel.imageUrl} className="mb-6 md:max-w-4xl mr-2" horizontal>
-              <h3 className="text-2xl font-serif font-bold mb-2 text-black gap-2">{hotel.name}</h3>
-              <p className="font-semibold text-gray-700 dark:text-gray-400 pt-0 gap-0 flex"><FaMapLocation />{hotel.location}</p>
+                </Tooltip>
+              </div>
+              <p className="font-semibold text-gray-700 dark:text-gray-400">
+                <FaMapLocation className="inline-block mr-2" />
+                {hotel.location}
+              </p>
               <Button
                 color="purple"
-                className="mb-2 w-40"
-                onClick={() => window.open(hotel.url, '_blank')}
+                className="mb-2 w-28 rounded-sm h-8"
+                gradientDuoTone="purpleToPink"
+                onClick={() => window.open(hotel.url, "_blank")}
               >
-                Hotel Link
+                Book <FaArrowRight className="ml-1" />
               </Button>
-              <p className="font-serif text-gray-700 dark:text-gray-400">Price/room: {hotel.price}</p>
-              <div className="flex items-center">
-                <Rating>
-                  <Rating.Star />
-                  <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white">{hotel.rating}</p>
-                </Rating>
+              <p className="font-serif text-gray-700 dark:text-gray-400">
+                Price/room: {hotel.price}
+              </p>
+              <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${hotel.rating > 3 ? ' bg-green-300 text-green-700' : ' bg-red-300 text-red-700'}`}>
+                <FaStar className='ml-1 mr-1'/>
+                {hotel.rating}
               </div>
-              <div className="flex justify-between items-center mt-2 w-44">
-                <Button
-                  pill
-                  className={`w-20 mr-2 ${hotel.add ? 'text-white' : 'text-gray-300'} `}
-                  color={hotel.add ? 'purple' : 'bg-gray-300'}
-                  onClick={() => handleAdd(index, hotel)}
-                  disabled={!hotel.add}
-                >
-                  <MdAdd className="h-6 w-6" />
-                </Button>
-                <Button
-                  outline
-                  pill
-                  className={`w-20 ml-2 bg-purple-700 text-white`}
-                  color={hotel.remove ? 'purple' : 'bg-gray-300'}
-                  onClick={() => handleRemove(index, hotel)}
-                  disabled={!hotel.remove}
-                >
-                  <MdRemove className="h-6 w-6" />
-                </Button>
-              </div>
-            </Card>
+              
+            </div>
+          </Card>
           ))}
-          <div className="flex overflow-x-auto ml-20 md:justify-center">
-            <Button disabled={pageNumber === 1} onClick={() => onPageChange(pageNumber - 1)}>Previous</Button>
+            </div>
+          <div className="flex overflow-x-auto ml-20 md:justify-center gap-2">
+            <Button
+              disabled={pageNumber === 1}
+              onClick={() => onPageChange(pageNumber - 1)}
+            >
+              Previous
+            </Button>
             <Button onClick={() => onPageChange(pageNumber + 1)}>Next</Button>
             {console.log("Page Number:", pageNumber)}
-          </div>
-          <div className="flex flex-col justify-center mx-auto mt-4 mb-4">
-            <Button className="rounded-full mb-2 justify-center w-20" color="purple" onClick={handleSave}>
-              Save
-            </Button>
-            {alert.show && (
-              <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
-                <div className="flex justify-between items-center max-w-2xl gap-10">
-                  <span>{alert.message}</span>
-                  <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent' onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
-                    <MdClose />
-                  </Button>
-                </div>
-              </Alert>
-            )}
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }

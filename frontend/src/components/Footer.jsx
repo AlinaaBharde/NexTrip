@@ -8,7 +8,7 @@ export default function footer() {
 
   return (
     <div className="flex flex-col min-h-screen ">
-      <div className="flex-grow" />
+      <div className='flex-grow' />
     <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border w-full bottom-0  bg-gradient-to-bl from-cyan-100 via-white to-gray-300 background-animate' style={{
       backgroundColor: 'white'
     }}>
