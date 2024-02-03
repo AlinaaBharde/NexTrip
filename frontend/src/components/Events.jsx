@@ -63,7 +63,7 @@ export default function Events({ locationName, index }) {
             </div>
           ) : (
             events.map((event, index) => (
-              <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl event-card'>
+              <animated.div key={index} style={props} className='bg-white border shadow text-black rounded-xl event-card '>
                 <div className='rounded-t-xl flex justify-center items-center h-56'>
                   <img src={event.thumbnail} alt='' className='h-full w-full rounded-xl' />
                 </div>
