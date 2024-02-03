@@ -147,7 +147,7 @@ const getAirportCode = async (city) => {
             return "BDQ";
         case 'Tirupati':
             return "TIR";
-        case "Jpdhpur":
+        case "Jodhpur":
             return "JDH";
         case 'Rajkot':
             return "RAJ";
