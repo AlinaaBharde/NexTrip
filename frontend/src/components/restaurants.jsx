@@ -71,14 +71,14 @@ export default function Restaurants({ locationName, index }) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
 
-      console.log("Hotel added successfully: ", response);
+      console.log("Restaurant added successfully: ", response);
     } catch (error) {
-      console.error("Error adding hotel:", error);
+      console.error("Error adding restaurant:", error);
     }
   }
 
@@ -91,18 +91,23 @@ export default function Restaurants({ locationName, index }) {
     try {
       const response = await axios.delete(
         `http://localhost:4000/api/restaurants/delete/${planId}`,
-        JSON.stringify(removedRestaurant),
         {
+          data: removedRestaurant,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
 
-      console.log("Hotel added successfully: ", response);
+      console.log("Restaurant removed successfully: ", response);
     } catch (error) {
-      console.error("Error adding hotel:", error);
+      console.error("Error removing resetaurant:", error);
+      if (error.response && error.response.status === 401) {
+        console.log("User not logged in. Redirecting to login page...");
+      } else {
+        console.log("An error occurred during hotel removal:", error.message);
+      }
     }
   }
 

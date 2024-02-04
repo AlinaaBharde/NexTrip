@@ -56,18 +56,33 @@ export default function Hotels({
         pageNumber,
         sortby
       );
-      const updatedHotels = response.map((hotel) => ({
+  
+      let sortedHotels = response.map((hotel) => ({
         ...hotel,
         active: false,
       }));
-      sethotels(updatedHotels.slice(0, 30));
-      console.log(hotels);
+  
+      if (sortby === "PRICE") {
+        sortedHotels = sortedHotels.sort((a, b) =>
+          convertPriceToNumber(a.price) - convertPriceToNumber(b.price)
+        );
+      } else if (sortby === "RATING") {
+        sortedHotels = sortedHotels.sort((a, b) => b.rating - a.rating);
+      }
+  
+      sethotels(sortedHotels.slice(0, 30));
       setLoading(false);
     } catch (error) {
       console.error("Error fetching travel plans:", error);
       setLoading(false);
     }
   };
+  
+  const convertPriceToNumber = (priceString) => {
+    return Number(priceString.replace(/[₹,]/g, ''));
+  };
+  
+  
 
   React.useEffect(() => {
     if (index === 0 && loading) {
@@ -208,7 +223,7 @@ export default function Hotels({
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
@@ -224,24 +239,30 @@ export default function Hotels({
     const removedHotel = { ...hotel, active: !hotel.active };
     updatedHotels[index] = removedHotel;
     sethotels(updatedHotels);
-
+  
     try {
       const response = await axios.delete(
         `http://localhost:4000/api/hotels/delete/${planId}`,
-        JSON.stringify(removedHotel),
         {
+          data: removedHotel, 
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
-
-      console.log("Hotel added successfully: ", response);
+  
+      console.log("Hotel removed successfully: ", response);
     } catch (error) {
-      console.error("Error adding hotel:", error);
+      console.error("Error removing hotel:", error);
+      if (error.response && error.response.status === 401) {
+        console.log("User not logged in. Redirecting to login page...");
+      } else {
+        console.log("An error occurred during hotel removal:", error.message);
+      }
     }
   }
+  
 
 
   const handleDateChange = (name, value) => {
