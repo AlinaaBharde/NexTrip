@@ -3,7 +3,6 @@ import {
   Button,
   Label,
   Card,
-  Rating,
   Radio,
   Spinner,
   Tooltip,
@@ -15,6 +14,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { searchHotels } from "../services/hotelservices";
 import Heart from "react-heart";
+import hotelbg from '../images/hotelbg.jpeg';
 
 export default function Hotels({
   locationName,
@@ -106,7 +106,7 @@ export default function Hotels({
         <Card
           className="bg-cover bg-center h-64 relative rounded-lg w-full"
           style={{
-            backgroundImage: `url(https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg)`,
+            backgroundImage: `url(${hotelbg})`,
           }}
         >
           <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
@@ -303,7 +303,7 @@ export default function Hotels({
             hotels.map((hotel, index) => (
               <Card
             key={index}
-            className="mb-6 md:max-w-4xl mr-6 hover:shadow-md rounded-sm overflow-hidden"
+            className="mb-6 md:max-w-4xl mr-6 rounded-sm overflow-hidden"
           >
             <img
               src={hotel.imageUrl}

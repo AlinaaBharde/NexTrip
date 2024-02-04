@@ -1,10 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero';
-// import Gallery from '../components/Gallery';
-// import Checklist from '../components/Checklist';
 import Testimonials from '../components/Testimonial';
-// import Carousel from '../components/Carousel';
 import Banner from '../components/Banner';
 import Footer from '../components/Footer';
 import '../styles/colorgradient.css';
@@ -18,7 +15,6 @@ function Home() {
       <Navbar />
       <Hero />
       <Carousel />
-      {/* <Gallery /> */}
       
       <Testimonials />
       

@@ -7,6 +7,7 @@ import { searchRestaurants } from '../services/restaurantservices';
 import { Spinner } from 'flowbite-react';
 import Heart from 'react-heart';
 import { FaStar } from "react-icons/fa6";
+import restbg from '../images/restaurantbg.jpg';
 
 export default function Restaurants({ locationName, index }) {
   const { id } = useParams();
@@ -44,7 +45,7 @@ export default function Restaurants({ locationName, index }) {
         <Card
           className="bg-cover bg-center h-60 relative rounded-sm w-full"
           style={{
-            backgroundImage: `url(https://wallpapercave.com/wp/wp1874159.jpg)`,
+            backgroundImage: `url(${restbg})`,
           }}
         >
           <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
