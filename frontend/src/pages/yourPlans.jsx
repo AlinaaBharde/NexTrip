@@ -43,13 +43,17 @@ const TravelPlansList = () => {
         setOpenModal(false);
         if (deleteIndex !== null) {
             const planToDelete = travelPlans[deleteIndex];
-
+            const planId = planToDelete._id ? planToDelete._id.toString() : "";
             try {
-                await axios.delete(`http://localhost:4000/api/yourPlans/${planToDelete._id}`);
-
-                const updatedPlans = [...travelPlans];
-                updatedPlans.splice(deleteIndex, 1);
-                setTravelPlans(updatedPlans);
+                const authToken = user.token;
+                const response = await axios.delete(`http://localhost:4000/api/yourPlans/${planId}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                }
+                );
+                console.log("Plan Deleted Succesfully: ", response);
+                fetchTravelPlans();
                 setDeleteIndex(null);
             } catch (error) {
                 console.error('Error deleting travel plan:', error);
