@@ -51,4 +51,4 @@ Add names of your mentors with their emails and links to their GitHub accounts
 ## 📱Screenshots
 
 #### Home Page
-![SS2](https://drive.google.com/file/d/1K6Ba51gTWorddyKz3ZPRu3bChsME2NzK/view?usp=sharing)
+![home-page](https://github.com/vxyzs/Neural-Nexus/assets/129577732/5543a8c3-a653-4665-8434-928fed0f7dba)
