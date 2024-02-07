@@ -80,7 +80,7 @@ const TravelPlansList = () => {
     };
 
     return (
-        <div className='w-full h-full bg-white '>
+        <div className='w-screen h-full bg-white '>
             <Navbar />
             <h1 className="pl-6 mt-20 pt-4 pb-4 font-bold text-7xl rounded-md shadow text-center text-blue-500">Saved Plans 🧳</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-2">

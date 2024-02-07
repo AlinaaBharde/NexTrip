@@ -23,8 +23,13 @@ function Form() {
     endDate: today,
   });
 
+  const navigate = useNavigate();
 
-  const Plans = ['Kashmir trip', 'Jaipur trip', 'Mumbai trip'];
+  const redirectTopreviousplan = () => {
+    navigate('/yourplans');
+  };
+
+
   const username = user?.username;
   const [PlanID, setPlanId] = React.useState(null);
   const history = useNavigate();
@@ -130,14 +135,17 @@ function Form() {
                 <input type='date' id='startDate' className='w-full border border-gray-300 text-black rounded-md text-base shadow-lg bg-white' name='startDate' value={selectedDates?.startDate ? formatDate(selectedDates.startDate) : ''} min={today} onChange={(event) => handleDateChange('startDate', event.target.value)} />
               </div>
               <div className='m-1'>
-                <Label htmlFor="endDate" value="Check-out" className='font-base text-base' />
+                <Label htmlFor="endDate" value="Check-out" className='font-base text-base' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
                 <input type='date' id='endDate' className='w-full border border-gray-300  text-black rounded-md text-base shadow-lg bg-white' name='endDate' value={selectedDates?.endDate ? formatDate(selectedDates.endDate) : ''} min={today} onChange={(event) => handleDateChange('endDate', event.target.value)} />
               </div>
             </div>
             <div className='w-full flex justify-center'>
-              <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 text-white ' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
+              <Button type='submit' className='mx-4 mt-2 mb-2 rounded-full hover:scale-110 transition-transform duration-300 text-white ' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
                 Start planning
               </Button>
+            </div>
+            <div className='text-center block text-teal-700 hover:text-teal-900 cursor-pointer' onClick={redirectTopreviousplan}>
+              Select from Previous Plans ?
             </div>
           </form>
         </Card>

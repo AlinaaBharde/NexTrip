@@ -1,6 +1,5 @@
 const userPlan = require("../models/userplanModel.js");
 const user = require("../models/userModel.js");
-const { getJson } = require("serpapi");
 
 const yourPlansController = {
     getYourPlans: async (req, res) => {
@@ -23,6 +22,7 @@ const yourPlansController = {
             }
             console.log("plans : ", plandetails);
             res.json(plandetails);
+
         } catch (error) {
             console.error('Error fetching travel plans:', error);
             res.status(500).json({ error: 'Internal server error' });

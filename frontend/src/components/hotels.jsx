@@ -7,7 +7,7 @@ import {
   Spinner,
   Tooltip,
 } from "flowbite-react";
-import { FaMapLocation, FaArrowRight,  FaStar } from "react-icons/fa6";
+import { FaMapLocation, FaArrowRight, FaStar } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
@@ -56,12 +56,15 @@ export default function Hotels({
         pageNumber,
         sortby
       );
-  
+
       let sortedHotels = response.map((hotel) => ({
         ...hotel,
         active: false,
       }));
-  
+
+      sortedHotels = sortedHotels.filter((hotel) => hotel.price !== null);
+      sortedHotels = sortedHotels.filter((hotel) => hotel.rating !== null);
+
       if (sortby === "PRICE") {
         sortedHotels = sortedHotels.sort((a, b) =>
           convertPriceToNumber(a.price) - convertPriceToNumber(b.price)
@@ -69,7 +72,7 @@ export default function Hotels({
       } else if (sortby === "RATING") {
         sortedHotels = sortedHotels.sort((a, b) => b.rating - a.rating);
       }
-  
+
       sethotels(sortedHotels.slice(0, 30));
       setLoading(false);
     } catch (error) {
@@ -77,12 +80,12 @@ export default function Hotels({
       setLoading(false);
     }
   };
-  
+
   const convertPriceToNumber = (priceString) => {
     return Number(priceString.replace(/[₹,]/g, ''));
   };
-  
-  
+
+
 
   React.useEffect(() => {
     if (index === 0 && loading) {
@@ -110,18 +113,18 @@ export default function Hotels({
           }}
         >
           <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
-          <div className="flex flex-col items-center justify-center relative z-10">
-            <div className="text-white text-center font-mono text-7xl sm:text-17xl">Discover Your Dream Stay</div>
-            <div className="flex items-center justify-center pb-4">
-              {renderFilter()}
+            <div className="flex flex-col items-center justify-center relative z-10">
+              <div className="text-white text-center font-mono text-7xl sm:text-17xl">Discover Your Dream Stay</div>
+              <div className="flex items-center justify-center pb-4">
+                {renderFilter()}
+              </div>
             </div>
-          </div>
           </div>
         </Card>
       </div>
     );
   }
-  
+
 
   function renderFilter() {
     return (
@@ -198,7 +201,7 @@ export default function Hotels({
       </div>
     );
   }
-  
+
 
   async function handleApply() {
     setLoading(true);
@@ -239,19 +242,19 @@ export default function Hotels({
     const removedHotel = { ...hotel, active: !hotel.active };
     updatedHotels[index] = removedHotel;
     sethotels(updatedHotels);
-  
+
     try {
       const response = await axios.delete(
         `http://localhost:4000/api/hotels/delete/${planId}`,
         {
-          data: removedHotel, 
+          data: removedHotel,
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${user.token}`,
           },
         }
       );
-  
+
       console.log("Hotel removed successfully: ", response);
     } catch (error) {
       console.error("Error removing hotel:", error);
@@ -262,7 +265,7 @@ export default function Hotels({
       }
     }
   }
-  
+
 
 
   const handleDateChange = (name, value) => {
@@ -299,62 +302,62 @@ export default function Hotels({
       ) : (
         <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-b-2">
-          {hotels &&
-            hotels.map((hotel, index) => (
-              <Card
-            key={index}
-            className="mb-6 md:max-w-4xl mr-6 rounded-sm overflow-hidden"
-          >
-            <img
-              src={hotel.imageUrl}
-              alt={hotel.name}
-              className="h-44 object-cover w-full mb-0 rounded-t-sm mt-0"
-            />
-            <div className="p-4">
-            <div className="flex justify-between items-center mt-2 gap-1 border-b-2">
-              <h2 className="text-xl font-serif font-bold mb-2 text-black">
-                {hotel.name}
-              </h2>
-              <Tooltip content={hotel.active ? "Remove it": "Save it"} >
-                <div style={{ width: "1rem", height: '1rem' }}>
-                  <Heart
-                    isActive={hotel.active}
-                    onClick={() =>
-                      hotel.active
-                        ? handleRemove(index, hotel)
-                        : handleAdd(index, hotel)
-                    }
-                    animationTrigger="both"
-                    animationScale={1.25}
-                    style={{ marginBottom: "1rem" }}
+            {hotels &&
+              hotels.map((hotel, index) => (
+                <Card
+                  key={index}
+                  className="mb-6 md:max-w-4xl mr-6 rounded-sm overflow-hidden"
+                >
+                  <img
+                    src={hotel.imageUrl}
+                    alt={hotel.name}
+                    className="h-44 object-cover w-full mb-0 rounded-t-sm mt-0"
                   />
-                </div>
-                </Tooltip>
-              </div>
-              <p className="font-semibold text-gray-700 dark:text-gray-400">
-                <FaMapLocation className="inline-block mr-2" />
-                {hotel.location}
-              </p>
-              <Button
-                color="purple"
-                className="mb-2 w-28 rounded-sm h-8"
-                gradientDuoTone="purpleToPink"
-                onClick={() => window.open(hotel.url, "_blank")}
-              >
-                Book <FaArrowRight className="ml-1" />
-              </Button>
-              <p className="font-serif text-gray-700 dark:text-gray-400">
-                Price/room: {hotel.price}
-              </p>
-              <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${hotel.rating > 3 ? ' bg-green-300 text-green-700' : ' bg-red-300 text-red-700'}`}>
-                <FaStar className='ml-1 mr-1'/>
-                {hotel.rating}
-              </div>
-              
-            </div>
-          </Card>
-          ))}
-            </div>
+                  <div className="p-4">
+                    <div className="flex justify-between items-center mt-2 gap-1 border-b-2">
+                      <h2 className="text-xl font-serif font-bold mb-2 text-black">
+                        {hotel.name}
+                      </h2>
+                      <Tooltip content={hotel.active ? "Remove it" : "Save it"} >
+                        <div style={{ width: "1rem", height: '1rem' }}>
+                          <Heart
+                            isActive={hotel.active}
+                            onClick={() =>
+                              hotel.active
+                                ? handleRemove(index, hotel)
+                                : handleAdd(index, hotel)
+                            }
+                            animationTrigger="both"
+                            animationScale={1.25}
+                            style={{ marginBottom: "1rem" }}
+                          />
+                        </div>
+                      </Tooltip>
+                    </div>
+                    <p className="font-semibold text-gray-700 dark:text-gray-400">
+                      <FaMapLocation className="inline-block mr-2" />
+                      {hotel.location}
+                    </p>
+                    <Button
+                      color="purple"
+                      className="mb-2 w-28 rounded-sm h-8"
+                      gradientDuoTone="purpleToPink"
+                      onClick={() => window.open(hotel.url, "_blank")}
+                    >
+                      Book <FaArrowRight className="ml-1" />
+                    </Button>
+                    <p className="font-serif text-gray-700 dark:text-gray-400">
+                      Price/room: {hotel.price}
+                    </p>
+                    <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${hotel.rating > 3 ? ' bg-green-300 text-green-700' : ' bg-red-300 text-red-700'}`}>
+                      <FaStar className='ml-1 mr-1' />
+                      {hotel.rating}
+                    </div>
+
+                  </div>
+                </Card>
+              ))}
+          </div>
           <div className="flex overflow-x-auto ml-20 md:justify-center gap-2">
             <Button
               disabled={pageNumber === 1}
