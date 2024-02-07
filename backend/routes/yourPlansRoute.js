@@ -6,6 +6,6 @@ const PlansRouter = express.Router();
 
 PlansRouter.get('/', requireAuth, yourPlansRouter.getYourPlans);
 
-PlansRouter.delete('/:id', yourPlansRouter.deleteYourPlan);
+PlansRouter.delete('/:id', requireAuth, yourPlansRouter.deleteYourPlan);
 
 module.exports = PlansRouter;

@@ -44,7 +44,10 @@ const userplanSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Place"
         }
-    ]
+    ],
+    image: {
+        type: String
+    }
 })
 
 const userPlan = mongoose.model('userplan', userplanSchema);

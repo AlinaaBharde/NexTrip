@@ -15,9 +15,9 @@ function NavbarComponent() {
 
     return (
         <div>
-            <FlowbiteNavbar fluid rounded className='fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 h-20 pt-4 shadow-sm  bg-gradient-to-bl from-cyan-100 via-white to-gray-300 background-animate' style={{ minWidth: '350px' }}>
+            <FlowbiteNavbar fluid rounded className='fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 h-20 pt-4 shadow-sm' style={{ minWidth: '350px' }}>
                 <FlowbiteNavbar.Brand href="/">
-                    <img src={Logo} className="mr-4 ml-6 mt-0 h-12 lg:h-15 " alt="Logo" style={{'backgroundColor': 'transparent'}}/>
+                    <img src={Logo} className="mr-4 ml-6 mt-0 h-12 lg:h-15 " alt="Logo" style={{ 'backgroundColor': 'transparent' }} />
                     <Link to={'/'} className="self-center whitespace-nowrap text-7xl font-bold mt-0" style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Trip Planner</Link>
                 </FlowbiteNavbar.Brand>
                 <div className="flex flex-col mr-2 sm:mr-10">

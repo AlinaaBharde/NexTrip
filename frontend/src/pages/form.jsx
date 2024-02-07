@@ -1,12 +1,11 @@
 import React from 'react';
 import { Button, Label, TextInput, Carousel, Card } from 'flowbite-react';
 import axios from 'axios';
-import Footer from '../components/Footer';
 import { FaPeopleGroup } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import '../styles/colorgradient.css';
-
+import srcimg from '../images/form.jpg';
 
 function Form() {
 
@@ -14,7 +13,7 @@ function Form() {
 
   const [details, setdetails] = React.useState({
     tripName: "",
-    numberOfPeople: 0,
+    numberOfPeople: 1,
     cityToVisit: ""
   });
 
@@ -99,99 +98,53 @@ function Form() {
   }
 
   return (
-    // bg-gradient-to-br from-fuchsia-950 to-teal-500 background-animate
-    <div className=' w-screen h-full bg-gradient-to-br from-fuchsia-950 to-teal-500 background-animate' >
-
-      <Card className="p-4 mx-auto mt-0 pt-20 mb-8 md:w-[50%] md:h-[100%] flex flex-col justify-around border shadow-lg w-screen h-full ">
-        <h1 className=' ml-12 mt-10  mx-auto font-bold text-7xl w-full text-indigo-700' >Travel Details</h1>
-        <form className="max-w-lg mx-auto container bg-transparent mb-24 "  >
-          <div className="mb-2 block  pt-8" >
-            <Label htmlFor="TripName" value="Trip Name" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
-          </div>
-          <TextInput id="TripName" type="text" placeholder="Enter Trip Name" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg' onChange={handleChange} name='tripName' value={details?.tripName} required />
-          <div className="mb-2 block mt-8" >
-            <Label htmlFor="cityToVisit" value="Choose your destination" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
-          </div>
-          <TextInput id="cityToVisit" type="text" placeholder="Enter destination" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg' onChange={handleChange} name='cityToVisit' value={details?.cityToVisit} required />
-          <div className="mb-2 block mt-8">
-            <Label htmlFor="numberOfPeople" value="Group Size" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
-          </div>
-          <TextInput id="groupSize" type="number" placeholder="Enter Group Size" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg' defaultValue={1} min={1} name='numberOfPeople' icon={FaPeopleGroup} value={details?.numberOfPeople} onChange={handleChange} required />
-          <div className="mb-2 block mt-8">
-          </div>
-          <div className="block flex-wrap gap-4">
-            <div className="mb-2 block mt-8">
-              <Label htmlFor="startDate" value="From" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
+    <div className='flex justify-center items-center h-screen bg-gradient-to-br from-[#8299d2] via-[#eda8af] to-[#ecca8c]  w-screen'>
+      <div className='grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] align-middle items-center border-black bg-white'>
+        <Card className='bg-white border-none justify-center align-middle shadow-none items-center flex h-[450px] m-10'>
+          <p className='text-black text-center mt-5 text-5xl font-bold' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Plan a Trip ✈️ </p>
+          <p className='text-black text-center'>Just one step away from your new adventure !</p>
+          <form>
+            <div>
+              <Label htmlFor="TripName" value="Trip Name" className='font-bold' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
+              <TextInput id="TripName" type="text" placeholder="Enter Trip Name" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg m-2' onChange={handleChange} name='tripName' value={details?.tripName} required />
             </div>
-            <input type='date' id='startDate' className='w-full border border-gray-300 text-black rounded-md text-xl shadow-lg bg-slate-300' name='startDate' value={selectedDates?.startDate ? formatDate(selectedDates.startDate) : ''} min={today} onChange={(event) => handleDateChange('startDate', event.target.value)} />
-            <div className="mb-2 block">
-              <Label htmlFor="endDate" value="Till" className='font-bold text-xl' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
+            <div>
+              <Label htmlFor="cityToVisit" value="Choose your destination" className='font-bold' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
+              <TextInput id="cityToVisit" type="text" placeholder="Enter destination" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg m-2' onChange={handleChange} name='cityToVisit' value={details?.cityToVisit} required />
             </div>
-            <input type='date' id='endDate' className='w-full border border-gray-300  text-black rounded-md text-xl shadow-lg bg-slate-300' name='endDate' value={selectedDates?.endDate ? formatDate(selectedDates.endDate) : ''} min={today} onChange={(event) => handleDateChange('endDate', event.target.value)} />
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            {
-              user ? (
-                <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
-
-                  Make Your own Itinerary
-
-                </Button>
-              ) : (
-                <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} >
-                  <Link to={'/signup'}   >
-                    Make Your own Itinerary
-                  </Link>
-                </Button>
-              )
-            }
-          </div>
-          <div className='mx-auto text-center block font-semibold text-lg underline' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>{
-            user ? (
-              <>
-                <Link to={'/yourPlans'} >
-                  Select from Your Previous Plans
-                </Link>
-                <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 pt-4 ">
-                  <Carousel className='shadow-lg'>
-                    {
-                      Plans.map((plan, index) => {
-                        return (
-                          <div className="flex h-full items-center justify-center bg-gray-200 dark:bg-gray-700 dark:text-white shadow-lg">
-                            {plan}
-                          </div>
-                        )
-                      })
-                    }
-                  </Carousel>
-                </div>
-              </>
-            ) : (
-              <>
-                <Link to={'/signup'} >
-                  Select from Your Previous Plans
-                </Link>
-                <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 pt-4 ">
-                  <Carousel>
-                    {
-                      Plans.map((plan, index) => {
-                        return (
-                          <div className="flex h-full items-center justify-center bg-gray-200 dark:bg-gray-700 dark:text-white shadow-lg">
-                            {plan}
-                          </div>
-                        )
-                      })
-                    }
-                  </Carousel>
-                </div>
-              </>
-            )
-          }
-          </div>
-
-        </form>
-      </Card>
-      <Footer />
+            <div>
+              <Label htmlFor="numberOfPeople" value="Group Size" className='font-bold' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
+              <div className="flex  justify-center align-middle items-center">
+                <button className="flex items-center justify-center w-8 h-8 bg-[#e0e3e5] rounded-l-md hover:bg-gray-300" onClick={(event) => { event.preventDefault(); handleChange({ target: { name: 'numberOfPeople', value: Math.max(1, parseInt(details.numberOfPeople) - 1) } }) }}>
+                  <span className='font-bold text-black'>-</span>
+                </button>
+                <TextInput id="groupSize" type="number" placeholder="Enter Group Size" className='w-full  border border-gray-300 rounded-md text-xl shadow-lg m-2' defaultValue={1} min={1} name='numberOfPeople' icon={FaPeopleGroup} value={details?.numberOfPeople} onChange={handleChange} required />
+                <button className="flex items-center justify-center w-8 h-8 bg-[#e0e3e5] rounded-l-md hover:bg-gray-300" onClick={(event) => { event.preventDefault(); handleChange({ target: { name: 'numberOfPeople', value: parseInt(details.numberOfPeople) + 1 } }) }}>
+                  <span className='font-bold text-black'>+</span>
+                </button>
+              </div>
+            </div>
+            <div className='flex justify-center w-full'>
+              <div className='m-1'>
+                <Label htmlFor="startDate" value="Check-in" className='font-base text-base' style={{ 'color': '#5F2EEA', 'font': 'poppins' }} />
+                <input type='date' id='startDate' className='w-full border border-gray-300 text-black rounded-md text-base shadow-lg bg-white' name='startDate' value={selectedDates?.startDate ? formatDate(selectedDates.startDate) : ''} min={today} onChange={(event) => handleDateChange('startDate', event.target.value)} />
+              </div>
+              <div className='m-1'>
+                <Label htmlFor="endDate" value="Check-out" className='font-base text-base' />
+                <input type='date' id='endDate' className='w-full border border-gray-300  text-black rounded-md text-base shadow-lg bg-white' name='endDate' value={selectedDates?.endDate ? formatDate(selectedDates.endDate) : ''} min={today} onChange={(event) => handleDateChange('endDate', event.target.value)} />
+              </div>
+            </div>
+            <div className='w-full flex justify-center'>
+              <Button type='submit' className='mx-4 mt-8 mb-8 rounded-full hover:scale-110 transition-transform duration-300 text-white ' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
+                Start planning
+              </Button>
+            </div>
+          </form>
+        </Card>
+        <div className='w-full h-[550px] hidden md:block'>
+          <img src={srcimg} alt="" className='w-full h-full' />
+        </div>
+      </div>
     </div>
 
   );

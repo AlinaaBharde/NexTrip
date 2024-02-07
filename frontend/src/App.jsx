@@ -10,17 +10,17 @@ import Form from './pages/form';
 import TravelPlansList from './pages/yourPlans';
 import SpecificPlan from './pages/Planning';
 import SavedSpecificPlan from './pages/specificPlan';
+import MaybeshowNavbar from './components/MaybeshowNavbar';
 
 
 function App() {
   const { user } = useAuthContext();
-  const routesWithoutNavbar = ['/login', '/signup'];
-
-  const showNavbar = !routesWithoutNavbar.includes(window.location.pathname);
 
   return (
     <Router>
-      {showNavbar && <Navbar />}
+      <MaybeshowNavbar>
+        <Navbar />
+      </MaybeshowNavbar>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/form' element={user ? <Form /> : <Navigate to="/signup" />} />

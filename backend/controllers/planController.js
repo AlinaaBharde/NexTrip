@@ -1,6 +1,6 @@
 const userPlan = require("../models/userplanModel.js");
 const user = require("../models/userModel.js");
-
+const { getJson } = require("serpapi");
 
 const yourPlansController = {
     getYourPlans: async (req, res) => {
@@ -33,17 +33,21 @@ const yourPlansController = {
         const planId = req.params.id;
 
         try {
+            console.log(planId)
             const deletedPlan = await userPlan.findByIdAndDelete(planId);
 
             if (!deletedPlan) {
                 return res.status(404).json({ error: 'Plan not found' });
             }
             const userId = req.user._id;
+            console.log(userId)
             const updatedUser = await user.findByIdAndUpdate(
                 userId,
                 { $pull: { plans: planId } },
                 { new: true }
             );
+            await updatedUser.save();
+            console.log(`Deleted plan: ${updatedUser}`)
             res.json(deletedPlan);
         } catch (error) {
             console.error('Error deleting travel plan:', error);
