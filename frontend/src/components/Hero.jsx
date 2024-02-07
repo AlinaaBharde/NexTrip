@@ -4,7 +4,7 @@ import bgImg from '../images/bg.jpeg';
 
 const Hero = () => {
   return (
-    <section className="bg-center bg-no-repeat bg-cover min-h-screen bg-gray-700 bg-blend-multiply" style={{ 'backgroundImage': `url(${bgImg})` }}>
+    <section className="bg-center bg-no-repeat bg-cover lg:min-h-screen bg-gray-700 bg-blend-multiply" style={{ 'backgroundImage': `url(${bgImg})` }}>
       <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 font-Poppins">
         <h1 className="mb-4 text-17xl font-bold tracking-tight leading-none text-white md:text-5xl lg:text-17xl">Plan your next big trip in India.</h1>
         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Embark on a Journey of Discovery: Crafting Unforgettable Memories Across Country.</p>

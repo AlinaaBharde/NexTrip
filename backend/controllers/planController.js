@@ -1,6 +1,6 @@
 const userPlan = require("../models/userplanModel.js");
 const user = require("../models/userModel.js");
-const { getJson } = require("serpapi");
+// const { getJson } = require("serpapi");
 
 const yourPlansController = {
     getYourPlans: async (req, res) => {

@@ -80,7 +80,7 @@ const TravelPlansList = () => {
     };
 
     return (
-        <div className='w-full h-full bg-white '>
+        <div className='w-screen h-full bg-white '>
             <Navbar />
             <h1 className="pl-6 mt-20 pt-4 pb-4 font-bold text-7xl rounded-md shadow text-center text-blue-500">Saved Plans 🧳</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-2">
@@ -94,7 +94,7 @@ const TravelPlansList = () => {
                                 <Button onClick={() => { setOpenModal(true); setDeleteIndex(index); }} className="text-white hover:scale-110 transition-transform duration-300 bg-red-500"><MdDelete className="w-[10px] h-[10px]" /></Button>
                             </div>
                             <div>
-                                <img src={imgarray[index % imgarray.length]} alt="image" className="w-full h-full rounded-md" />
+                                <img src={imgarray[index % imgarray.length]} alt="image" className="w-full h-72 rounded-md" />
                             </div>
                             <p className="text-gray-700  font-bold text-center">Destination: {plan.cityToVisit}</p>
                             <p className="text-gray-700  text-center">Group Size: {plan.numberOfPeople}</p>
