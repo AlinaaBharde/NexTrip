@@ -3,7 +3,6 @@ import {
   Button,
   Label,
   Card,
-  Rating,
   Radio,
   Spinner,
   Tooltip,
@@ -15,6 +14,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { searchHotels } from "../services/hotelservices";
 import Heart from "react-heart";
+import hotelbg from '../images/hotelbg.jpeg';
 
 export default function Hotels({
   locationName,
@@ -56,18 +56,33 @@ export default function Hotels({
         pageNumber,
         sortby
       );
-      const updatedHotels = response.map((hotel) => ({
+  
+      let sortedHotels = response.map((hotel) => ({
         ...hotel,
         active: false,
       }));
-      sethotels(updatedHotels.slice(0, 30));
-      console.log(hotels);
+  
+      if (sortby === "PRICE") {
+        sortedHotels = sortedHotels.sort((a, b) =>
+          convertPriceToNumber(a.price) - convertPriceToNumber(b.price)
+        );
+      } else if (sortby === "RATING") {
+        sortedHotels = sortedHotels.sort((a, b) => b.rating - a.rating);
+      }
+  
+      sethotels(sortedHotels.slice(0, 30));
       setLoading(false);
     } catch (error) {
       console.error("Error fetching travel plans:", error);
       setLoading(false);
     }
   };
+  
+  const convertPriceToNumber = (priceString) => {
+    return Number(priceString.replace(/[₹,]/g, ''));
+  };
+  
+  
 
   React.useEffect(() => {
     if (index === 0 && loading) {
@@ -91,7 +106,7 @@ export default function Hotels({
         <Card
           className="bg-cover bg-center h-64 relative rounded-lg w-full"
           style={{
-            backgroundImage: `url(https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg)`,
+            backgroundImage: `url(${hotelbg})`,
           }}
         >
           <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
@@ -208,7 +223,7 @@ export default function Hotels({
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
@@ -224,24 +239,30 @@ export default function Hotels({
     const removedHotel = { ...hotel, active: !hotel.active };
     updatedHotels[index] = removedHotel;
     sethotels(updatedHotels);
-
+  
     try {
       const response = await axios.delete(
         `http://localhost:4000/api/hotels/delete/${planId}`,
-        JSON.stringify(removedHotel),
         {
+          data: removedHotel, 
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
-
-      console.log("Hotel added successfully: ", response);
+  
+      console.log("Hotel removed successfully: ", response);
     } catch (error) {
-      console.error("Error adding hotel:", error);
+      console.error("Error removing hotel:", error);
+      if (error.response && error.response.status === 401) {
+        console.log("User not logged in. Redirecting to login page...");
+      } else {
+        console.log("An error occurred during hotel removal:", error.message);
+      }
     }
   }
+  
 
 
   const handleDateChange = (name, value) => {
@@ -256,13 +277,13 @@ export default function Hotels({
   if (loading) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0">
-        <div className="flex items-center justify-center text-black">
+        <div className="flex items-center justify-center gap-2 text-black">
           <Spinner
             aria-label="Default status example"
             size="xl"
             color="purple"
           />
-          Loading
+          Loading...
         </div>
       </div>
     );
@@ -272,7 +293,7 @@ export default function Hotels({
     <div>
       <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
       {hotels && hotels.length === 0 ? (
-        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">
+        <p className=" ml-10 container border rounded-md shadow p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">
           Oops!! No Hotels Available.
         </p>
       ) : (
@@ -282,7 +303,7 @@ export default function Hotels({
             hotels.map((hotel, index) => (
               <Card
             key={index}
-            className="mb-6 md:max-w-4xl mr-6 hover:shadow-md rounded-sm overflow-hidden"
+            className="mb-6 md:max-w-4xl mr-6 rounded-sm overflow-hidden"
           >
             <img
               src={hotel.imageUrl}

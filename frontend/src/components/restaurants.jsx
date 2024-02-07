@@ -7,6 +7,7 @@ import { searchRestaurants } from '../services/restaurantservices';
 import { Spinner } from 'flowbite-react';
 import Heart from 'react-heart';
 import { FaStar } from "react-icons/fa6";
+import restbg from '../images/restaurantbg.jpg';
 
 export default function Restaurants({ locationName, index }) {
   const { id } = useParams();
@@ -44,7 +45,7 @@ export default function Restaurants({ locationName, index }) {
         <Card
           className="bg-cover bg-center h-60 relative rounded-sm w-full"
           style={{
-            backgroundImage: `url(https://wallpapercave.com/wp/wp1874159.jpg)`,
+            backgroundImage: `url(${restbg})`,
           }}
         >
           <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
@@ -71,14 +72,14 @@ export default function Restaurants({ locationName, index }) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
 
-      console.log("Hotel added successfully: ", response);
+      console.log("Restaurant added successfully: ", response);
     } catch (error) {
-      console.error("Error adding hotel:", error);
+      console.error("Error adding restaurant:", error);
     }
   }
 
@@ -91,18 +92,23 @@ export default function Restaurants({ locationName, index }) {
     try {
       const response = await axios.delete(
         `http://localhost:4000/api/restaurants/delete/${planId}`,
-        JSON.stringify(removedRestaurant),
         {
+          data: removedRestaurant,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            "Authorization": `Bearer ${user.token}`,
           },
         }
       );
 
-      console.log("Hotel added successfully: ", response);
+      console.log("Restaurant removed successfully: ", response);
     } catch (error) {
-      console.error("Error adding hotel:", error);
+      console.error("Error removing resetaurant:", error);
+      if (error.response && error.response.status === 401) {
+        console.log("User not logged in. Redirecting to login page...");
+      } else {
+        console.log("An error occurred during hotel removal:", error.message);
+      }
     }
   }
 
@@ -114,9 +120,9 @@ export default function Restaurants({ locationName, index }) {
   if (loading) {
     return (
       <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
-        <div className="flex items-center justify-center text-black">
+        <div className="flex items-center justify-center gap-2 text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
-          Loading
+          Loading...
         </div>
       </div>
     );
@@ -126,7 +132,7 @@ export default function Restaurants({ locationName, index }) {
     <div >
     <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
       {restaurants && restaurants.length === 0 ? (
-        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-indigo-700 text-7xl w-2/3">Oops!! No Restaurants Available.
+        <p className=" ml-10 container border rounded-md shadow bg-transparent p-6 pl-12  mt-6 mb-12 font-bold text-indigo-700 text-7xl w-2/3">Oops!! No Restaurants Available.
         </p>
       ) : (
         <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">

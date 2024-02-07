@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
-import { Button, Card, Pagination, Spinner, Alert } from 'flowbite-react';
-import { MdAdd, MdRemove, MdClose } from "react-icons/md";
-import { FaRankingStar, FaMapLocation } from "react-icons/fa6";
+import { Button, Card,  Spinner, Tooltip} from 'flowbite-react';
+import { FaStar, FaMapLocation } from "react-icons/fa6";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { fetchPlacesData } from '../services/placeservices';
-import { IoMdCheckmarkCircle } from "react-icons/io";
 
 export default function Places({ locationName, index }) {
   const { id } = useParams();
   const planId = id ? id.toString() : '';
   const { user } = useAuthContext();
   const [places, setPlaces] = useState([]);
-  const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [alert, setAlert] = useState({ show: false, type: 'success', message: '' });
+
+
   React.useEffect(() => {
 
     const fetchPlaces = async () => {
@@ -24,9 +22,7 @@ export default function Places({ locationName, index }) {
         const response = await fetchPlacesData(locationName);
         const updatedPlaces = response.map((place) => ({
           ...place,
-          description: place.description.slice(0, 100),
-          add: true,
-          remove: false
+          active: false,
         }));
         setPlaces(updatedPlaces);
         setLoading(false);
@@ -41,82 +37,89 @@ export default function Places({ locationName, index }) {
     }
   }, [locationName, index, loading]);
 
-  function handleAdd(index, selectedPlace) {
-    const updatedPlaces = [...places];
-    const place = updatedPlaces[index];
-    setSelectedPlaces((prevSelected) => [...prevSelected, selectedPlace]);
-    updatedPlaces[index] = { ...place, add: !place.add, remove: !place.remove };
-    setPlaces(updatedPlaces);
-  }
-
-  function handleRemove(index, selectedPlace) {
-    const updatedPlaces = [...places];
-    setSelectedPlaces((prevSelected) =>
-      prevSelected.filter((place) => place._id !== selectedPlace._id)
+  function RenderFilterCard() {
+    return (
+      <div className="relative flex items-center justify-center w-screen">
+        <Card
+          className="bg-cover bg-center h-60 relative rounded-sm w-full"
+          style={{
+            backgroundImage: `url(https://www.travelsiteindia.com/blog/wp-content/uploads/2018/04/red-fort-best-places-to-visit-in-delhi.jpg)`,
+          }}
+        >
+          <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
+          <div className="text-white mx-auto text-center font-mono text-7xl sm:text-17xl p-10">Explore Wonderfull Places in {locationName}</div>
+          </div>
+        </Card>
+      </div>
     );
-    const place = updatedPlaces[index];
-    updatedPlaces[index] = { ...place, add: !place.add, remove: !place.remove };
+  }
+
+  async function handleAdd(index, place) {
+    const updatedPlaces = [...places];
+    const addedplace = {
+      ...place,
+      active: place?.active ? !place.active : true,
+    };
+    updatedPlaces[index] = addedplace;
     setPlaces(updatedPlaces);
-  }
-
-  function handleSave() {
-    console.log("Selected Places:", selectedPlaces);
-    axios.post(
-      `http://localhost:4000/api/places/add/${planId}`,
-      JSON.stringify(selectedPlaces),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.token}`
-        },
-      }
-    )
-      .then((response) => {
-        console.log("Places saved successfully: ", response);
-        setAlert({ show: true, type: 'success', message: 'Places saved successfully!' });
-      })
-      .catch((error) => {
-        console.error('Error submitting filter:', error);
-        if (error) {
-          console.error('Server responded with:', error.data);
-          setAlert({ show: true, type: 'error', message: `Error: ${error.data}` });
-        } else if (error.request) {
-          console.error('No response received');
-          setAlert({ show: true, type: 'error', message: 'No response received from the server.' });
-        } else {
-          console.error('Error setting up the request:', error.message);
-          setAlert({ show: true, type: 'error', message: `Error: ${error.message}` });
-        }
-      });
-  }
-
-
-  const handleApply = async (event) => {
-    event.preventDefault();
 
     try {
-      setLoading(true);
-      const response = await fetchPlacesData(LocationName);
-      console.log(response);
-      const updatedPlaces = response.map((place) => ({
-        ...place,
-        description: place.description.slice(0, 100),
-        add: true,
-        remove: false
-      }));
-      setplaces(updatedPlaces);
-      setLoading(false);
+      const response = await axios.post(
+        `http://localhost:4000/api/places/add/${planId}`,
+        JSON.stringify(addedplace),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      console.log("Place added successfully: ", response);
     } catch (error) {
-      console.error('Error fetching travel plans:', error);
+      console.error("Error adding restaurant:", error);
     }
   }
+
+  async function handleRemove(index, place) {
+    const updatedPlaces = [...places];
+    const removedPlace = { ...place, active: !place.active };
+    updatedPlaces[index] = removedPlace;
+    setPlaces(updatedPlaces);
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:4000/api/places/delete/${planId}`,
+        {
+          data: removedPlace,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      console.log("Place removed successfully: ", response);
+    } catch (error) {
+      console.error("Error removing Place:", error);
+      if (error.response && error.response.status === 401) {
+        console.log("User not logged in. Redirecting to login page...");
+      } else {
+        console.log("An error occurred during hotel removal:", error.message);
+      }
+    }
+  }
+
+  
+
+  
 
   if (loading) {
     return (
       <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
-        <div className="flex items-center justify-center text-black">
+        <div className="flex items-center justify-center gap-2 text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
-          Loading
+          Loading...
         </div>
       </div>
     );
@@ -124,74 +127,69 @@ export default function Places({ locationName, index }) {
 
   return (
     <div >
-      <h1 className="pl-12 top-0 font-bold text-7xl rounded-md underline" style={{ 'backgroundColor': 'transparent', 'width': 'cover', 'color': '#5F2EEA' }}>Places</h1>
+      <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
       {places && places.length === 0 ? (
-        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 text-indigo-700">Oops!! No Places Available.
+        <p className=" ml-10 container border rounded-md shadow bg-transparent p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 text-indigo-700">Oops!! No Places Available.
         </p>
       ) : (
         <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
-          <div className="flex flex-col justify-center mx-auto mt-4 mb-4">
-            <Button className="rounded-full mb-2 justify-center w-20" color="purple" onClick={handleSave}>
-              Save
-            </Button>
-            {alert.show && (
-              <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
-                <div className="flex justify-between items-center max-w-2xl gap-10">
-                  <span>{alert.message}</span>
-                  <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent' onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
-                    <MdClose />
-                  </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+          {places &&
+            places.map((place, index) => (
+              <Card
+                key={index}
+                className="mb-6 md:max-w-4xl mr-6 hover:shadow-md rounded-sm overflow-hidden"
+              >
+                <img
+                  src={place.image}
+                  alt={place.name}
+                  className="h-44 object-cover w-full mb-0 rounded-t-sm mt-0"
+                />
+                <div className="p-4">
+                <div className="flex justify-between items-center mt-2 gap-1 border-b-2">
+              <h2 className="text-xl font-serif font-bold mb-2 text-black">
+                {place.name}
+              </h2>
+              <Tooltip content={place.active ? "Remove it" : "Save it"}  >
+                <div style={{ width: "1rem", height: '1rem' }}>
+                  <Heart
+                    isActive={place.active}
+                    onClick={() =>
+                      place.active
+                        ? handleRemove(index, place)
+                        : handleAdd(index, place)
+                    }
+                    animationTrigger="both"
+                    animationScale={1.25}
+                    style={{ marginBottom: "1rem" }}
+                  />
                 </div>
-              </Alert>
-            )}
-          </div>
-          <ul className=' bg-transparent' >
-            {places && places.map((place, index) => (
-              <Card key={index} className=" md:max-w-4xl mt-6 mb-6" imgSrc={place.image} horizontal >
-                <h3 className=" text-5xl font-bold tracking-tight text-gray-900 dark:text-white">{place.name}</h3>
-                <p className="font-semibold text-gray-700 dark:text-gray-400 flex gap-2"><FaMapLocation />{place.address}</p>
-                <p name='description' className="font-normal text-gray-700 dark:text-gray-400">Description: {place.description.slice(0, 250)}...</p>
-                <p className="ml-2 text-sm font-bold text-gray-700 dark:text-white flex"><FaRankingStar className='h-4 w-8' />{place.ranking}</p>
-
-                <div className=' flex flex-row'>
-                  {
-                    place.add ? (<Button pill className=' w-16 m-2' onClick={() => handleAdd(index, place)} color='purple' >
-                      <MdAdd className="h-6 w-6 " />
-                    </Button>
-                    ) : (
-                      <Button disabled pill className=' w-16 m-2' color='purple'>
-                        <MdAdd className="h-6 w-6 " />
-                      </Button>
-                    )
-                  }
-                  {
-                    place.remove ? (<Button outline pill className=' w-16 m-2' onClick={() => handleRemove(index, place)} color='purple'>
-                      <MdRemove className="h-6 w-6 " />
-                    </Button>
-                    ) : (
-                      <Button disabled outline pill className=' w-16 m-2' color='purple'>
-                        <MdRemove className="h-6 w-6 " />
-                      </Button>
-                    )
-                  }
+                </Tooltip>
+              </div>
+                  <p className="font-serif text-gray-700 dark:text-gray-400">
+                  Description: {place.description.length > 250 ? place.description.slice(0,250) : place.description}...
+                  </p>
+                  <p className="font-serif text-gray-700 dark:text-gray-400">
+                  <FaMapLocation />{place.address}
+                  </p>
+                  <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${restaurant.averagerating < 15 ? ' bg-green-300 text-green-700' : ' bg-orange-300 text-orange-600'}`}>
+                  <FaStar className='ml-1 mr-1'/>
+                    {restaurant.ranking}
+                  </div>
                 </div>
               </Card>
             ))}
-          </ul>
-          <div className="flex flex-col justify-center mx-auto mt-4 mb-4">
-            <Button className="rounded-full mb-2 justify-center w-20" color="purple" onClick={handleSave}>
-              Save
+        </div>
+
+          <div className="flex overflow-x-auto ml-20 md:justify-center gap-2">
+            <Button
+              disabled={pageNumber === 1}
+              onClick={() => onPageChange(pageNumber - 1)}
+            >
+              Previous
             </Button>
-            {alert.show && (
-              <Alert type={alert.type} icon={IoMdCheckmarkCircle}>
-                <div className="flex justify-between items-center max-w-2xl gap-10">
-                  <span>{alert.message}</span>
-                  <Button className="bg-transparent mr-4 right-0 rounded-full w-10 " color='transparent' onClick={() => setAlert({ show: false, type: 'success', message: '' })}>
-                    <MdClose />
-                  </Button>
-                </div>
-              </Alert>
-            )}
+            <Button onClick={() => onPageChange(pageNumber + 1)}>Next</Button>
+            {console.log("Page Number:", pageNumber)}
           </div>
         </div>
       )

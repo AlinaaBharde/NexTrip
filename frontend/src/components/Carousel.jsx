@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import Paris from '../images/Paris.jpg';
-import Cal from '../images/new-york.jpg';
-import Dubai from '../images/dubai.jpg';
-import Sngapor from '../images/singapore.jpg';
+import Del from '../images/Delhi.jpg';
+import Chen from '../images/chennai.jpg';
+import Jpr from '../images/jaipur.jpeg';
+import ben from '../images/bengaluru.jpg';
+import mum from '../images/mumbai.jpg';
+import coc from '../images/kochi.jpg'
 import './News.css';
+import { Link } from 'react-router-dom';
 
 const CarouselItem = ({ title, imageUrl }) => {
   const [isHovered, setHovered] = useState(false);
@@ -36,7 +39,7 @@ const CarouselItem = ({ title, imageUrl }) => {
       className={`mx-auto mt-8 mb-8 text-white transition-transform event-card`}
     >
       <h5 className={`mb-2 text-2xl font-bold tracking-tight`}>{title}</h5>
-      <a
+      <Link to={'/form'}
         className='mb-4 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300'
       >
         Make Plan
@@ -49,18 +52,19 @@ const CarouselItem = ({ title, imageUrl }) => {
         >
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M1 5h12m0 0L9 1m4 4L9 9' />
         </svg>
-      </a>
+      </Link>
     </animated.div>
   );
 };
 
 const Carousel = () => {
   const carouselItems = [
-    { title: 'California, USA', imageUrl: Cal },
-    { title: 'Dubai, UAE', imageUrl: Dubai },
-    { title: 'Paris, France', imageUrl: Paris },
-    { title: 'Mumbai, India', imageUrl: 'https://i.pinimg.com/736x/73/dc/57/73dc57de372401a3eda9f174a3d79c52.jpg' },
-    { title: 'Singapore, Singapore', imageUrl: Sngapor },
+    { title: 'Bengaluru, Karnataka', imageUrl: ben },
+    { title: 'Chennai, Tamil Nadu', imageUrl: Chen },
+    { title: 'Delhi, India', imageUrl: Del },
+    { title: 'Mumbai, Maharashtra', imageUrl: mum },
+    { title: 'Jaipur, Rajasthan', imageUrl: Jpr },
+    { title: 'Kochi, Kerala', imageUrl: coc },
     // Add more items as needed
   ];
 
