@@ -69,7 +69,7 @@ const Carousel = () => {
   ];
 
   return (
-    <div className="font-Poppins ml-16 mt-10">
+    <div className="font-Poppins ml-6 mt-10">
       <p className="text-[#BCA4FF] text-lg mt-4">Gallery</p>
 
       <div className="text-[#4E4B66] text-xl font-bold mt-4">

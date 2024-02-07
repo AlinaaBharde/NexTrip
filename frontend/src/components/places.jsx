@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { fetchPlacesData } from '../services/placeservices';
+import Heart from 'react-heart';
+import placeImg from '../images/places.jpg'; 
 
 export default function Places({ locationName, index }) {
   const { id } = useParams();
@@ -12,26 +14,24 @@ export default function Places({ locationName, index }) {
   const { user } = useAuthContext();
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
 
-
+  const fetchPlaces = async () => {
+    try {
+      setLoading(true);
+      const response = await fetchPlacesData(locationName);
+      const updatedPlaces = response.map((place) => ({
+        ...place,
+        active: false,
+      }));
+      setPlaces(updatedPlaces);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching places:', error);
+      setLoading(false);
+    }
+  };
   React.useEffect(() => {
-
-    const fetchPlaces = async () => {
-      try {
-        setLoading(true);
-        const response = await fetchPlacesData(locationName);
-        const updatedPlaces = response.map((place) => ({
-          ...place,
-          active: false,
-        }));
-        setPlaces(updatedPlaces);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching places:', error);
-        setLoading(false);
-      }
-    };
-
     if (index === 2 && loading) {
       fetchPlaces();
     }
@@ -43,7 +43,7 @@ export default function Places({ locationName, index }) {
         <Card
           className="bg-cover bg-center h-60 relative rounded-sm w-full"
           style={{
-            backgroundImage: `url(https://www.travelsiteindia.com/blog/wp-content/uploads/2018/04/red-fort-best-places-to-visit-in-delhi.jpg)`,
+            backgroundImage: `url(${placeImg})`,
           }}
         >
           <div className="bg-opacity-30 inset-0 bg-black rounded-xl">
@@ -111,7 +111,10 @@ export default function Places({ locationName, index }) {
   }
 
   
-
+  const onPageChange = (page) => {
+    setPageNumber(page);
+    fetchRestaurants();
+  };
   
 
   if (loading) {
@@ -167,14 +170,14 @@ export default function Places({ locationName, index }) {
                 </Tooltip>
               </div>
                   <p className="font-serif text-gray-700 dark:text-gray-400">
-                  Description: {place.description.length > 250 ? place.description.slice(0,250) : place.description}...
+                  <strong>Description:</strong> {place.description.length > 250 ? place.description.slice(0,250) : place.description}...
                   </p>
-                  <p className="font-serif text-gray-700 dark:text-gray-400">
+                  <p className="font-serif flex gap-1 text-gray-700 dark:text-gray-400">
                   <FaMapLocation />{place.address}
                   </p>
-                  <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${restaurant.averagerating < 15 ? ' bg-green-300 text-green-700' : ' bg-orange-300 text-orange-600'}`}>
+                  <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${place.ranking < 15 ? ' bg-green-300 text-green-700' : ' bg-orange-300 text-orange-600'}`}>
                   <FaStar className='ml-1 mr-1'/>
-                    {restaurant.ranking}
+                    {place.ranking}
                   </div>
                 </div>
               </Card>

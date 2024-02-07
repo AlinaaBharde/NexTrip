@@ -3,6 +3,7 @@ import { Card, Tooltip, Button } from 'flowbite-react';
 import { MdDelete } from 'react-icons/md';
 import axios from 'axios';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { FaMapLocation,  FaStar } from 'react-icons/fa6';
 
 function UserPlaces({ planid }) {
   const { user } = useAuthContext();
@@ -67,9 +68,9 @@ function UserPlaces({ planid }) {
                 </Tooltip>
               </div>
                   <p className="font-serif text-gray-700 dark:text-gray-400">
-                  Description: {place.description.length > 250 ? place.description.slice(0,250) : place.description}...
+                  <strong>Description:</strong> {place.description.length > 250 ? place.description.slice(0,250) : place.description}...
                   </p>
-                  <p className="font-serif text-gray-700 dark:text-gray-400">
+                  <p className="font-serif flex gap-1 text-gray-700 dark:text-gray-400">
                   <FaMapLocation />{place.address}
                   </p>
                   <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${place.ranking < 15 ? ' bg-green-300 text-green-700' : ' bg-orange-300 text-orange-600'}`}>
