@@ -11,7 +11,10 @@ import srcimg3 from "../images/travel3.jpg"
 import srcimg4 from "../images/travel4.jpg"
 import srcimg5 from "../images/travel5.jpg"
 import srcimg6 from "../images/travel6.jpg"
-
+import srcimg7 from "../images/travel7.jpg"
+import srcimg8 from "../images/travel8.jpg"
+import srcimg9 from "../images/travel9.jpg"
+import srcimg10 from "../images/travel10.jpg"
 
 const imgarray = [
     srcimg1,
@@ -19,7 +22,11 @@ const imgarray = [
     srcimg3,
     srcimg4,
     srcimg5,
-    srcimg6
+    srcimg6,
+    srcimg7,
+    srcimg8,
+    srcimg9,
+    srcimg10
 ]
 
 const TravelPlansList = () => {
@@ -87,7 +94,7 @@ const TravelPlansList = () => {
                                 <Button onClick={() => { setOpenModal(true); setDeleteIndex(index); }} className="text-white hover:scale-110 transition-transform duration-300 bg-red-500"><MdDelete className="w-[10px] h-[10px]" /></Button>
                             </div>
                             <div>
-                                <img src={plan.image || imgarray[index % imgarray.length]} alt="image" className="w-full h-full rounded-md" />
+                                <img src={imgarray[index % imgarray.length]} alt="image" className="w-full h-full rounded-md" />
                             </div>
                             <p className="text-gray-700  font-bold text-center">Destination: {plan.cityToVisit}</p>
                             <p className="text-gray-700  text-center">Group Size: {plan.numberOfPeople}</p>

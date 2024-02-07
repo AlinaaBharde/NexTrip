@@ -45,9 +45,6 @@ const userplanSchema = new Schema({
             ref: "Place"
         }
     ],
-    image: {
-        type: String
-    }
 })
 
 const userPlan = mongoose.model('userplan', userplanSchema);
