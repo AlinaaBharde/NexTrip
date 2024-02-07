@@ -62,7 +62,7 @@ Add names of your mentors with their emails and links to their GitHub accounts
 ![hotels-list](https://github.com/vxyzs/Neural-Nexus/assets/129577732/614b94e1-9089-47cf-a3c2-b5051548f931)
 #### FLights
 ![flights](https://github.com/vxyzs/Neural-Nexus/assets/129577732/feffc2fa-0ce1-4876-b94f-7e0cc8c2d426)
->For Restaurants, places pages please view screenshots uploaded in drive link
+-For Restaurants, places pages please view screenshots uploaded in drive link
 #### Users Saved Plans
 ![user-saved-plans](https://github.com/vxyzs/Neural-Nexus/assets/129577732/8fcbfc06-ec93-4a30-9902-372617097b01)
 
