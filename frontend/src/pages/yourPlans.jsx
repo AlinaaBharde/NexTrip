@@ -93,8 +93,8 @@ const TravelPlansList = () => {
                                 <h3 className="text-base font-bold text-gray-900">{plan.tripName}</h3>
                                 <Button onClick={() => { setOpenModal(true); setDeleteIndex(index); }} className="text-white hover:scale-110 transition-transform duration-300 bg-red-500"><MdDelete className="w-[10px] h-[10px]" /></Button>
                             </div>
-                            <div>
-                                <img src={imgarray[index % imgarray.length]} alt="image" className="w-full h-72 rounded-md" />
+                            <div className="justify-center align-middle items-center flex">
+                                <img src={imgarray[index % imgarray.length]} alt="image" className="h-auto max-w-xs rounded-md" />
                             </div>
                             <p className="text-gray-700  font-bold text-center">Destination: {plan.cityToVisit}</p>
                             <p className="text-gray-700  text-center">Group Size: {plan.numberOfPeople}</p>
