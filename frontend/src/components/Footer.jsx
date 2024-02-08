@@ -16,13 +16,13 @@ export default function footer() {
 
           <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
             <div className='font-bold text-xl' style={{ color: '#5F2EEA', font: 'poppins' }}>
-              <img src={Logo} className='mr-4 ml-4 h-12 lg:h-15' name='Trip Planner' style={{ color: 'black' }} alt='logo' />Trip Planner
+              <img src={Logo} className='mr-4 ml-4 h-12 lg:h-15' name='Trip Planner' style={{ color: 'black' }} alt='logo' />NexTrip
             </div>
             <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6" >
               <div >
                 <Footer.Title title="about" style={{ 'color': '#5F2EEA' }} />
                 <Footer.LinkGroup col>
-                  <Footer.Link href="#">Trip Planner</Footer.Link>
+                  <Footer.Link href="#">NexTrip</Footer.Link>
                   <Footer.Link href="#">Tailwind CSS</Footer.Link>
                 </Footer.LinkGroup>
               </div>

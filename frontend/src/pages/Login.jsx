@@ -35,7 +35,7 @@ const Login = () => {
                 </div>
                 <Card className="flex p-4 flex-col justify-around items-center align-middle h-full">
                     <form className="flex flex-col" onSubmit={handleSubmit}>
-                        <h2 className='text-center text-4xl font-bold mb-8 text-black'>LOG IN</h2>
+                        <h2 className='text-center text-7xl font-bold mb-8 text-black'>LOG IN</h2>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email1" value="Your email" className='text-black' />
