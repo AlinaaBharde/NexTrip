@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 // Allow specific origin(s)
 app.use(cors({
-  origin: 'https://yourdeployedsite.com'
+  origin: 'https://neural-nexus-frontend.vercel.app/'
 }));
 
 app.use(bodyParser.json());
