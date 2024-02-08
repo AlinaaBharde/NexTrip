@@ -6,12 +6,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(
-    cors({
-        origin: "*",
-        optionsSuccessStatus: 200
-    })
-);
+// Allow all origins
+app.use(cors());
+// Allow specific origin(s)
+app.use(cors({
+  origin: 'https://yourdeployedsite.com'
+}));
 
 app.use(bodyParser.json());
 
