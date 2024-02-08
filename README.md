@@ -33,7 +33,9 @@
 
 Meet NexTrip, your go-to travel companion crafted by our team for seamless trip planning. With NexTrip, just enter your destination and travel dates to discover real-time flight options and a curated list of accommodations. Find personalized restaurant recommendations and local events easily. It's not just a planner; NexTrip is here to make your travels simple and unforgettable. Start your next adventure effortlessly with NexTrip – your key to stress-free journey planning.
 
-1. Include features and their usecases in bullet points
+1. Making travel hassle-free, by providing almost every single detail from flights to hotels on a single click.
+2. Cheapest deals for booking hotels and flights
+3. Latest updates about the destination and catalogue of exciting events and festivals held
 
 ## 🔗Links
 
@@ -85,6 +87,7 @@ Meet NexTrip, your go-to travel companion crafted by our team for seamless trip 
 - [ ] Adding features for rental car services, and providing the cheapest deals among different travel plans provided by agencies
 - [ ] Adding more transportation options, by trains, bus, etc.
 - [ ] Instead of using external APIs, real-time data can be fetched from web-scraping
+- [ ] Warning notification, if any flight, and hotel booking is cancelled
 
 ## 💸Applications
 
@@ -120,19 +123,19 @@ nodemon server.js
 
 ## 💻Usage
 
-> Steps to run your project once its setup. If you have an app or website, list how the user can go about using it.
+1. User have to sign up for making a travel itinerary.
+2. Then user will be redirected to form page, where can fill the travel plans, i.e. destination, period and group-size and a new plan is formed
+3. Then, website will redirect to planning page, where user can get flight booking, and hotel accomadation. Similarly, restaurant page provide highly rated restaurants. Famous tourist places in the destination and latest updates are also being given.
+4. Here, user can like hotels, restaurants, and places, and it will be saved in the particular plan.
+5. In yourplans page, user can go through all previously planned itineraries, and view all selected hotels, restaurants and places. User can also update the plans.
 
 ## 👨‍💻Team Members
-
-Add names of your team members with their emails and links to their GitHub accounts
 
 - [Alinaa](https://github.com/AlinaaBharde) Email : anbharde_b22@ce.bjti.ac.in
 - [Mihir](https://github.com/MSP20086) Email : mspandit_b22@ce.vjti.ac.in
 - [Varun](https://github.com/vxyzs) Email : vssriram_b22@ce.vjti.ac.in
 
 ## 👨‍🏫Mentors
-
-Add names of your mentors with their emails and links to their GitHub accounts
 
 - [Shaurya](https://github.com/shauryaswarup) Email: srswarup_b21@ce.vjti.ac.in
 - [Narayani](https://github.com/narayanibokde9) Email: nbokde_b21@ce.vjti.ac.in

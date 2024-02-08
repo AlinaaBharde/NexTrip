@@ -79,7 +79,7 @@ export default function SpecificPlan() {
 
 
   return (
-    <div className=' w-screen h-full bg-white overflow-hidden'>
+    <div className=' w-screen h-full bg-gray-200 overflow-hidden'>
       <NavbarComponent />
       <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-m ' onActiveTabChange={(tab) => setActiveTab(tab)} >
         <Tabs.Item icon={FaHotel} title='Hotels'>
