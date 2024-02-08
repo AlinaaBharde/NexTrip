@@ -12,7 +12,7 @@ export const useLogin = () => {
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:4000/api/user/login', { email, password });
+            const response = await axios.post('https://neural-nexus-api.vercel.app/api/user/login', { email, password });
 
             if (response.status === 200) {
                 const json = response.data;

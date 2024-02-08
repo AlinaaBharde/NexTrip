@@ -221,7 +221,7 @@ export default function Hotels({
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/hotels/add/${planId}`,
+        `https://neural-nexus-api.vercel.app/api/hotels/add/${planId}`,
         JSON.stringify(addedHotel),
         {
           headers: {
@@ -245,7 +245,7 @@ export default function Hotels({
 
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/hotels/delete/${planId}`,
+        `https://neural-nexus-api.vercel.app/api/hotels/delete/${planId}`,
         {
           data: removedHotel,
           headers: {

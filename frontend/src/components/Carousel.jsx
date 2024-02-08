@@ -25,8 +25,8 @@ const CarouselItem = ({ title, imageUrl }) => {
         backgroundImage: `url(${imageUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '18rem', // Adjust the height as needed
-        width: '20rem', // Adjust the width as needed
+        height: '18rem',
+        width: '20rem',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -65,7 +65,6 @@ const Carousel = () => {
     { title: 'Mumbai, Maharashtra', imageUrl: mum },
     { title: 'Jaipur, Rajasthan', imageUrl: Jpr },
     { title: 'Kochi, Kerala', imageUrl: coc },
-    // Add more items as needed
   ];
 
   return (

@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import { Button, Spinner } from 'flowbite-react';
 import axios from 'axios';
 import '../styles/colorgradient.css';
-import './News.css'; // Add necessary styles
+import './News.css';
 
 
 export default function Events({ locationName, index }) {
@@ -14,12 +14,10 @@ export default function Events({ locationName, index }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch news
         const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${City}&apiKey=be08998cf6b34115895517e0fbde1df9`);
         const limitedNews = newsResponse.data.articles.slice(0, 15);
         setNews(limitedNews);
 
-        // Fetch events
         const eventsResponse = await axios.request({
           method: 'GET',
           url: 'https://real-time-events-search.p.rapidapi.com/search-events',

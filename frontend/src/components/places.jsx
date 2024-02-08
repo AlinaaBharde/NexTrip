@@ -65,7 +65,7 @@ export default function Places({ locationName, index }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/places/add/${planId}`,
+        `https://neural-nexus-api.vercel.app/api/places/add/${planId}`,
         JSON.stringify(addedplace),
         {
           headers: {
@@ -89,7 +89,7 @@ export default function Places({ locationName, index }) {
 
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/places/delete/${planId}`,
+        `https://neural-nexus-api.vercel.app/api/places/delete/${planId}`,
         {
           data: removedPlace,
           headers: {
