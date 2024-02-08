@@ -85,9 +85,9 @@ Add any more links/resources you used for your project
 
 ## 🔮Future Scope
 
-- [x] Adding features for rental car services, and providing the cheapest deals among different travel plans provided by agencies
-- [x] Adding more transportation options, by trains, bus, etc.
-- [x] Instead of using external APIs, real-time data can be fetched from web-scraping
+- [ ] Adding features for rental car services, and providing the cheapest deals among different travel plans provided by agencies
+- [ ] Adding more transportation options, by trains, bus, etc.
+- [ ] Instead of using external APIs, real-time data can be fetched from web-scraping
 
 ## 💸Applications
 
