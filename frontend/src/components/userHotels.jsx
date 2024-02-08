@@ -12,7 +12,7 @@ function UserHotels({ planid }) {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/hotels/display/' + planid);
+        const response = await axios.get('https://neural-nexus-api.vercel.app/api/hotels/display/' + planid);
         console.log(response.data);
         setHotels(response.data);
       } catch (error) {
@@ -25,7 +25,7 @@ function UserHotels({ planid }) {
 
   const handleDelete = async (hotelId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/hotels/delete/${planid}`, {
+      await axios.delete(`https://neural-nexus-api.vercel.app/api/hotels/delete/${planid}`, {
         headers: {
           "Authorization": `Bearer ${user.token}`,
         },
@@ -38,7 +38,7 @@ function UserHotels({ planid }) {
   };
 
   const handleUpdate = () => {
-    window.location.href = 'http://localhost:5173/plan/' + planid;
+    window.location.href = 'https://neural-nexus-frontend.vercel.app/plan/' + planid;
   };
 
 

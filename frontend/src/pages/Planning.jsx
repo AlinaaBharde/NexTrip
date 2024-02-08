@@ -8,7 +8,6 @@ import Hotels from '../components/hotels';
 import Restaurants from '../components/restaurants';
 import Places from '../components/places';
 import Flights from '../components/flights';
-// import News from '../components/News';
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 import NavbarComponent from '../components/Navbar';
@@ -37,7 +36,7 @@ export default function SpecificPlan() {
     const fetchTravelDetails = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`http://localhost:4000/api/planningpage/fetch/${id}`,
+        const response = await axios.get(`https://neural-nexus-api.vercel.app/api/planningpage/fetch/${id}`,
           {
             headers: {
               "Content-Type": "application/json",

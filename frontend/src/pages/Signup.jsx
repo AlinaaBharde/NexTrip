@@ -64,7 +64,7 @@ const Signup = () => {
                     </form>
                 </Card>
             </div>
-        </div >
+        </div>
     );
 }
 

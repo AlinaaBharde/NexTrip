@@ -25,7 +25,7 @@ function UserRestaurants({ planid }) {
 
   const handleDelete = async (restaurantId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/restaurants/delete/${planid}`, {
+      await axios.delete(`https://neural-nexus-api.vercel.app/api/restaurants/delete/${planid}`, {
         headers: {
           "Authorization": `Bearer ${user.token}`,
         },
@@ -39,7 +39,7 @@ function UserRestaurants({ planid }) {
   };
 
   const handleUpdate = () => {
-    window.location.href = 'http://localhost:5173/plan/' + planid;
+    window.location.href = 'https://neural-nexus-frontend.vercel.app/plan/' + planid;
   };
 
   return (
