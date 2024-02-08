@@ -1,15 +1,14 @@
 <h1 align="center">
   <a href="https://github.com/CommunityOfCoders/Inheritance-2023">
-    <img src="./Untitled.png" alt="CoC Inheritance 2023" width="500" height="166">
+    <img src="./logo.png" alt="NexTrip" width="250" height="166">
   </a>
   <br>
-  Project Name
+  NexTrip
 </h1>
 
 <div align="center">
    <strong>NexTrip</strong> - Travel with Ease - <br>
   CoC Inheritance 2023 || Neural Nexus <br> <br>
-  Add any <a href="https://shields.io/">Shields</a> here
 </div>
 <hr>
 
@@ -32,7 +31,7 @@
 
 ## 📝Description
 
-Add your **project description** here. Your project description should cover how your website/app works. That way you can convey what your project is without the need for anyone to view the code. A more _detailed README_ in your project repository is encouraged, which can include build and use instructions etc.
+Meet NexTrip, your go-to travel companion crafted by our team for seamless trip planning. With NexTrip, just enter your destination and travel dates to discover real-time flight options and a curated list of accommodations. Find personalized restaurant recommendations and local events easily. It's not just a planner; NexTrip is here to make your travels simple and unforgettable. Start your next adventure effortlessly with NexTrip – your key to stress-free journey planning.
 
 1. Include features and their usecases in bullet points
 
@@ -43,8 +42,6 @@ Add your **project description** here. Your project description should cover how
 - [Drive Link to Screenshots of your project](https://drive.google.com/drive/u/1/folders/1Mr50jWa19P459_gBYpcUDsGNswBmvKpm)
 - [Hosted Website Link](https://neural-nexus-frontend.vercel.app/)
 - [Hosted Backend Link](https://neural-nexus-api.vercel.app/)
-
-Add any more links/resources you used for your project
 
 ## 🤖Tech-Stack
 
