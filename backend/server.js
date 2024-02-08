@@ -7,7 +7,8 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://neural-nexus-frontend.vercel.app',
+    methods: ['GET', 'POST', 'DELETE'],
     credentials: true,
 }));
 

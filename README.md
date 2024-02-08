@@ -40,9 +40,9 @@ Add your **project description** here. Your project description should cover how
 
 - [GitHub Repository](https://github.com/vxyzs/Neural-Nexus)
 - [Demo Video]()
-- [Drive Link to Screenshots of your project]()
-- [Hosted Website Link]()
-- [Hosted Backend Link]()
+- [Drive Link to Screenshots of your project](https://drive.google.com/drive/u/1/folders/1Mr50jWa19P459_gBYpcUDsGNswBmvKpm)
+- [Hosted Website Link](https://neural-nexus-frontend.vercel.app/)
+- [Hosted Backend Link](https://neural-nexus-api.vercel.app/)
 
 Add any more links/resources you used for your project
 
