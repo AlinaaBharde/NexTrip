@@ -40,7 +40,7 @@ const TravelPlansList = () => {
         try {
             setLoading(true);
             const authToken = user.token;
-            const response = await axios.get(`https://neural-nexus-api.vercel.app/api/yourPlans/`, {
+            const response = await axios.get(`https://neural-nexus-api.onrender.com/api/yourPlans/`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -64,7 +64,7 @@ const TravelPlansList = () => {
             const planToDelete = travelPlans[deleteIndex];
             try {
                 setLoading(true);
-                await axios.delete(`https://neural-nexus-api.vercel.app/api/yourPlans/${planToDelete._id}`, {
+                await axios.delete(`https://neural-nexus-api.onrender.com/api/yourPlans/${planToDelete._id}`, {
                     headers: {
                         Authorization: `Bearer ${user.token}`
                     }

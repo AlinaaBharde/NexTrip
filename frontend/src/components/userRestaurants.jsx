@@ -25,7 +25,7 @@ function UserRestaurants({ planid }) {
 
   const handleDelete = async (restaurantId) => {
     try {
-      await axios.delete(`https://neural-nexus-api.vercel.app/api/restaurants/delete/${planid}`, {
+      await axios.delete(`https://neural-nexus-api.onrender.com/api/restaurants/delete/${planid}`, {
         headers: {
           "Authorization": `Bearer ${user.token}`,
         },
