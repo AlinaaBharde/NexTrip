@@ -1,0 +1,284 @@
+[
+  {
+    "id": "1",
+    "value": "Delhi",
+    "label": "Delhi",
+    "state": "Delhi"
+  },
+  {
+    "id": "2",
+    "value": "Mumbai",
+    "label": "Mumbai",
+    "state": "Maharashtra"
+  },
+  {
+    "id": "3",
+    "value": "Bengaluru",
+    "label": "Bengaluru",
+    "state": "Karnataka"
+  },
+  {
+    "id": "4",
+    "value": "Hyderabad",
+    "label": "Hyderabad",
+    "state": "Telangana"
+  },
+  {
+    "id": "5",
+    "value": "Chennai",
+    "label": "Chennai",
+    "state": "Tamil Nadu"
+  },
+  {
+    "id": "6",
+    "value": "Kolkata",
+    "label": "Kolkata",
+    "state": "West Bengal"
+  },
+  {
+    "id": "7",
+    "value": "Ahmedabad",
+    "label": "Ahmedabad",
+    "state": "Gujarat"
+  },
+  {
+    "id": "8",
+    "value": "Kochi",
+    "label": "Kochi",
+    "state": "Kerala"
+  },
+  {
+    "id": "9",
+    "value": "Goa",
+    "label": "Goa",
+    "state": "Goa"
+  },
+  {
+    "id": "10",
+    "value": "Pune",
+    "label": "Pune",
+    "state": "Maharashtra"
+  },
+  {
+    "id": "11",
+    "value": "Lucknow",
+    "label": "Lucknow",
+    "state": "Uttar Pradesh"
+  },
+  {
+    "id": "12",
+    "value": "Guwahati",
+    "label": "Guwahati",
+    "state": "Assam"
+  },
+  {
+    "id": "13",
+    "value": "Jaipur",
+    "label": "Jaipur",
+    "state": "Rajasthan"
+  },
+  {
+    "id": "14",
+    "value": "Srinagar",
+    "label": "Srinagar",
+    "state": "Jammu and Kashmir"
+  },
+  {
+    "id": "15",
+    "value": "Patna",
+    "label": "Patna",
+    "state": "Bihar"
+  },
+  {
+    "id": "16",
+    "value": "Chandigarh",
+    "label": "Chandigarh",
+    "state": "Chandigarh"
+  },
+  {
+    "id": "17",
+    "value": "Bhubaneswar",
+    "label": "Bhubaneswar",
+    "state": "Odisha"
+  },
+  {
+    "id": "18",
+    "value": "Thiruvananthapuram",
+    "label": "Thiruvananthapuram",
+    "state": "Kerala"
+  },
+  {
+    "id": "19",
+    "value": "Kozhikode",
+    "label": "Kozhikode",
+    "state": "Kerala"
+  },
+  {
+    "id": "20",
+    "value": "Indore",
+    "label": "Indore",
+    "state": "Madhya Pradesh"
+  },
+  {
+    "id": "21",
+    "value": "Nagpur",
+    "label": "Nagpur",
+    "state": "Maharashtra"
+  },
+  {
+    "id": "22",
+    "value": "Coimbatore",
+    "label": "Coimbatore",
+    "state": "Tamil Nadu"
+  },
+  {
+    "id": "23",
+    "value": "Siliguri",
+    "label": "Siliguri",
+    "state": "West Bengal"
+  },
+  {
+    "id": "24",
+    "value": "Varanasi",
+    "label": "Varanasi",
+    "state": "Uttar Pradesh"
+  },
+  {
+    "id": "25",
+    "value": "Amritsar",
+    "label": "Amritsar",
+    "state": "Punjab"
+  },
+  {
+    "id": "26",
+    "value": "Visakhapatnam",
+    "label": "Visakhapatnam",
+    "state": "Andhra Pradesh"
+  },
+  {
+    "id": "27",
+    "value": "Ranchi",
+    "label": "Ranchi",
+    "state": "Jharkhand"
+  },
+  {
+    "id": "28",
+    "value": "Mangalore",
+    "label": "Mangalore",
+    "state": "Karnataka"
+  },
+  {
+    "id": "29",
+    "value": "Dehradun",
+    "label": "Dehradun",
+    "state": "Uttarakhand"
+  },
+  {
+    "id": "30",
+    "value": "Jammu",
+    "label": "Jammu",
+    "state": "Jammu and Kashmir"
+  },
+  {
+    "id": "31",
+    "value": "Thiruchirapalli",
+    "label": "Thiruchirapalli",
+    "state": "Tamil Nadu"
+  },
+  {
+    "id": "32",
+    "value": "Agartala",
+    "label": "Agartala",
+    "state": "Tripura"
+  },
+  {
+    "id": "33",
+    "value": "Udaipir",
+    "label": "Udaipir",
+    "state": "Rajasthan"
+  },
+  {
+    "id": "34",
+    "value": "Andaman and Nicobar Islands",
+    "label": "Andaman and Nicobar Islands",
+    "state": "Andaman and Nicobar Islands"
+  },
+  {
+    "id": "35",
+    "value": "Leh",
+    "label": "Leh",
+    "state": "Jammu and Kashmir"
+  },
+  {
+    "id": "36",
+    "value": "Kannur",
+    "label": "Kannur",
+    "state": "Kerala"
+  },
+  {
+    "id": "37",
+    "value": "Surat",
+    "label": "Surat",
+    "state": "Gujarat"
+  },
+  {
+    "id": "38",
+    "value": "Imphal",
+    "label": "Imphal",
+    "state": "Manipur"
+  },
+  {
+    "id": "39",
+    "value": "Madurai",
+    "label": "Madurai",
+    "state": "Tamil Nadu"
+  },
+  {
+    "id": "40",
+    "value": "Bhopal",
+    "label": "Bhopal",
+    "state": "Madhya Pradesh"
+  },
+  {
+    "id": "41",
+    "value": "Vadodara",
+    "label": "Vadodara",
+    "state": "Gujarat"
+  },
+  {
+    "id": "42",
+    "value": "Tirupati",
+    "label": "Tirupati",
+    "state": "Andhra Pradesh"
+  },
+  {
+    "id": "43",
+    "value": "Jpodhpur",
+    "label": "Jodhpur",
+    "state": "Rajasthan"
+  },
+  {
+    "id": "44",
+    "value": "Rajkot",
+    "label": "Rajkot",
+    "state": "Gujarat"
+  },
+  {
+    "id": "45",
+    "value": "Shirdi",
+    "label": "Shirdi",
+    "state": "Maharashtra"
+  },
+  {
+    "id": "46",
+    "value": "Gorakhpur",
+    "label": "Gorakhpur",
+    "state": "Uttar Pradesh"
+  },
+  {
+    "id": "47",
+    "value": "Laksadweep",
+    "label": "Laksadweep",
+    "state": "Laksadweep"
+  }
+]
