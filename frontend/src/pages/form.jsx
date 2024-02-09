@@ -45,7 +45,7 @@ function Form() {
 
     axios
       .post(
-        "https://neural-nexus-api.onrender.com/api/form",
+        "https://nextrip-api.onrender.com/api/form",
         JSON.stringify({ ...details, ...selectedDates, username }),
         {
           headers: {

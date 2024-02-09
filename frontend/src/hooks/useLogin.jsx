@@ -12,7 +12,7 @@ export const useLogin = () => {
         setError(null);
 
         try {
-            const response = await axios.post('https://neural-nexus-api.onrender.com/api/user/login', { email, password });
+            const response = await axios.post('https://nextrip-api.onrender.com/api/user/login', { email, password });
 
             if (response.status === 200) {
                 const json = response.data;

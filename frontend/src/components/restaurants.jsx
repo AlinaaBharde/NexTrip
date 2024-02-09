@@ -66,7 +66,7 @@ export default function Restaurants({ locationName, index }) {
 
     try {
       const response = await axios.post(
-        `https://neural-nexus-api.onrender.com/api/restaurants/add/${planId}`,
+        `https://nextrip-api.onrender.com/api/restaurants/add/${planId}`,
         JSON.stringify(addedrestaurant),
         {
           headers: {
@@ -90,7 +90,7 @@ export default function Restaurants({ locationName, index }) {
 
     try {
       const response = await axios.delete(
-        `https://neural-nexus-api.onrender.com/api/restaurants/delete/${planId}`,
+        `https://nextrip-api.onrender.com/api/restaurants/delete/${planId}`,
         JSON.stringify(removedRestaurant),
         {
           headers: {

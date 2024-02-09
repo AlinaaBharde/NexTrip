@@ -36,7 +36,7 @@ export default function SpecificPlan() {
     const fetchTravelDetails = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`https://neural-nexus-api.onrender.com/api/planningpage/fetch/${id}`,
+        const response = await axios.get(`https://nextrip-api.onrender.com/api/planningpage/fetch/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
