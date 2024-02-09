@@ -37,7 +37,7 @@ function NavbarComponent() {
                         </Dropdown>
                     ) : (
                         <>
-                            <FlowbiteNavbar.Link href='/signup' style={{ 'font': 'poppins' }}>Login</FlowbiteNavbar.Link>
+                            <Link to={'/signup'} style={{ 'font': 'poppins' }}>SignUp</Link>
                             <FlowbiteNavbar.Toggle />
                         </>
                     )}

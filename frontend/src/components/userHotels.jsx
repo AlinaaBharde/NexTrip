@@ -4,10 +4,13 @@ import { MdDelete } from 'react-icons/md';
 import axios from 'axios';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { FaMapLocation, FaStar, FaArrowRight } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
+
 
 function UserHotels({ planid }) {
   const { user } = useAuthContext();
   const [hotels, setHotels] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -46,9 +49,9 @@ function UserHotels({ planid }) {
     <div>
 
       <div className="grid grid-cols-1  gap-2 mt-6 mb-10 ml-10 ">
-        <Button className=" w-20 mx-auto mb-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow z-10" onClick={handleUpdate}>
+        <Button className=" w-20 mx-auto mb-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow z-10"><Link to={`https://neural-nexus-frontend.vercel.app/plan/${planid}`}>
           Update
-        </Button>
+        </Link></Button>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-b-2">
           {hotels &&
             hotels.map((hotel, index) => (

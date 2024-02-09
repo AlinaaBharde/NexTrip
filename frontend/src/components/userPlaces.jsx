@@ -43,8 +43,9 @@ function UserPlaces({ planid }) {
 
   return (
     <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
-      <Button className=" w-20 mx-auto mb-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow z-10" onClick={handleUpdate}>
+      <Button className=" w-20 mx-auto mb-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow z-10"><Link to={`https://neural-nexus-frontend.vercel.app/plan/${planid}`}>
         Update
+      </Link>
       </Button>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
         {places &&
