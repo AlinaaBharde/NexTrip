@@ -15,6 +15,7 @@ import srcimg7 from "../images/travel7.jpg"
 import srcimg8 from "../images/travel8.jpg"
 import srcimg9 from "../images/travel9.jpg"
 import srcimg10 from "../images/travel10.jpg"
+import { Link } from "react-router-dom";
 
 const imgarray = [
     srcimg1,
@@ -99,7 +100,7 @@ const TravelPlansList = () => {
                             <p className="text-gray-700  font-bold text-center">Destination: {plan.cityToVisit}</p>
                             <p className="text-gray-700  text-center">Group Size: {plan.numberOfPeople}</p>
                             <div className="flex justify-end">
-                                <Button onClick={() => { window.location.href = `/yourPlans/${plan._id}` }} className="text-white hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}>Edit</Button>
+                                <Button className="text-white hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}><Link to={`/yourplan/${plan._id}`}>Edit</Link></Button>
                             </div>
                         </Card>
                     ))
