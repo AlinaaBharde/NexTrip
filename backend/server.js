@@ -2,15 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions')
 
 require('dotenv').config();
 
 const app = express();
-app.use(cors({
-    origin: 'https://neural-nexus-frontend.vercel.app',
-    methods: ['GET', 'POST', 'DELETE', "PATCH", "OPTIONS",],
-    credentials: true,
-}));
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
