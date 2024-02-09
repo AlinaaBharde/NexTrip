@@ -25,7 +25,7 @@ function UserPlaces({ planid }) {
 
   const handleDelete = async (placeId) => {
     try {
-      await axios.delete(`https://neural-nexus-api.vercel.app/api/places/delete/${planid}`, {
+      await axios.delete(`https://neural-nexus-api.onrender.com/api/places/delete/${planid}`, {
         headers: {
           "Authorization": `Bearer ${user.token}`,
         },

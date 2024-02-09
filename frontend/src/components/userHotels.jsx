@@ -25,7 +25,7 @@ function UserHotels({ planid }) {
 
   const handleDelete = async (hotelId) => {
     try {
-      await axios.delete(`https://neural-nexus-api.vercel.app/api/hotels/delete/${planid}`, {
+      await axios.delete(`https://neural-nexus-api.onrender.com/api/hotels/delete/${planid}`, {
         headers: {
           "Authorization": `Bearer ${user.token}`,
         },

@@ -45,7 +45,7 @@ function Form() {
 
     axios
       .post(
-        "https://neural-nexus-api.vercel.app/api/form",
+        "https://neural-nexus-api.onrender.com/api/form",
         JSON.stringify({ ...details, ...selectedDates, username }),
         {
           headers: {

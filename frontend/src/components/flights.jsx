@@ -248,7 +248,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
             </div>
           </div>
         </Card>
-      </div >
+      </div>
     );
   }
 
