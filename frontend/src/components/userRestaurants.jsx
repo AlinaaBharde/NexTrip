@@ -4,6 +4,7 @@ import { MdDelete } from 'react-icons/md';
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 function UserRestaurants({ planid }) {
   const { user } = useAuthContext();

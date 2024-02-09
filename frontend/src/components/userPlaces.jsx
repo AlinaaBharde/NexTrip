@@ -4,6 +4,7 @@ import { MdDelete } from 'react-icons/md';
 import axios from 'axios';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { FaMapLocation, FaStar } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 function UserPlaces({ planid }) {
   const { user } = useAuthContext();
