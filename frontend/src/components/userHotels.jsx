@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 function UserHotels({ planid }) {
   const { user } = useAuthContext();
   const [hotels, setHotels] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -40,9 +39,6 @@ function UserHotels({ planid }) {
     }
   };
 
-  const handleUpdate = () => {
-    window.location.href = 'https://neural-nexus-frontend.vercel.app/plan/' + planid;
-  };
 
 
   return (
