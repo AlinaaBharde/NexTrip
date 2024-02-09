@@ -99,7 +99,7 @@ const TravelPlansList = () => {
                             <p className="text-gray-700  font-bold text-center">Destination: {plan.cityToVisit}</p>
                             <p className="text-gray-700  text-center">Group Size: {plan.numberOfPeople}</p>
                             <div className="flex justify-end">
-                                <Button onClick={() => { window.location.href = `/yourplan/${plan._id}` }} className="text-white hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}>Edit</Button>
+                                <Button onClick={() => { window.location.href = `/yourPlans/${plan._id}` }} className="text-white hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}>Edit</Button>
                             </div>
                         </Card>
                     ))
