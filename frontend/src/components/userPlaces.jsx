@@ -61,7 +61,7 @@ function UserPlaces({ planid }) {
                   <h2 className="text-xl font-serif font-bold mb-2 text-black">
                     {place.name}
                   </h2>
-                  <Tooltip content={place.active ? "Remove it" : "Save it"}  >
+                  <Tooltip content="Remove it"  >
                     <MdDelete onClick={() => handleDelete(place._id)} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
                   </Tooltip>
                 </div>
