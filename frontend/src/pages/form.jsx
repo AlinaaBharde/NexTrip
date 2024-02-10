@@ -33,6 +33,7 @@ function Form() {
   const username = user?.username;
   const [PlanID, setPlanId] = React.useState(null);
   const history = useNavigate();
+  const [error, seterror] = React.useState(null);
 
   React.useEffect(() => {
     if (PlanID) {
@@ -67,7 +68,8 @@ function Form() {
         console.error('Error submitting form:', error);
         if (error.response) {
 
-          console.error('Server responded with:', error.response.data);
+          console.error('Server responded with:', error.response.data.error);
+          seterror(error.response.data.error);
         } else if (error.request) {
           console.error('No response received');
         } else {
@@ -104,9 +106,9 @@ function Form() {
 
   return (
     <div className='flex justify-center items-center h-screen bg-gradient-to-br from-[#8299d2] via-[#eda8af] to-[#ecca8c]  w-screen'>
-      <div className='grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] align-middle items-center border-black bg-white'>
+      <div className='grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] align-middle items-center border-black bg-white rounded-lg'>
         <Card className='bg-white border-none justify-center align-middle shadow-none items-center flex h-[450px] m-10'>
-          <p className='text-black text-center mt-5 text-5xl font-bold' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Plan a Trip ✈️ </p>
+          <p className='text-black text-center mt-2 text-5xl font-bold' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Plan a Trip ✈️ </p>
           <p className='text-black text-center'>Just one step away from your new adventure !</p>
           <form>
             <div>
@@ -140,7 +142,7 @@ function Form() {
               </div>
             </div>
             <div className='w-full flex justify-center'>
-              <Button type='submit' className='mx-4 mt-2 mb-2 rounded-full hover:scale-110 transition-transform duration-300 text-white ' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
+              <Button type='submit' className='mx-4 mt-2 mb-1 rounded-full hover:scale-110 transition-transform duration-300 text-white ' style={{ backgroundColor: '#5F2EEA', 'font': 'poppins' }} onClick={handleSubmit}>
                 Start planning
               </Button>
             </div>
@@ -148,9 +150,12 @@ function Form() {
               Select from Previous Plans ?
             </div>
           </form>
+          {error && (
+            <p style={{ color: 'red' }} className='text-center mb-2'>{error || 'An error occurred during login'}</p>
+          )}
         </Card>
         <div className='w-full h-[550px] hidden md:block'>
-          <img src={srcimg} alt="" className='w-full h-full' />
+          <img src={srcimg} alt="" className='w-full h-full rounded-lg' />
         </div>
       </div>
     </div>

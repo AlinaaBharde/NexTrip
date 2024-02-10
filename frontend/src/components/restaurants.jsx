@@ -113,7 +113,7 @@ export default function Restaurants({ locationName, index }) {
 
   if (loading) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
+      <div className='h-screen w-screen flex items-center justify-center bg-white fixed top-0 left-0'>
         <div className="flex items-center justify-center text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
           Loading
@@ -167,12 +167,14 @@ export default function Restaurants({ locationName, index }) {
                     <p className="font-serif text-gray-700 dark:text-gray-400">
                       Cuisine: {restaurant.cuisine.join(', ')}
                     </p>
-                    <p className="font-serif text-gray-700 dark:text-gray-400">
-                      PriceTag: {restaurant.pricetag}
-                    </p>
-                    <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${restaurant.averagerating > 3 ? ' bg-green-300 text-green-700' : ' bg-red-300 text-red-700'}`}>
-                      <FaStar className='ml-1 mr-1' />
-                      {restaurant.averagerating}
+                    <div className='flex flex-row items-center justify-between mt-5'>
+                      <p className="font-serif text-gray-700 dark:text-gray-400">
+                        PriceTag: {restaurant.pricetag}
+                      </p>
+                      <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${restaurant.averagerating > 3 ? ' bg-green-300 text-green-700' : ' bg-red-300 text-red-700'}`}>
+                        <FaStar className='ml-1 mr-1' />
+                        {restaurant.averagerating}
+                      </div>
                     </div>
                   </div>
                 </Card>

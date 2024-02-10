@@ -7,9 +7,9 @@ export default function footer() {
   const Year = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col min-h-screen">
       <div className='flex-grow' />
-      <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border w-full bottom-0 ' style={{
+      <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border w-full bottom-0' style={{
         backgroundColor: 'white'
       }}>
         <div className="w-full mt-0">
@@ -44,7 +44,7 @@ export default function footer() {
           </div>
           <FooterDivider />
           <div className="w-full sm:flex sm:items-center sm:justify-between">
-            <Footer.Copyright href="#" by="Trip Planner™" year={Year} />
+            <Footer.Copyright href="#" by="Neural Nexus™" year={Year} />
             <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
               <Footer.Icon href="#" icon={BsFacebook} />
               <Footer.Icon href="#" icon={BsInstagram} />

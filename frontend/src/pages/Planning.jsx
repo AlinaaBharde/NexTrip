@@ -68,7 +68,7 @@ export default function SpecificPlan() {
 
   if (loading || !selectedDates || !locationName) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center fixed top-0 left-0'>
+      <div className='h-screen w-screen flex justify-center fixed top-0 left-0'>
         <div className="flex items-center justify-center text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
           Loading
@@ -80,7 +80,7 @@ export default function SpecificPlan() {
 
   return (
     <div className=' w-screen h-full bg-white overflow-hidden'>
-      <NavbarComponent />
+      <NavbarComponent className="fixed top-0 left-0 right-0 bg-white" />
       <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-m ' onActiveTabChange={(tab) => setActiveTab(tab)} >
         <Tabs.Item icon={FaHotel} title='Hotels'>
           <Hotels locationName={locationName} startDate={selectedDates.startDate} endDate={selectedDates.endDate} adults={adults} index={activeTab} />

@@ -81,9 +81,12 @@ const TravelPlansList = () => {
     };
 
     return (
-        <div className='w-screen h-full bg-white '>
-            <Navbar />
-            <h1 className="pl-6 mt-20 pt-4 pb-4 font-bold text-7xl rounded-md shadow text-center text-blue-500">Saved Plans 🧳</h1>
+        <div className='w-screen h-full bg-white'>
+            <div className="w-full">
+                <Navbar />
+            </div>
+            <hr />
+            <h1 className="pl-6 pt-16 pb-4 font-bold text-7xl rounded-md shadow text-center text-blue-500">Saved Plans 🧳</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-2">
                 {!travelPlans || travelPlans.length === 0 ? (
                     <p className="pl-12 mt-12 mb-12 font-bold text-7xl w-2/3 text-indigo-700">No travel plans made.</p>
