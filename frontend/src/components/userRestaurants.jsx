@@ -63,7 +63,7 @@ function UserRestaurants({ planid }) {
                   <h2 className="text-xl font-serif font-bold mb-2 text-black">
                     {restaurant.name}
                   </h2>
-                  <Tooltip content={restaurant.active ? "Remove it" : "Save it"}  >
+                  <Tooltip content="Remove it"  >
                     <MdDelete onClick={() => handleDelete(restaurant._id)} className="mt-2" style={{ color: 'red', fontSize: '24px' }} />
                   </Tooltip>
                 </div>
