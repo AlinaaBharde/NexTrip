@@ -19,13 +19,13 @@ const Hero = () => {
           <div className="mt-8 flex flex-wrap gap-4 text-center justify-center">
             <Link
               to={'/form'}
-              className="block w-full rounded bg-[#143d8e] px-12 py-3 text-sm font-medium text-white shadow hover:bg-[#137dc7] focus:outline-none focus:ring active:bg-rose-500 sm:w-auto hover:text-black"
+              className="block w-full rounded bg-[#143d8e] px-12 py-3 text-sm font-medium text-white shadow hover:bg-[#137dc7] focus:outline-none focus:ring sm:w-auto hover:text-black"
             >
               Get Started
             </Link>
             <a
               href="#"
-              className="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-black shadow hover:text-black focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
+              className="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-black shadow hover:text-black focus:outline-none focus:ring sm:w-auto"
             >
               Learn More
             </a>

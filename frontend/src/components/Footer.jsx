@@ -7,8 +7,9 @@ export default function footer() {
   const Year = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col">
-      <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border w-full bottom-0 ' style={{
+    <div className="flex flex-col min-h-screen">
+      <div className='flex-grow' />
+      <Footer container className='pt-4 pl-6 pb-6 pr-6 z-20 drop-shadow-lg border w-full bottom-0' style={{
         backgroundColor: 'white'
       }}>
         <div className="w-full mt-0">
