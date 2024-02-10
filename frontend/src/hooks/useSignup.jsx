@@ -18,7 +18,7 @@ export const useSignup = () => {
                 const json = response.data;
 
                 localStorage.setItem('user', JSON.stringify(json));
-                dispatch({ type: 'SIGNUP', payload: json });
+                dispatch({ type: 'LOGIN', payload: json });
             } else {
                 setIsLoading(false);
                 setError(response.data.error || 'An error occurred during signup');

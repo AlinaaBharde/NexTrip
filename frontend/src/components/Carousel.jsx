@@ -25,8 +25,8 @@ const CarouselItem = ({ title, imageUrl }) => {
         backgroundImage: `url(${imageUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '18rem', // Adjust the height as needed
-        width: '20rem', // Adjust the width as needed
+        height: '18rem',
+        width: '20rem',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -65,20 +65,16 @@ const Carousel = () => {
     { title: 'Mumbai, Maharashtra', imageUrl: mum },
     { title: 'Jaipur, Rajasthan', imageUrl: Jpr },
     { title: 'Kochi, Kerala', imageUrl: coc },
-    // Add more items as needed
   ];
 
   return (
     <div className="font-Poppins ml-6 mt-10">
-      <p className="text-[#BCA4FF] text-lg mt-4">Gallery</p>
-
       <div className="text-[#4E4B66] text-xl font-bold mt-4">
-        <h1>
-          View the wonderful,
-          <p>Trending places you can visit</p>
-        </h1>
+        <div className='text-center'>
+          <div className='text-center text-17xl font-sans text-[#137dc7]'>Explore Popular destinations</div>
+        </div>
       </div>
-      <div className='mt-8 flex flex-row space-x-6 font-Poppins overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300' style={{ width: '100%' }}>
+      <div className='mt-8 flex flex-row space-x-6 font-Poppins overflow-x-auto' style={{ width: '100%', scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
         {carouselItems.map((item, index) => (
           <CarouselItem key={index} title={item.title} imageUrl={item.imageUrl} />
         ))}

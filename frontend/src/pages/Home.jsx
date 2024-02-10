@@ -11,7 +11,7 @@ import Carousel from '../components/Carousel';
 
 function Home() {
   return (
-    <div className='bg-gradient-to-br from-[#A742CC] via-white to-gray-300 background-animate h-full w-screen'>
+    <div className='bg-white h-full w-screen'>
       <Navbar />
       <Hero />
       <Carousel />

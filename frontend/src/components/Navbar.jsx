@@ -2,8 +2,10 @@ import { Avatar, Dropdown, Navbar as FlowbiteNavbar } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
-import Logo from '../images/travelLogo.png';
+import Logo from '../images/newlogo.png';
 import '../styles/colorgradient.css';
+import Headroom from 'react-headroom';
+import srcimg from '../images/avatar.jpg';
 
 function NavbarComponent() {
     const { logout } = useLogout();
@@ -15,38 +17,45 @@ function NavbarComponent() {
 
     return (
         <div>
-            <FlowbiteNavbar fluid rounded className='fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 h-20 pt-4 shadow-sm' style={{ minWidth: '350px' }}>
-                <FlowbiteNavbar.Brand href="/">
-                    <img src={Logo} className="mr-4 ml-6 mt-0 h-12 lg:h-15 " alt="Logo" style={{ 'backgroundColor': 'transparent' }} />
-                    <Link to={'/'} className="self-center whitespace-nowrap text-7xl font-bold mt-0" style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>NexTrip</Link>
-                </FlowbiteNavbar.Brand>
-                <div className="flex flex-col mr-2 sm:mr-10">
-                    {user ? (
-                        <Dropdown
-                            arrowIcon={false}
-                            inline
-                            label={<Avatar rounded style={{ 'color': '#5F2EEA' }} />}
-                        >
-                            <Dropdown.Header>
-                                <span className="block text-sm">{user.username}</span>
-                                <span className="block truncate text-sm font-medium">{user.email}</span>
-                            </Dropdown.Header>
-                            <Dropdown.Item as={Link} to='/yourPlans'>Your Plans</Dropdown.Item>
-                            <Dropdown.Divider />
-                            <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-                        </Dropdown>
-                    ) : (
-                        <>
-                            <FlowbiteNavbar.Link href='/signup' style={{ 'font': 'poppins' }}>Login</FlowbiteNavbar.Link>
-                            <FlowbiteNavbar.Toggle />
-                        </>
-                    )}
-                </div>
-            </FlowbiteNavbar>
+            <Headroom disable>
+                <FlowbiteNavbar fluid rounded className='fixed top-0 left-0 w-full z-50 h-20 pt-1 bg-transparent' style={{ minWidth: '350px' }}>
+                    <FlowbiteNavbar.Brand href="/">
+                        <Link to={'/'}>
+                            <img src={Logo} className="mr-0 ml-6 mt-0 h-12 lg:h-20 w-auto " alt="Logo" style={{ 'backgroundColor': 'transparent' }} />
+                        </Link>
+                    </FlowbiteNavbar.Brand>
+                    <div className="flex flex-col mr-2 sm:mr-10">
+                        {user ? (
+                            <Dropdown
+                                arrowIcon={false}
+                                inline
+                                label={<Avatar img={srcimg} rounded style={{ 'color': '#5F2EEA' }} />}
+                                className='border-none'
+                            >
+                                <Dropdown.Header>
+                                    <span className="block text-sm">{user.username}</span>
+                                    <span className="block truncate text-sm font-medium">{user.email}</span>
+                                </Dropdown.Header>
+                                <Dropdown.Item as={Link} to='/yourPlans'>Your Plans</Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+                            </Dropdown>
+                        ) : (
+                            <button className='bg-[#143d8e] text-black border-none hover:bg-[#137dc7] hover:text-white'>
+                                <Link to='/signup' style={{ 'font': 'poppins' }} className='text-white hover:text-black'>SignUp</Link>
+                                <FlowbiteNavbar.Toggle />
+                            </button>
+                        )}
+                    </div>
+                </FlowbiteNavbar>
+            </Headroom>
         </div>
     );
 }
 
 export default NavbarComponent;
+
+
+
 
 
