@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/CommunityOfCoders/Inheritance-2023">
-    <img src="./logo.png" alt="NexTrip" width="250" height="166">
+    <img src="./frontend/src/images/newlogo.png" alt="NexTrip" width="400" height="166">
   </a>
   <br>
   NexTrip
