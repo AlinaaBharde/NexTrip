@@ -18,13 +18,13 @@ function NavbarComponent() {
     return (
         <div>
             <Headroom disable>
-                <FlowbiteNavbar fluid rounded className='fixed top-0 left-0 w-full z-50 h-20 pt-1 bg-transparent' style={{ minWidth: '350px' }}>
-                    <FlowbiteNavbar.Brand href="/">
-                        <Link to={'/'}>
-                            <img src={Logo} className="mr-0 ml-6 mt-0 h-12 lg:h-20 w-auto " alt="Logo" style={{ 'backgroundColor': 'transparent' }} />
-                        </Link>
-                    </FlowbiteNavbar.Brand>
-                    <div className="flex flex-col mr-2 sm:mr-10">
+                <FlowbiteNavbar fluid rounded className='fixed top-0 left-0 w-full z-50 h-20 pt-1 bg-transparent' style={{ minWidth: '350px' }}>                    
+                        <FlowbiteNavbar.Brand href="/">
+                            <Link to={'/'}>
+                                <img src={Logo} className="mr-0 ml-12 mt-0 h-16 lg:h-20 w-auto " alt="Logo" style={{ 'backgroundColor': 'transparent' }} />
+                            </Link>
+                        </FlowbiteNavbar.Brand>
+                    <div className="flex flex-col mr-6  md:h-12 sm:mr-10">
                         {user ? (
                             <Dropdown
                                 arrowIcon={false}
@@ -41,9 +41,9 @@ function NavbarComponent() {
                                 <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
                             </Dropdown>
                         ) : (
-                            <button className='bg-[#143d8e] text-black border-none hover:bg-[#137dc7] hover:text-white'>
+                            <button className='bg-[#143d8e] text-black border-none text-center align-middle hover:bg-[#137dc7] hover:text-white'>
                                 <Link to='/signup' style={{ 'font': 'poppins' }} className='text-white hover:text-black'>SignUp</Link>
-                                <FlowbiteNavbar.Toggle />
+                                <FlowbiteNavbar.Toggle className='hidden'/>
                             </button>
                         )}
                     </div>
@@ -54,8 +54,3 @@ function NavbarComponent() {
 }
 
 export default NavbarComponent;
-
-
-
-
-

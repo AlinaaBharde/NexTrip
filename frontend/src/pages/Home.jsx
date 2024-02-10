@@ -11,7 +11,7 @@ import Carousel from '../components/Carousel';
 
 function Home() {
   return (
-    <div className='bg-white h-full w-screen'>
+    <div className='bg-gray-50 h-full w-screen'>
       <Navbar />
       <Hero />
       <Carousel />
