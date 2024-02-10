@@ -12,7 +12,7 @@ const Hero = () => {
 
       <div className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
         <div className="max-w-xl text-center ltr:sm:text-left">
-          <h1 className="text-3xl font-extrabold sm:text-5xl">Plan your next big trip in India.</h1>
+          <h1 className="text-3xl font-extrabold sm:text-17xl">Plan your next big trip in India.</h1>
           <p className="mt-4 max-w-lg sm:text-xl/relaxed">
             Embark on a Journey of Discovery: Crafting Unforgettable Memories Across Country.
           </p>
