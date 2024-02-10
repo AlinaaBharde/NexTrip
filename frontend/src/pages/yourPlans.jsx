@@ -103,7 +103,7 @@ const TravelPlansList = () => {
                             <p className="text-gray-700  font-bold text-center">Destination: {plan.cityToVisit}</p>
                             <p className="text-gray-700  text-center">Group Size: {plan.numberOfPeople}</p>
                             <div className="flex justify-end">
-                                <Button className="text-white hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}><Link to={`/yourplan/${plan._id}`}>Edit</Link></Button>
+                                <Button className="text-white font-bold hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}><Link to={`/yourplan/${plan._id}`} className="text-white">Edit</Link></Button>
                             </div>
                         </Card>
                     ))
