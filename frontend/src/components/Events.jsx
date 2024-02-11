@@ -44,7 +44,7 @@ export default function Events({ locationName, index }) {
     if (index === 4) {
       fetchData();
     }
-  }, [City, index, loading]);
+  }, [City, index]);
 
   const props = useSpring({
     opacity: 1,
