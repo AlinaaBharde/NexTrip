@@ -54,7 +54,7 @@ export default function Events({ locationName, index }) {
   return (
     <div>
       <div className='w-3/4 m-auto mb-20'>
-        <strong className='mx-auto justify-center items-center text-5xl text-indigo-700'>Events</strong>
+        <strong className='mx-auto justify-center items-center text-7xl text-indigo-700'>Events</strong>
         <div className='mt-10 events-carousel'>
           {events.length === 0 ? (
             <div className='flex items-center justify-center h-full'>
