@@ -4,19 +4,20 @@ import { Button, Spinner } from 'flowbite-react';
 import axios from 'axios';
 import '../styles/colorgradient.css';
 import srcimg from '../images/event.jpg';
+import './News.css'
 
 
 export default function Events({ locationName, index }) {
-  const [news, setNews] = useState([]);
+  // const [news, setNews] = useState([]);
   const [events, setEvents] = useState([]);
   const City = locationName;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${City}&apiKey=be08998cf6b34115895517e0fbde1df9`);
-        const limitedNews = newsResponse.data.articles.slice(0, 15);
-        setNews(limitedNews);
+        // const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${City}&apiKey=be08998cf6b34115895517e0fbde1df9`);
+        // const limitedNews = newsResponse.data.articles.slice(0, 15);
+        // setNews(limitedNews);
 
         const eventsResponse = await axios.request({
           method: 'GET',
@@ -43,7 +44,7 @@ export default function Events({ locationName, index }) {
     if (index === 4) {
       fetchData();
     }
-  }, [City, index]);
+  }, [City, index, loading]);
 
   const props = useSpring({
     opacity: 1,
@@ -81,7 +82,7 @@ export default function Events({ locationName, index }) {
         </div>
       </div>
 
-      <div className='w-3/4 m-auto mb-20'>
+      {/* <div className='w-3/4 m-auto mb-20'>
         <strong className='mx-auto justify-center items-center text-5xl text-indigo-700'>News</strong>
         <div className='mt-10 news-carousel'>
           {news.length !== 0 ? (news.map((article, index) => (
@@ -115,7 +116,7 @@ export default function Events({ locationName, index }) {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
