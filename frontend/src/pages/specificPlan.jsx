@@ -18,7 +18,7 @@ export default function SpecificPlan() {
 
 
   return (
-    <div className='w-screen bg-white'>
+    <div className='w-screen bg-[#f5f5f5]'>
       <div className='w-full mt-0'>
         <Navbar />
       </div>

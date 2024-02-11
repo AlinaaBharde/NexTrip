@@ -113,7 +113,7 @@ export default function Restaurants({ locationName, index }) {
 
   if (loading) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center bg-white fixed top-0 left-0'>
+      <div className='h-screen w-screen flex items-center justify-center bg-[#f5f5f5] fixed top-0 left-0'>
         <div className="flex items-center justify-center text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
           Loading
@@ -126,10 +126,10 @@ export default function Restaurants({ locationName, index }) {
     <div >
       <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
       {restaurants && restaurants.length === 0 ? (
-        <p className=" ml-10 container border rounded-md shadow bg-white p-6 pl-12  mt-6 mb-12 font-bold text-indigo-700 text-7xl w-2/3">Oops!! No Restaurants Available.
+        <p className=" ml-10 container border rounded-md shadow bg-w[#f5f5f5] p-6 pl-12  mt-6 mb-12 font-bold text-indigo-700 text-7xl w-2/3">Oops!! No Restaurants Available.
         </p>
       ) : (
-        <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
+        <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 bg-[#f5f5f5]">
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
             {restaurants &&

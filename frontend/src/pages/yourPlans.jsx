@@ -81,7 +81,7 @@ const TravelPlansList = () => {
     };
 
     return (
-        <div className='w-screen h-full bg-white'>
+        <div className='w-screen h-full bg-[#f5f5f5]'>
             <div className="w-full">
                 <Navbar />
             </div>

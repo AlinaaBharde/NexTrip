@@ -26,7 +26,7 @@ const Signup = () => {
     };
 
     return (
-        <div className='w-screen h-screen flex bg-[#f5f6ff]'>
+        <div className='w-screen h-screen flex bg-[#f5f5f5]'>
             <div className='grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] align-middle items-center rounded-lg'>
                 <div className='w-full h-[550px] hidden md:block'>
                     <img src={srcimg} alt="" className='w-full h-full rounded-lg' />

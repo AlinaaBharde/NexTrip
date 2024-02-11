@@ -95,7 +95,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
   function RenderFilter() {
     return (
       <div>
-        <div className='mx-auto mt-4 flex flex-wrap justify-center items-center w-full rounded-sm backdrop-filter backdrop-blur-lg bg-opacity-10 bg-gray-200 dark:bg-gray-800 p-4'>
+        <div className='mx-auto mt-4 flex flex-wrap justify-center items-center w-full rounded-sm backdrop-filter backdrop-blur-lg bg-opacity-10 bg-[#f5f5f5] dark:bg-gray-800 p-4'>
           <div className='flex flex-wrap justify-left items-center w-full'>
             <div className="flex items-start gap-2 m-2 ">
               <Radio id="OneWay" name="ItenaryType" onChange={() => setType('ONE_WAY')} checked color='purple' />

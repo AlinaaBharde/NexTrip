@@ -105,7 +105,7 @@ function Form() {
   }
 
   return (
-    <div className='flex justify-center items-center h-screen bg-gradient-to-br from-[#8299d2] via-[#eda8af] to-[#ecca8c]  w-screen'>
+    <div className='flex justify-center items-center h-screen bg-[#f5f5f5]  w-screen'>
       <div className='grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] align-middle items-center border-black bg-white rounded-lg'>
         <Card className='bg-white border-none justify-center align-middle shadow-none items-center flex h-[450px] m-10'>
           <p className='text-black text-center mt-2 text-5xl font-bold' style={{ 'color': '#5F2EEA', 'font': 'poppins' }}>Plan a Trip ✈️ </p>

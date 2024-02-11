@@ -293,14 +293,14 @@ export default function Hotels({
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#f5f5f5]">
       <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
       {hotels && hotels.length === 0 ? (
         <p className=" ml-10 container border rounded-md shadow p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">
           Oops!! No Hotels Available.
         </p>
       ) : (
-        <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 bg-white">
+        <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 bg-[#f5f5f5]">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-b-2">
             {hotels &&
               hotels.map((hotel, index) => (

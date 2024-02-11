@@ -119,7 +119,7 @@ export default function Places({ locationName, index }) {
 
   if (loading) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center bg-white fixed top-0 left-0'>
+      <div className='h-screen w-screen flex items-center justify-center bg-[#f5f5f5] fixed top-0 left-0'>
         <div className="flex items-center justify-center gap-2 text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
           Loading...
@@ -130,7 +130,7 @@ export default function Places({ locationName, index }) {
 
   return (
     <div >
-      <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
+      <div className="w-full flex-col top-0">{RenderFilterCard()}</div>
       {places && places.length === 0 ? (
         <p className=" ml-10 container border rounded-md shadow bg-transparent p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 text-indigo-700">Oops!! No Places Available.
         </p>
