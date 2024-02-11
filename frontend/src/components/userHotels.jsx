@@ -48,7 +48,7 @@ function UserHotels({ planid }) {
         <Button className=" w-20 mx-auto mb-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow z-10"><Link to={`https://neural-nexus-frontend.vercel.app/plan/${planid}`} className='font-bold text-white'>
           Update
         </Link></Button>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-b-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {hotels &&
             hotels.map((hotel, index) => (
               <Card
