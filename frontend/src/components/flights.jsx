@@ -83,7 +83,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
 
   if (loading) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
+      <div className='h-screen w-screen flex items-center justify-center fixed top-0 left-0'>
         <div className="flex items-center justify-center text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
           Loading
