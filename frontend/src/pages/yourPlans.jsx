@@ -80,6 +80,17 @@ const TravelPlansList = () => {
         }
     };
 
+    if (loading) {
+        return (
+            <div className='h-screen w-screen flex items-center justify-center bg-[#f5f5f5] fixed top-0 left-0'>
+                <div className="flex items-center justify-center text-black">
+                    <Spinner aria-label="Default status example" size='xl' color='purple' />
+                    Loading
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className='w-screen h-full bg-[#f5f5f5]'>
             <div className="w-full">
