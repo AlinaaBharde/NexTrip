@@ -65,12 +65,12 @@ export default function Events({ locationName, index }) {
               <animated.div key={index} style={props} className='bg-[#f5f5f5] border shadow text-black rounded-xl event-card h-full grow'>
                 <div className='rounded-t-xl flex justify-center items-center h-full grow'>
                   {event.thumbnail ? (
-                    <img src={event.thumbnail} alt='' className='h-auto w-full rounded-xl' />
+                    <img src={event.thumbnail} alt='' className='h-[300px] w-full rounded-xl' />
                   ) : (
                     <img src={srcimg} alt='' className='h-auto w-full rounded-xl' />
                   )}
                 </div>
-                <div className='flex flex-col justify-center items-center gap-4 p-4 h-full grow'>
+                <div className='flex flex-col justify-center items-center gap-4 p-4 h-[300px] grow'>
                   <h3 className='text-xl font-semibold'>{event.name}</h3>
                   <p>{event.description ? event.description.slice(0, 100) : null}...</p>
                   <p>Start Time: {event.start_time ? event.start_time.slice(0, 10) : null}</p>

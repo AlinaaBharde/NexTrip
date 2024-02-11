@@ -21,8 +21,8 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
     label: locationName,
   });
   const [departureCity, setdepartureCity] = useState({
-    value: 'Delhi',
-    label: "Delhi",
+    value: 'Mumbai',
+    label: "Mumbai",
   });
   const [Adults, setadults] = useState(adults);
   const [pageNumber, setPageNumber] = useState(1);
