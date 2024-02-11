@@ -74,7 +74,7 @@ function UserHotels({ planid }) {
                   </p>
                   <Button
                     color="purple"
-                    className="mb-2 w-28 rounded-sm h-8"
+                    className="mb-2 mx-auto rounded-sm h-8"
                     gradientDuoTone="purpleToPink"
                     onClick={() => window.open(hotel.url, "_blank")}
                   >

@@ -22,11 +22,11 @@ export default function Events({ locationName, index }) {
           method: 'GET',
           url: 'https://real-time-events-search.p.rapidapi.com/search-events',
           params: {
-            query: `Concerts in ${City}`,
+            query: `${City}`,
             start: '0'
           },
           headers: {
-            'X-RapidAPI-Key': 'fdebd55b92msh21517247185c7e1p13b3cejsn928ff4381e55',
+            'X-RapidAPI-Key': 'fdf27181b2msh518ba6f8db6838dp14cd4djsnbef46d023756',
             'X-RapidAPI-Host': 'real-time-events-search.p.rapidapi.com'
           }
         });
