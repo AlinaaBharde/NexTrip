@@ -1,7 +1,7 @@
 import { Footer } from 'flowbite-react';
 import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from 'react-icons/bs';
 import { FooterDivider } from 'flowbite-react';
-import Logo from '../images/travelLogo.png';
+import Logo from '../images/newlogo.png';
 
 export default function footer() {
   const Year = new Date().getFullYear();
