@@ -42,8 +42,7 @@ function UserHotels({ planid }) {
 
 
   return (
-    <div>
-
+    <div className='bg-[#f5f5f5]'>
       <div className="grid grid-cols-1  gap-2 mt-6 mb-10 ml-10 ">
         <Button className=" w-20 mx-auto mb-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow z-10"><Link to={`https://neural-nexus-frontend.vercel.app/plan/${planid}`} className='font-bold text-white'>
           Update
