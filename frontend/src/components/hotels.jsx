@@ -107,7 +107,7 @@ export default function Hotels({
     return (
       <div className="relative flex items-center justify-center w-screen">
         <Card
-          className="bg-cover bg-center h-64 relative rounded-lg w-full"
+          className="bg-cover bg-center h-full relative rounded-lg w-full"
           style={{
             backgroundImage: `url(${hotelbg})`,
           }}
@@ -221,7 +221,7 @@ export default function Hotels({
 
     try {
       const response = await axios.post(
-        `https://neural-nexus-api.onrender.com/api/hotels/add/${planId}`,
+        `https://nextrip-api.onrender.com/api/hotels/add/${planId}`,
         JSON.stringify(addedHotel),
         {
           headers: {
@@ -245,7 +245,7 @@ export default function Hotels({
 
     try {
       const response = await axios.delete(
-        `https://neural-nexus-api.onrender.com/api/hotels/delete/${planId}`,
+        `https://nextrip-api.onrender.com/api/hotels/delete/${planId}`,
         {
           data: removedHotel,
           headers: {
@@ -279,7 +279,7 @@ export default function Hotels({
 
   if (loading) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0">
+      <div className="h-screen w-screen flex items-center justify-center fixed top-0 left-0 bg-white">
         <div className="flex items-center justify-center gap-2 text-black">
           <Spinner
             aria-label="Default status example"
@@ -293,14 +293,14 @@ export default function Hotels({
   }
 
   return (
-    <div>
+    <div className="bg-[#f5f5f5]">
       <div className="w-full flex-col top-0 ">{RenderFilterCard()}</div>
       {hotels && hotels.length === 0 ? (
         <p className=" ml-10 container border rounded-md shadow p-6 pl-12  mt-6 mb-12 font-bold text-7xl w-2/3 bg-transparent text-indigo-700">
           Oops!! No Hotels Available.
         </p>
       ) : (
-        <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 ">
+        <div className="grid grid-cols-1  gap-2 mt-6 mb-12 ml-10 bg-[#f5f5f5]">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-b-2">
             {hotels &&
               hotels.map((hotel, index) => (
@@ -334,26 +334,27 @@ export default function Hotels({
                         </div>
                       </Tooltip>
                     </div>
-                    <p className="font-semibold text-gray-700 dark:text-gray-400">
+                    <p className="font-semibold text-gray-700 dark:text-gray-400 my-3">
                       <FaMapLocation className="inline-block mr-2" />
                       {hotel.location}
                     </p>
                     <Button
                       color="purple"
-                      className="mb-2 w-28 rounded-sm h-8"
+                      className="mb-2 rounded-sm h-8 mx-auto"
                       gradientDuoTone="purpleToPink"
                       onClick={() => window.open(hotel.url, "_blank")}
                     >
                       Book <FaArrowRight className="ml-1" />
                     </Button>
-                    <p className="font-serif text-gray-700 dark:text-gray-400">
-                      Price/room: {hotel.price}
-                    </p>
-                    <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${hotel.rating > 3 ? ' bg-green-300 text-green-700' : ' bg-red-300 text-red-700'}`}>
-                      <FaStar className='ml-1 mr-1' />
-                      {hotel.rating}
+                    <div className="flex flex-row items-center justify-between mt-5">
+                      <p className="font-serif text-gray-700 dark:text-gray-400 font-bold">
+                        Price/room: {hotel.price}
+                      </p>
+                      <div className={`container flex flex-row items-center justify-center w-14 rounded-md text-center ${hotel.rating > 3 ? ' bg-green-300 text-green-700' : ' bg-red-300 text-red-700'}`}>
+                        <FaStar className='ml-1 mr-1' />
+                        {hotel.rating}
+                      </div>
                     </div>
-
                   </div>
                 </Card>
               ))}

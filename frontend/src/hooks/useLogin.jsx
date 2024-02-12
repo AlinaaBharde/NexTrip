@@ -12,7 +12,7 @@ export const useLogin = () => {
         setError(null);
 
         try {
-            const response = await axios.post('https://neural-nexus-api.onrender.com/api/user/login', { email, password });
+            const response = await axios.post('https://nextrip-api.onrender.com/api/user/login', { email, password });
 
             if (response.status === 200) {
                 const json = response.data;
@@ -21,13 +21,19 @@ export const useLogin = () => {
                 dispatch({ type: 'LOGIN', payload: json });
             } else {
                 console.log(error);
-                setError('An error occurred during login');
-                throw Error('An error occurred during login');
+                setError(response.data.error || 'An error occurred during login');
             }
         } catch (error) {
-            console.log(error);
-            setError('An error occurred during login');
-            throw Error('An error occurred during login');
+            if (error.response) {
+                console.error('Server responded with an error:', error.response.data);
+                setError(error.response.data.error);
+            } else if (error.request) {
+                console.error('No response received from the server');
+                setError('No response received from the server');
+            } else {
+                console.error('Error setting up the request:', error.message);
+                setError('An error occurred during login');
+            }
         } finally {
             setIsLoading(false);
         }

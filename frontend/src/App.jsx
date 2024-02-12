@@ -18,9 +18,6 @@ function App() {
 
   return (
     <Router>
-      <MaybeshowNavbar>
-        <Navbar />
-      </MaybeshowNavbar>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/form' element={user ? <Form /> : <Navigate to="/signup" />} />

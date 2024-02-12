@@ -34,18 +34,16 @@ const Testimonials = () => {
 
     return (
         <div className='Poppins ml-6 mt-10 mr-4'>
-            <p className='text-[#BCA4FF]'>TESTIMONIALS</p>
-            <div className='text-[#4E4B66] text-4xl font-bold mt-3'>
-                <h1>Let’s see what fans of TripPlanner have to say</h1>
+            <div className='text-[#137dc7] text-5xl text-center font-bold mt-3'>
+                What our Clients say about us ?
             </div>
 
             <div className='mt-8 grid mb-8 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 md:mb-12 md:grid-cols-2 bg-white dark:bg-gray-800'>
                 {testimonialsData.map((testimonial, index) => (
                     <figure
                         key={index}
-                        className={`flex flex-col items-center justify-center p-8 text-center bg-white ${
-                            index === 0 ? 'rounded-t-lg' : index === testimonialsData.length - 1 ? 'rounded-b-lg' : ''
-                        } border-b border-gray-200 md:rounded-se-lg md:border-e dark:bg-gray-800 dark:border-gray-700`}
+                        className={`flex flex-col items-center justify-center p-8 text-center bg-white ${index === 0 ? 'rounded-t-lg' : index === testimonialsData.length - 1 ? 'rounded-b-lg' : ''
+                            } border-b border-gray-200 md:rounded-se-lg md:border-e dark:bg-gray-800 dark:border-gray-700`}
                     >
                         <blockquote className='max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400'>
                             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>{testimonial.quote}</h3>

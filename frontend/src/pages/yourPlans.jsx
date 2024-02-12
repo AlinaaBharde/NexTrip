@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Card, Button, Modal } from 'flowbite-react';
+import { Card, Button, Modal, Spinner } from 'flowbite-react';
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -15,6 +15,7 @@ import srcimg7 from "../images/travel7.jpg"
 import srcimg8 from "../images/travel8.jpg"
 import srcimg9 from "../images/travel9.jpg"
 import srcimg10 from "../images/travel10.jpg"
+import { Link } from "react-router-dom";
 
 const imgarray = [
     srcimg1,
@@ -40,7 +41,7 @@ const TravelPlansList = () => {
         try {
             setLoading(true);
             const authToken = user.token;
-            const response = await axios.get(`https://neural-nexus-api.onrender.com/api/yourPlans/`, {
+            const response = await axios.get(`https://nextrip-api.onrender.com/api/yourPlans/`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -64,7 +65,7 @@ const TravelPlansList = () => {
             const planToDelete = travelPlans[deleteIndex];
             try {
                 setLoading(true);
-                await axios.delete(`https://neural-nexus-api.onrender.com/api/yourPlans/${planToDelete._id}`, {
+                await axios.delete(`https://nextrip-api.onrender.com/api/yourPlans/${planToDelete._id}`, {
                     headers: {
                         Authorization: `Bearer ${user.token}`
                     }
@@ -79,10 +80,24 @@ const TravelPlansList = () => {
         }
     };
 
+    if (loading) {
+        return (
+            <div className='h-screen w-screen flex items-center justify-center bg-[#f5f5f5] fixed top-0 left-0'>
+                <div className="flex items-center justify-center text-black">
+                    <Spinner aria-label="Default status example" size='xl' color='purple' />
+                    Loading
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className='w-screen h-full bg-white '>
-            <Navbar />
-            <h1 className="pl-6 mt-20 pt-4 pb-4 font-bold text-7xl rounded-md shadow text-center text-blue-500">Saved Plans 🧳</h1>
+        <div className='w-screen h-full bg-[#f5f5f5]'>
+            <div className="w-full">
+                <Navbar />
+            </div>
+            <hr />
+            <h1 className="pl-6 pt-16 pb-4 font-bold text-7xl rounded-md shadow text-center text-blue-500">Saved Plans 🧳</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-2">
                 {!travelPlans || travelPlans.length === 0 ? (
                     <p className="pl-12 mt-12 mb-12 font-bold text-7xl w-2/3 text-indigo-700">No travel plans made.</p>
@@ -99,7 +114,7 @@ const TravelPlansList = () => {
                             <p className="text-gray-700  font-bold text-center">Destination: {plan.cityToVisit}</p>
                             <p className="text-gray-700  text-center">Group Size: {plan.numberOfPeople}</p>
                             <div className="flex justify-end">
-                                <Button onClick={() => { window.location.href = `/yourplan/${plan._id}` }} className="text-white hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}>Edit</Button>
+                                <Button className="text-white font-bold hover:scale-110 transition-transform duration-300" style={{ backgroundColor: '#5F2EEA' }}><Link to={`/yourplan/${plan._id}`} className="text-white">Edit</Link></Button>
                             </div>
                         </Card>
                     ))

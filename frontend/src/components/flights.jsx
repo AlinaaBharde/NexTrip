@@ -21,8 +21,8 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
     label: locationName,
   });
   const [departureCity, setdepartureCity] = useState({
-    value: 'Delhi',
-    label: "Delhi",
+    value: 'Mumbai',
+    label: "Mumbai",
   });
   const [Adults, setadults] = useState(adults);
   const [pageNumber, setPageNumber] = useState(1);
@@ -83,7 +83,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
 
   if (loading) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-gray-300 background-animate fixed top-0 left-0'>
+      <div className='h-screen w-screen flex items-center justify-center fixed top-0 left-0'>
         <div className="flex items-center justify-center text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
           Loading
@@ -95,7 +95,7 @@ export default function Flights({ locationName, startDate, endDate, adults, inde
   function RenderFilter() {
     return (
       <div>
-        <div className='mx-auto mt-4 flex flex-wrap justify-center items-center w-full rounded-sm backdrop-filter backdrop-blur-lg bg-opacity-10 bg-gray-200 dark:bg-gray-800 p-4'>
+        <div className='mx-auto mt-4 flex flex-wrap justify-center items-center w-full rounded-sm backdrop-filter backdrop-blur-lg bg-opacity-10 bg-[#f5f5f5] dark:bg-gray-800 p-4'>
           <div className='flex flex-wrap justify-left items-center w-full'>
             <div className="flex items-start gap-2 m-2 ">
               <Radio id="OneWay" name="ItenaryType" onChange={() => setType('ONE_WAY')} checked color='purple' />

@@ -36,7 +36,7 @@ export default function SpecificPlan() {
     const fetchTravelDetails = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`https://neural-nexus-api.onrender.com/api/planningpage/fetch/${id}`,
+        const response = await axios.get(`https://nextrip-api.onrender.com/api/planningpage/fetch/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function SpecificPlan() {
 
   if (loading || !selectedDates || !locationName) {
     return (
-      <div className='h-screen w-screen flex items-center justify-center fixed top-0 left-0'>
+      <div className='h-screen w-screen flex justify-center fixed top-0 left-0'>
         <div className="flex items-center justify-center text-black">
           <Spinner aria-label="Default status example" size='xl' color='purple' />
           Loading
@@ -79,8 +79,8 @@ export default function SpecificPlan() {
 
 
   return (
-    <div className=' w-screen h-full bg-gray-200 overflow-hidden'>
-      <NavbarComponent />
+    <div className=' w-screen h-full bg-white overflow-hidden'>
+      <NavbarComponent className="fixed top-0 left-0 right-0 bg-white" />
       <Tabs aria-label="Tabs with icons" style="underline" className=' mt-12 mx-auto relative shadow-m ' onActiveTabChange={(tab) => setActiveTab(tab)} >
         <Tabs.Item icon={FaHotel} title='Hotels'>
           <Hotels locationName={locationName} startDate={selectedDates.startDate} endDate={selectedDates.endDate} adults={adults} index={activeTab} />
@@ -94,7 +94,7 @@ export default function SpecificPlan() {
         <Tabs.Item icon={FaPlane} title='Flights'>
           <Flights locationName={locationName} index={activeTab} startDate={selectedDates.startDate} endDate={selectedDates.endDate} adults={adults} />
         </Tabs.Item>
-        <Tabs.Item icon={FaRegNewspaper} title='News/Events'>
+        <Tabs.Item icon={FaRegNewspaper} title='Events'>
           <Events locationName={locationName} index={activeTab} />
         </Tabs.Item>
       </Tabs>

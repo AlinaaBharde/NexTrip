@@ -13,7 +13,7 @@ const fetchPlacesData = async (city) => {
         url: 'https://tourist-attraction.p.rapidapi.com/search',
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
-            'X-RapidAPI-Key': 'eb6e93d942mshe154dae7e3ab07dp101d5bjsn94b6a4198232',
+            'X-RapidAPI-Key': 'fdf27181b2msh518ba6f8db6838dp14cd4djsnbef46d023756',
             'X-RapidAPI-Host': 'tourist-attraction.p.rapidapi.com',
         },
         data: encodedParams,

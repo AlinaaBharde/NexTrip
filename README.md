@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/CommunityOfCoders/Inheritance-2023">
-    <img src="./logo.png" alt="NexTrip" width="250" height="166">
+    <img src="./frontend/src/images/newlogo.png" alt="NexTrip" width="400" height="166">
   </a>
   <br>
   NexTrip
@@ -40,10 +40,10 @@ Meet NexTrip, your go-to travel companion crafted by our team for seamless trip 
 ## 🔗Links
 
 - [GitHub Repository](https://github.com/vxyzs/Neural-Nexus)
-- [Demo Video]()
+- [Demo Video](https://drive.google.com/drive/u/1/folders/1Mr50jWa19P459_gBYpcUDsGNswBmvKpm)
 - [Drive Link to Screenshots of your project](https://drive.google.com/drive/u/1/folders/1Mr50jWa19P459_gBYpcUDsGNswBmvKpm)
 - [Hosted Website Link](https://neural-nexus-frontend.vercel.app/)
-- [Hosted Backend Link](https://neural-nexus-api.vercel.app/)
+- [Hosted Backend Link](https://nextrip-api.onrender.com/)
 
 ## 🤖Tech-Stack
 

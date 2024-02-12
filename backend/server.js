@@ -2,16 +2,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions')
 
 require('dotenv').config();
 
 const app = express();
-// Allow all origins
-app.use(cors());
-// Allow specific origin(s)
-app.use(cors({
-  origin: 'https://neural-nexus-frontend.vercel.app/'
-}));
+app.use(cors(corsOptions));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+})
+
 
 app.use(bodyParser.json());
 
