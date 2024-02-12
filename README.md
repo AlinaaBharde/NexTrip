@@ -144,15 +144,15 @@ nodemon server.js
 
 #### Home Page
 
-![home-page](https://github.com/vxyzs/Neural-Nexus/assets/129577732/59682b5b-324a-41fc-8f03-e790b97efcdc)
+![Home](https://github.com/vxyzs/Neural-Nexus/assets/129577732/32b3a164-e4f0-444d-8714-337e4303e5f1)
 
 #### Sign Up Page
 
-![sign-up](https://github.com/vxyzs/Neural-Nexus/assets/129577732/c1936aee-8003-4484-80d0-fa41bb4c7f15)
+![sign up](https://github.com/vxyzs/Neural-Nexus/assets/129577732/a25f893e-b405-4394-8543-951cb329f61c)
 
 #### Login
 
-![login](https://github.com/vxyzs/Neural-Nexus/assets/129577732/e180ad84-9438-470b-9cbc-1b75d5fa55a8)
+![login](https://github.com/vxyzs/Neural-Nexus/assets/129577732/3b6658c6-45a4-465b-933e-d7c2aae341c7)
 
 #### Form Page
 
